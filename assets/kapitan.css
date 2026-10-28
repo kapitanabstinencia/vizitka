@@ -318,7 +318,8 @@ footer .credits a { color: var(--muted); }
 .who.wide { grid-column: 1 / -1; border-color: var(--gold-soft); background: linear-gradient(90deg, var(--gold-soft), var(--surface) 60%); }
 .who.wide .tag { color: var(--gold); }
 .who.wide { text-align: center; }
-.who.wide p { max-width: none; }
+.who.wide p { max-width: none; margin: 0 0 14px; }
+.who.wide p:last-child { margin-bottom: 0; }
 .who { padding: clamp(28px, 3vw, 40px); }
 .who .tag { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 32px; }
 .who p { color: var(--muted); margin: 0; }
