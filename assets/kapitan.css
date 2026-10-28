@@ -603,3 +603,8 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .life-grid .life-wide em { font-style: normal; color: var(--gold); }
 .life-grid .life-wide.red { border-color: var(--accent-text); background: linear-gradient(to bottom, var(--accent-soft), var(--surface) 70%); }
 .life-grid .life-wide.red em { color: var(--accent-text); }
+.socials-cap { margin: 24px 0 10px; font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.socials { display: flex; flex-wrap: wrap; gap: 8px; }
+.socials a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); font-weight: 600; font-size: 14px; text-decoration: none; transition: border-color .15s, transform .15s var(--ease); }
+.socials a:hover { border-color: var(--accent-text); transform: translateY(-2px); }
+.socials svg { width: 18px; height: 18px; flex: none; fill: none; stroke: var(--accent-text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
