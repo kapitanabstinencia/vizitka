@@ -592,3 +592,5 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .help-card.side .art { flex: none; aspect-ratio: 16 / 10; }
   .safety li { flex-direction: column; gap: 2px; }
 }
+.why-video { display: flex; justify-content: center; }
+.why-video .instagram-media { margin: 0 !important; min-width: 0 !important; width: 100% !important; max-width: 400px !important; border-radius: var(--radius) !important; }
