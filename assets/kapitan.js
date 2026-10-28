@@ -149,3 +149,17 @@
   };
   if (!go()) window.addEventListener('load', go);
 })();
+
+// Mobil: balík, ktorý je práve v strede obrazovky, sa jemne zväčší
+(function () {
+  if (!('IntersectionObserver' in window) || !window.matchMedia('(max-width: 700px)').matches) return;
+  var start = function () {
+    var box = document.querySelector('.prices'); if (!box || !box.querySelector('.price')) return false;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle('active', e.intersectionRatio > .6); });
+    }, { root: box, threshold: [0, .6, 1] });
+    box.querySelectorAll('.price').forEach(function (c) { io.observe(c); });
+    return true;
+  };
+  if (!start()) window.addEventListener('load', start);
+})();

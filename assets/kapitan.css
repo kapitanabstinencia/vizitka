@@ -758,3 +758,18 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .nav .nav-cta { display: flex; justify-content: center; margin-top: 8px; background: var(--accent); color: var(--on-accent); border-radius: 99px; font-weight: 700; }
   .nav .nav-cta:hover { background: var(--accent-hover); color: var(--on-accent); }
 }
+/* mobil: kompaktné balíky – názov a cena hore, rovnaká výška, karta v strede o kúsok väčšia */
+@media (max-width: 700px) {
+  .prices { align-items: stretch; padding-top: 10px; padding-bottom: 18px; }
+  .price { padding: 18px 18px 20px; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto 1fr auto; column-gap: 12px; row-gap: 8px; scale: .93; transition: scale .3s var(--ease); }
+  .price.active { scale: 1; }
+  .price:not(.active) > * { opacity: .6; transition: opacity .3s; }
+  .price > .chip { grid-row: 1; grid-column: 1 / -1; justify-self: start; }
+  .price h3 { grid-row: 2; grid-column: 1; font-size: 20px; align-self: center; }
+  .price .amt { grid-row: 2; grid-column: 2; font-size: 26px; padding: 0; margin: 0; text-align: right; align-self: center; }
+  .price .amt small { font-size: 11px; margin-top: 2px; }
+  .price .inst { grid-row: 3; grid-column: 1 / -1; text-align: right; margin: -4px 0 0; font-size: 12px; }
+  .price .desc { display: none; }
+  .price ul { grid-row: 4; grid-column: 1 / -1; align-self: start; gap: 4px; font-size: 14px; line-height: 1.35; margin: 0; padding-top: 10px; border-top: 1px solid var(--line); }
+  .price .btn { grid-row: 5; grid-column: 1 / -1; min-height: 46px; margin-top: 10px; }
+}
