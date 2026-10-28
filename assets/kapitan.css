@@ -145,6 +145,8 @@ p { margin: 0 0 16px; }
 /* ---------- Karty a sekcie ---------- */
 section { padding: var(--gap-section) 0; }
 .section-head { max-width: 760px; margin-bottom: clamp(40px, 5vw, 64px); }
+.section-head.wide { max-width: none; }
+.section-head.wide .lead { max-width: 760px; }
 .section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
 .section-head.center .lead { margin-left: auto; margin-right: auto; }
 .card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: border-color .25s; }
@@ -334,7 +336,9 @@ footer .credits a { color: var(--muted); }
 .price li.no { color: var(--muted); }
 .price li.no::before { width: 12px; height: 2px; border: 0; background: var(--muted); transform: none; margin-top: 11px; }
 .price .amt { font-size: clamp(34px, 3vw, 44px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-top: auto; padding-top: 12px; }
-.price .amt small { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 4px; }
+.price .amt { white-space: nowrap; }
+.price .amt small { display: block; font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-top: 6px; }
+.promo-strip { margin: 0 0 24px; padding: 14px 20px; border: 1px solid var(--accent-text); border-radius: var(--radius); background: var(--accent-soft); color: var(--text); text-align: center; font-weight: 700; }
 .price .inst { font-size: 13px; color: var(--muted); margin-top: -6px; }
 .price .btn { width: 100%; }
 .price.pro { border-color: var(--accent-text); background: linear-gradient(to bottom, var(--accent-soft), var(--surface) 45%); }

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=4">
+<link rel="stylesheet" href="assets/kapitan.css?v=5">
 </head>
 <body>
 
@@ -215,11 +215,12 @@
 <!-- BALÍKY -->
 <section id="baliky">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head wide">
       <p class="eyebrow reveal">Balíky</p>
       <h2 class="reveal" style="--i:1">Vyber si cestu k svojej zmene</h2>
       <p class="lead reveal" style="--i:2">Na splátky je to o 5% viac a na všetky platené balíky platí 14-dňová garancia vrátenia peňazí.</p>
     </div>
+    <p class="promo-strip reveal">Začíname čoskoro · prvých 30 ľudí má zľavu 30% na všetky platené balíky</p>
     <div class="prices" id="priceCards"></div>
     <div class="card guar reveal">
       <div class="shield">14</div>
@@ -263,7 +264,7 @@
 
 <div class="modal" id="modal" hidden></div>
 
-<script src="assets/kapitan.js?v=4"></script>
+<script src="assets/kapitan.js?v=5"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
@@ -278,10 +279,10 @@
   }).join('');
 
   var PRICES = [
-    { id: "webinar", tag: "Zadarmo", name: "Úvodný webinár", desc: "Môj osobný príbeh, prehľad celej metódy a priestor na tvoje otázky.", items: ["cca 60 minút · live alebo záznam", "online, anonymne v skupine", "žiadna platba, žiadny záväzok"], amt: "0 €", cta: "Chcem webinár zadarmo" },
-    { id: "zaklad", tag: "Samoštúdium", name: "Základná výzva", desc: "Celý program, ak chceš ísť sám a vlastným tempom.", items: ["12 + 1 týždňov: videá, PDF, úlohy", "denník s odškrtávaním", "prístup na 6 mesiacov"], no: ["bez komunity a spätnej väzby"], amt: "49 €", inst: "bez splátok", cta: "Zvoliť základ" },
-    { id: "pro", tag: "Najčastejšia voľba", name: "PRO výzva", desc: "Celý program plus podpora, aby si na to nebol sám.", items: ["všetko zo Základnej výzvy", "doživotný prístup", "spätná väzba na tvoj denník", "uzavretá komunita + online A-klub", "body za úlohy → osobná konzultácia", "bonusové videá s abstinentmi"], amt: "119 €", inst: "alebo 2 × 62,50 €", cta: "Chcem nový život", pro: true },
-    { id: "vip", tag: "Osobné vedenie", name: "VIP vedenie", desc: "Rok, počas ktorého ťa vediem osobne ja.", items: ["všetko z PRO", "10 × osobná konzultácia, raz týždenne", "prioritný kontakt v dohodnutých hodinách", "sekcia pre tvojich blízkych", "členská sekcia na celý rok", "len 5 miest naraz"], amt: "1 490 €", inst: "alebo 12 × 130,50 € · po webinári 1 190 €", cta: "Zvoliť VIP" }
+    { id: "webinar", tag: "Zadarmo", name: "Úvodný webinár", desc: "Môj osobný príbeh, prehľad celej metódy a priestor na tvoje otázky.", items: ["cca 60 minút · live alebo záznam", "online, anonymne v skupine", "žiadna platba, žiadny záväzok"], amt: "0 €", cta: "Chcem webinár zadarmo" },
+    { id: "zaklad", tag: "Samoštúdium", name: "Základná výzva", desc: "Celý program, ak chceš ísť sám a vlastným tempom.", items: ["12 + 1 týždňov: videá, PDF, úlohy", "krízový plán, spôsoby odmietania a zoznam potravín s alkoholom", "denník s otázkou na každý deň", "prístup na 4 mesiace"], no: ["bez komunity a spätnej väzby"], amt: "49 €", inst: "bez splátok", cta: "Idem po svojom" },
+    { id: "pro", tag: "Najčastejšia voľba", name: "PRO výzva", desc: "Celý program plus podpora, aby si na to nebol sám.", items: ["všetko zo Základnej výzvy", "doživotný prístup aj ku všetkým budúcim doplneniam", "spätná väzba na tvoj denník", "uzavretá komunita + online A-klub", "body za úlohy → zľava na osobnú konzultáciu"], amt: "119 €", inst: "alebo 2 × 62,50 €", cta: "Chcem nový život", pro: true },
+    { id: "vip", tag: "Osobné vedenie", name: "VIP vedenie", desc: "Celú výzvu ťa vediem osobne ja.", items: ["všetko z PRO", "12 osobných konzultácií, každý týždeň jedna", "prioritný kontakt v dohodnutých hodinách", "len 5 miest naraz"], amt: "1 990 €", inst: "alebo 12 × 174,20 €<br>po webinári 1 690 €", cta: "Chcem ísť s tebou" },
   ];
   $('#priceCards').innerHTML = PRICES.map(function (p, i) {
     return '<article class="card price reveal' + (p.pro ? ' pro' : '') + '" style="--i:' + i + '">' +
