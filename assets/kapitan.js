@@ -129,7 +129,9 @@
       b.setAttribute('aria-expanded', on);
     });
   });
-  document.querySelectorAll('.voyage, .bento-features, .who-grid, .prices, .flip-grid').forEach(function (el) {
+  document.querySelectorAll('.voyage, .bento-features, .who-grid, .prices, .flip-grid, .life-grid, .bento, .club-grid').forEach(function (el) {
+    var sec = el.closest('section') || el.parentNode;
+    if (sec.querySelector('.m-swipe')) return;
     var p = document.createElement('p'); p.className = 'm-swipe'; p.setAttribute('aria-hidden', 'true');
     p.textContent = 'Potiahni prstom do strany →';
     el.parentNode.insertBefore(p, el);

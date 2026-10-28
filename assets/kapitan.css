@@ -735,3 +735,26 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .prices { scroll-snap-type: x mandatory; scroll-padding: 0 16px; }
   .prices > * { flex-basis: 76%; scroll-snap-align: center; }
 }
+
+/* ---------- Mobil 2: O mne, Pomoc, menu ---------- */
+.nav-cta { display: none; }
+@media (max-width: 700px) {
+  .life-grid, .bento, .club-grid {
+    display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px;
+    margin-left: -16px; margin-right: -16px; padding: 4px 16px 14px; scrollbar-width: none;
+  }
+  .life-grid::-webkit-scrollbar, .bento::-webkit-scrollbar, .club-grid::-webkit-scrollbar { display: none; }
+  .life-grid > *, .bento > *, .club-grid > * { flex: 0 0 84%; scroll-snap-align: start; grid-column: auto !important; }
+  .life-grid > .reveal, .bento > .reveal, .club-grid > .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+@media (max-width: 900px) {
+  .nav { width: min(300px, calc(100% - 24px)); padding: 10px; gap: 2px; }
+  .nav a { text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 13px 14px; font-size: 16px; font-weight: 600; color: var(--text); }
+  .nav a:not(.nav-cta)::after { content: "›"; font-size: 22px; line-height: 1; color: var(--muted); }
+  .nav a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-text); }
+  .nav a[aria-current="page"]::after { color: var(--accent-text); }
+  .nav a + a:not(.nav-cta) { border-top: 1px solid var(--line); }
+  .nav a[aria-current="page"], .nav a[aria-current="page"] + a { border-top-color: transparent; }
+  .nav .nav-cta { display: flex; justify-content: center; margin-top: 8px; background: var(--accent); color: var(--on-accent); border-radius: 99px; font-weight: 700; }
+  .nav .nav-cta:hover { background: var(--accent-hover); color: var(--on-accent); }
+}
