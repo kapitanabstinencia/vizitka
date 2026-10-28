@@ -686,3 +686,16 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .inside p { margin: 0; color: var(--muted); }
 @media (max-width: 900px) { .member-hero { grid-template-columns: 1fr; } .inside { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .inside { grid-template-columns: 1fr; } }
+
+/* ---------- Úvod: väčšie logo zarovnané s nadpisom (len počítač) ---------- */
+@media (min-width: 901px) {
+  .sales-hero > .wrap { align-items: start; grid-template-columns: minmax(0, 1fr) minmax(0, 500px); gap: 24px; }
+  .sales-hero .badge-portrait { margin-top: -20px; width: calc(100% + 60px); margin-right: -60px; }
+}
+@media (min-width: 901px) and (max-width: 1199px) {
+  .sales-hero > .wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 380px); gap: 32px; }
+  .sales-hero .badge-portrait { width: 100%; margin-right: 0; margin-top: 0; }
+}
+/* logo v hlavičke = odznak Kapitána */
+.brand-mark:has(img) { width: 46px; height: 46px; border: 0; overflow: visible; }
+.brand-mark img { width: 100%; height: 100%; object-fit: contain; clip-path: circle(46.6% at 50% 49.2%); }

@@ -10,13 +10,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=16">
+<link rel="stylesheet" href="assets/kapitan.css?v=18">
 </head>
 <body>
 
 <header class="topbar overlay">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">A</span>Kapitán Abstinencia</a>
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><img src="obrazky/kapitan-odznak.webp" alt=""></span>Kapitán Abstinencia</a>
     <nav class="nav" id="nav" aria-label="Hlavné menu">
       <a href="#vyzva">Výzva</a>
       <a href="#cesta">Môj príbeh</a>
@@ -330,7 +330,7 @@
 
 <div class="modal" id="modal" hidden></div>
 
-<script src="assets/kapitan.js?v=16"></script>
+<script src="assets/kapitan.js?v=18"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
@@ -415,6 +415,22 @@
   b.addEventListener('click', function () { nastav(b.getAttribute('aria-checked') !== 'true'); });
   w.querySelectorAll('[data-sw]').forEach(function (l) { l.addEventListener('click', function () { nastav(l.dataset.sw === '1'); }); });
   if (/[?&]zapni/.test(location.search)) nastav(true);
+})();
+</script>
+<script>
+// lúče, kruhy a žiara v pozadí úvodu majú stred vždy v strede loga
+(function () {
+  var svg = document.querySelector('.hero-bg'), fig = document.querySelector('.badge-portrait');
+  if (!svg || !fig) return;
+  function fit() {
+    var s = svg.getBoundingClientRect(), f = fig.getBoundingClientRect();
+    var k = Math.max(s.width / 1440, s.height / 720), ox = (s.width - 1440 * k) / 2, oy = (s.height - 720 * k) / 2;
+    var x = (f.left + f.width / 2 - s.left - ox) / k, y = (f.top + f.height / 2 - s.top - oy) / k;
+    var t = 'translate(' + (x - 1095) + 'px,' + (y - 316) + 'px)';
+    svg.querySelectorAll('.rays,.rings').forEach(function (g) { g.style.transform = t; });
+    var g = svg.querySelector('#glow'); g.setAttribute('cx', (x / 14.4) + '%'); g.setAttribute('cy', (y / 7.2) + '%');
+  }
+  fit(); window.addEventListener('resize', fit); window.addEventListener('load', fit);
 })();
 </script>
 </body>
