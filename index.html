@@ -22,7 +22,7 @@
       <a href="#cesta">Môj príbeh</a>
       <a href="#baliky">Balíky</a>
       <a href="pomoc.html">Pomoc</a>
-      <a href="clenska.html">Prihlásiť sa</a>
+      <a href="clenska.html">Členská sekcia</a>
     </nav>
     <a class="btn btn-primary cta-top" href="#baliky">Chcem začať</a>
     <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -332,7 +332,8 @@
     };
   }
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-buy]'); if (b) openBuy(b.dataset.buy);
+    // kým nie je spustená platba a členská sekcia, tlačidlá vedú na stránku Pripravujeme (openBuy ostáva na neskôr)
+    var b = e.target.closest('[data-buy]'); if (b) location.href = 'clenska.html';
   });
   modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
