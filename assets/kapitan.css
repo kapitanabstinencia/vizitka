@@ -699,3 +699,7 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 /* logo v hlavičke = odznak Kapitána */
 .brand-mark:has(img) { width: 46px; height: 46px; border: 0; overflow: visible; }
 .brand-mark img { width: 100%; height: 100%; object-fit: contain; clip-path: circle(46.6% at 50% 49.2%); }
+/* mobil: odznak v úvode väčší a na stred */
+@media (max-width: 900px) {
+  .sales-hero .badge-portrait { max-width: min(72vw, 320px); margin: 0 auto 12px; }
+}
