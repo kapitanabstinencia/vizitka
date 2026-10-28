@@ -258,7 +258,7 @@ footer .credits a { color: var(--muted); }
    ========================================================= */
 .sales-hero { min-height: max(92vh, 680px); display: flex; align-items: center; padding: 140px 0 clamp(64px, 8vw, 112px); }
 .sales-hero > .wrap { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: clamp(32px, 5vw, 80px); align-items: center; }
-.sales-hero h1 { margin-bottom: 28px; font-size: clamp(40px, 5.2vw, 88px); max-width: 15ch; }
+.sales-hero h1 { margin-bottom: 28px; font-size: clamp(38px, 5vw, 84px); max-width: 15ch; text-transform: uppercase; letter-spacing: -.01em; line-height: 1.02; }
 .sales-hero .lead { margin-bottom: 36px; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .hero-note { margin-top: 18px; font-size: 13px; }
