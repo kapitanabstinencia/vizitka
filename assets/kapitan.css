@@ -307,15 +307,11 @@ footer .credits a { color: var(--muted); }
 .bento-features { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
 .bento-features .card { padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; gap: 12px; }
 .bento-features .card p { color: var(--muted); margin: 0; }
-.bento-features .f-a { grid-column: span 4; }
-.bento-features .f-b { grid-column: span 2; }
-.bento-features .f-c, .bento-features .f-d, .bento-features .f-e { grid-column: span 2; }
+.bento-features .f-a, .bento-features .f-b, .bento-features .f-c { grid-column: span 2; }
+.bento-features .f-d, .bento-features .f-e { grid-column: span 3; }
+.feat-quote { margin: clamp(40px, 5vw, 64px) auto 0; max-width: 820px; text-align: center; color: var(--accent-text); font-weight: 800; font-size: clamp(22px, 1.6vw + 14px, 34px); line-height: 1.3; letter-spacing: -.01em; text-wrap: balance; }
 .f-ico { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; margin-bottom: 8px; }
 .f-ico svg { width: 22px; height: 22px; stroke: var(--accent-text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.f-a .rhythm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; padding-top: 16px; }
-.f-a .rhythm div { text-align: center; padding: 16px 6px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); }
-.f-a .rhythm b { display: block; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1; margin-bottom: 6px; }
-.f-a .rhythm span { font-size: 13px; color: var(--muted); }
 
 .who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .who { padding: clamp(28px, 3vw, 40px); }
