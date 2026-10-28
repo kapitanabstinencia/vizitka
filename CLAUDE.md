@@ -1,6 +1,6 @@
 # Web Kapitán Abstinencia
 
-Verejný web: https://kapitanabstinencia.github.io/vizitka/ (GitHub Pages z vetvy `main`, repozitár `kapitanabstinencia/vizitka`).
+Verejný web: https://kapitanabstinencia.sk (GitHub Pages z vetvy `main`, repozitár `kapitanabstinencia/vizitka`; doména u Websupportu, DNS: 4× A na 185.199.108–111.153, www CNAME na kapitanabstinencia.github.io; súbor `CNAME` v repozitári nemazať).
 
 ## Pravidlá
 
