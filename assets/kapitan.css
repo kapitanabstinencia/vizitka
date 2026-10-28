@@ -314,7 +314,11 @@ footer .credits a { color: var(--muted); }
 .f-ico { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; margin-bottom: 8px; }
 .f-ico svg { width: 22px; height: 22px; stroke: var(--accent-text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-.who-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.who-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.who.wide { grid-column: 1 / -1; border-color: var(--gold-soft); background: linear-gradient(90deg, var(--gold-soft), var(--surface) 60%); }
+.who.wide .tag { color: var(--gold); }
+.who.wide { text-align: center; }
+.who.wide p { max-width: none; }
 .who { padding: clamp(28px, 3vw, 40px); }
 .who .tag { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 32px; }
 .who p { color: var(--muted); margin: 0; }
