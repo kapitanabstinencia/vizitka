@@ -117,3 +117,33 @@
   };
   KA.observe();
 })();
+
+// Mobil: tlačidlá „Čítaj ďalej“ pri zbalených textoch a nápoveda pri posúvacích kartách
+(function () {
+  document.querySelectorAll('.m-collapse').forEach(function (box) {
+    var b = box.querySelector('.m-toggle'); if (!b) return;
+    var zbalene = b.textContent;
+    b.addEventListener('click', function () {
+      var on = box.classList.toggle('open');
+      b.textContent = on ? 'Zbaliť' : zbalene;
+      b.setAttribute('aria-expanded', on);
+    });
+  });
+  document.querySelectorAll('.voyage, .bento-features, .who-grid, .prices, .flip-grid').forEach(function (el) {
+    var p = document.createElement('p'); p.className = 'm-swipe'; p.setAttribute('aria-hidden', 'true');
+    p.textContent = 'Potiahni prstom do strany →';
+    el.parentNode.insertBefore(p, el);
+  });
+})();
+
+// Mobil: balíky sa otvoria na PRO v strede
+(function () {
+  if (!window.matchMedia('(max-width: 700px)').matches) return;
+  var go = function () {
+    var box = document.querySelector('.prices'), pro = box && box.querySelector('.price.pro');
+    if (!pro) return false;
+    box.scrollLeft = pro.offsetLeft - (box.clientWidth - pro.offsetWidth) / 2;
+    return true;
+  };
+  if (!go()) window.addEventListener('load', go);
+})();
