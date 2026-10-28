@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=15">
+<link rel="stylesheet" href="assets/kapitan.css?v=16">
 </head>
 <body>
 
@@ -32,12 +32,41 @@
   <section class="hero" style="padding-top:clamp(48px,7vw,96px)">
     <div class="cursor-glow" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="eyebrow reveal">Členská sekcia · pripravujeme</p>
-      <h1 class="reveal" style="--i:1;font-size:clamp(36px,5.4vw,84px);max-width:16ch;margin-bottom:28px">Výzvu práve <em>pripravujeme</em></h1>
-      <p class="lead reveal" style="--i:2">Členská sekcia s denníkom, týždennými úlohami a videami zatiaľ nie je spustená, ale o začiatku výzvy ťa včas informujeme. Ak chceš byť medzi prvými 30 so zľavou 30%, stačí mi napísať.</p>
-      <div class="reveal" style="--i:3;display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
-        <a class="btn btn-primary" href="mailto:kapitanabstinencia@gmail.com?subject=Daj%20mi%20vedie%C5%A5%20o%20spusten%C3%AD%20v%C3%BDzvy">Daj mi vedieť o spustení</a>
-        <a class="btn" href="https://www.instagram.com/kapitan_abstinencia/" target="_blank" rel="noopener">Sleduj ma na Instagrame</a>
+      <div class="member-hero">
+        <div>
+          <p class="eyebrow reveal">Členská sekcia · uzavretá skupina</p>
+          <h1 class="reveal" style="--i:1;font-size:clamp(36px,4.6vw,72px);max-width:14ch;margin-bottom:28px">Miesto, kde ťa <em>nikto nesúdi.</em></h1>
+          <p class="lead reveal" style="--i:2">Členská sekcia je uzavretá skupina pre ľudí, ktorí sa rozhodli prepnúť na abstinenciu. Nájdeš v nej lekcie, svoj denník a komunitu, v ktorej môžeš byť úplne úprimný. Práve ju dokončujeme, preto prihlásenie ešte nefunguje.</p>
+          <div class="reveal" style="--i:3;display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
+            <a class="btn btn-primary" href="mailto:kapitanabstinencia@gmail.com?subject=Daj%20mi%20vedie%C5%A5%20o%20spusten%C3%AD%20v%C3%BDzvy">Daj mi vedieť o spustení</a>
+            <a class="btn" href="index.html#baliky">Pozri si balíky</a>
+          </div>
+        </div>
+        <form class="card login-card reveal" style="--i:2" onsubmit="return false" aria-label="Prihlásenie do členskej sekcie">
+          <div class="lc-top">
+            <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Prihlásenie</h2>
+            <span class="chip warn">Čoskoro</span>
+          </div>
+          <label for="lgMail">E-mail</label>
+          <input type="email" id="lgMail" placeholder="tvoj@email.sk" disabled>
+          <button class="btn btn-primary" type="submit" disabled>Prihlásiť sa</button>
+          <p class="nt">Na prihlásenie stačí e-mail, meno ani telefón nepotrebuješ. Ak chceš zostať v anonymite, založ si nový e-mail len na výzvu.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="tinted" style="padding:clamp(48px,7vw,96px) 0">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow reveal">Čo nájdeš vnútri</p>
+        <h2 class="reveal" style="--i:1">Všetko na jednom mieste</h2>
+      </div>
+      <div class="inside">
+        <div class="card reveal"><span class="chip ok">Všetky balíky</span><h3>Lekcie</h3><p>Každý týždeň sa ti otvorí nová lekcia s videom, pracovným listom a úlohou na celý týždeň.</p></div>
+        <div class="card reveal" style="--i:1"><span class="chip ok">Všetky balíky</span><h3>Tvoj denník</h3><p>Každý večer pár viet o tom, ako sa máš. K tomu tri veci, za ktoré si v ten deň vďačný.</p></div>
+        <div class="card reveal" style="--i:2"><span class="chip warn">PRO a VIP</span><h3>Komunita</h3><p>Uzavretá skupina ľudí, ktorí ťa nesúdia, lebo presne vedia, o čom hovoríš.</p></div>
+        <div class="card reveal" style="--i:3"><span class="chip warn">PRO a VIP</span><h3>Online A-klub</h3><p>Raz mesačne sa stretneme online a porozprávame sa naživo o tom, čo práve riešiš.</p></div>
       </div>
     </div>
   </section>
@@ -63,7 +92,7 @@
   </div>
 </footer>
 
-<script src="assets/kapitan.js?v=15"></script>
+<script src="assets/kapitan.js?v=16"></script>
 <script>
 (function () {
   var esc = KA.esc;
