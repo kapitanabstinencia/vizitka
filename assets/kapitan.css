@@ -1,3 +1,9 @@
+/* Písmo je uložené priamo na webe (licencia SIL OFL), návštevník sa nespája so servermi Googlu */
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/montserrat-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Montserrat"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("fonts/montserrat-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/plexmono-500-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/plexmono-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* Kapitán Abstinencia – spoločný štýl (tmavý prémiový, ohnivá červená) */
 :root {
   --bg: #0A0B0D;
@@ -783,3 +789,23 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .snake .dot { fill: #fff; filter: drop-shadow(0 0 4px var(--snake)) drop-shadow(0 0 10px var(--snake)) drop-shadow(0 0 22px var(--snake)); }
 .snake .halo { fill: var(--snake); opacity: .25; }
 @media (prefers-reduced-motion: reduce) { .snake .trail { transition: none; } }
+
+/* ---------- Päta: zákonné údaje, právne stránky ---------- */
+.foot-legal { font-size: 12px; line-height: 1.6; max-width: 110ch; display: grid; gap: 6px; }
+.foot-legal a { color: var(--muted); }
+.foot-legal .links { display: flex; gap: 6px 18px; flex-wrap: wrap; font-weight: 600; }
+.foot-legal .links a { text-decoration: none; color: var(--text); }
+.foot-legal .links a:hover { color: var(--accent-text); }
+.ph { background: var(--gold-soft); color: var(--gold); border-radius: 3px; padding: 0 3px; }
+.legal { max-width: 78ch; }
+.legal h1 { font-size: clamp(32px, 4vw, 52px); margin-bottom: 12px; }
+.legal h2 { font-size: clamp(20px, 1vw + 15px, 26px); margin: 40px 0 12px; }
+.legal p, .legal li { color: var(--muted); }
+.legal li { margin-bottom: 8px; }
+.legal b { color: var(--text); }
+.legal .note { padding: 14px 18px; border: 1px solid var(--gold-soft); background: var(--gold-soft); color: var(--gold); border-radius: var(--radius); font-size: 14px; }
+
+/* Päta: nenápadný odkaz na ochranu údajov */
+.foot-priv { font-size: 12px; }
+.foot-priv a { color: var(--muted); opacity: .7; text-decoration: none; }
+.foot-priv a:hover { opacity: 1; text-decoration: underline; }

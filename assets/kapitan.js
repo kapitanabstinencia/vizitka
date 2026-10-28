@@ -163,3 +163,23 @@
   };
   if (!start()) window.addEventListener('load', start);
 })();
+
+// Predávajúci a prevádzkovateľ – JEDINÉ miesto, kde sa tieto údaje menia (päta, obchodné podmienky, ochrana údajov)
+(function () {
+  var P = {
+    meno: '[Meno a priezvisko]',
+    adresa: '[Ulica a číslo, PSČ Obec]',
+    ico: '[IČO]',
+    register: '[Okresný úrad …, číslo živnostenského registra …]',
+    dph: 'Predávajúci nie je platiteľom DPH.',
+    soi: '[Inšpektorát SOI pre … kraj]',
+    email: 'kapitanabstinencia@gmail.com',
+    ucinnost: '[dátum]'
+  };
+  document.querySelectorAll('[data-p]').forEach(function (el) {
+    var v = P[el.getAttribute('data-p')]; if (v == null) return;
+    el.textContent = v;
+    if (v.charAt(0) === '[') el.classList.add('ph');
+  });
+  document.querySelectorAll('a[data-p-mail]').forEach(function (a) { a.href = 'mailto:' + P.email; a.textContent = P.email; });
+})();
