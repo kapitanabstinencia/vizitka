@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pomoc · Kapitán Abstinencia</title>
+<meta name="description" content="Kontakty na odbornú pomoc pri závislosti na Slovensku: krízové linky, liečba a dlhodobá podpora.">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kapitan.css">
+</head>
+<body>
+
+<header class="topbar solid">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">A</span>Kapitán Abstinencia</a>
+    <nav class="nav" id="nav" aria-label="Hlavné menu">
+      <a href="index.html#vyzva">Výzva</a>
+      <a href="index.html#baliky">Balíky</a>
+      <a href="pomoc.html" aria-current="page">Pomoc</a>
+      <a href="clenska.html">Prihlásiť sa</a>
+    </nav>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-top:clamp(48px,7vw,96px)">
+    <div class="cursor-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="eyebrow reveal">Pomoc</p>
+      <h1 class="reveal" style="--i:1;font-size:clamp(36px,5.4vw,84px);max-width:16ch;margin-bottom:28px">Keď to nejde, je čas na <em>odbornú pomoc</em></h1>
+      <p class="lead reveal" style="--i:2">Ak sa ti na začiatku abstinencie robí veľmi zle alebo cítiš, že to sám nezvládaš, nie je to zlyhanie. Je to signál vyhľadať odbornú pomoc. Výzva nenahrádza liečbu a ústavná liečba je v takom prípade správny krok. Pri náhlych vážnych stavoch volaj hneď <b style="color:var(--text)">112</b> alebo <b style="color:var(--text)">155</b>.</p>
+      <div id="helpTiers"></div>
+      <p class="disclaimer" style="margin-top:48px">Ústavná liečba zvyčajne vyžaduje odporúčanie od psychiatra a môže mať čakaciu dobu. Kontakty overené k októbru 2026, pred spustením ich treba overiť telefonicky.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="sign">Kapitán Abstinencia · Sloboda je voľba.</div>
+      <nav class="foot-links" aria-label="Odkazy v päte"><a href="index.html">Úvod</a><a href="vizitka.html">O mne</a><a href="clenska.html">Členská sekcia</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/kapitan.js"></script>
+<script>
+(function () {
+  var esc = KA.esc;
+  var HELP = [
+    { h: "Akútne, hneď", chip: "crit", sym: "!", c: [
+      ["Tiesňová linka", "112", "nonstop, celá EÚ", null, 1], ["Záchranná služba", "155", "nonstop", null, 1],
+      ["Linka dôvery Nezábudka", "0800 800 566", "nonstop, zadarmo, anonymne", "https://linkanezabudka.sk/", 1],
+      ["Krízová linka pomoci", "0800 500 333", "nonstop, aj chat", "https://www.krizovalinkapomoci.sk/", 1]] },
+    { h: "Keď to nezvládam: liečba", chip: "warn", sym: "+", c: [
+      ["CPLDZ Bratislava", "02 / 5341 7464", "ambulantná aj ústavná liečba", "https://cpldz.sk/"],
+      ["Psychiatrická nemocnica Pezinok", "033 / 6482 111", "Klinika drogových závislostí 033 / 6482 325 (8:00 – 8:30)", "https://www.pnpp.sk/kontaktne-udaje-1/kontakty"],
+      ["Psychiatrická nemocnica Hronovce", "036 / 757 7200", "oddelenie pre liečbu závislostí", "https://pnh.sk/pre-pacientov/lozkove-oddelenia/oddelenie-pre-liecbu-drogovych-zavislosti-opldz/"],
+      ["CPLDZ Žilina (FNsP)", "041 / 500 76 92", "ambulancia 041 / 5110 233", "https://www.fnspza.sk/centrum-pre-liecbu-drogovych-zavislosti/kontakty"],
+      ["CPLDZ Banská Bystrica", "0901 911 912", "aj 048 / 433 56 47, 7:00 – 15:00", "https://www.cpldz-bb.sk/kontakty/"],
+      ["OLÚP Predná Hora", "058 / 7875 850", "call centrum, pracovné dni 7:00 – 15:30", "https://olup-prednahora.sk/kontakt/"],
+      ["CPLDZ Košice", "055 / 622 2848", "aj e-mailová poradňa", "https://www.infodrogy.sk/institucia/2219/centrum-pre-liecbu-drogovych-zavislosti-kosice"],
+      ["Psychiatrická nemocnica Michalovce", "056 / 681 81 11", "ústredňa, ambulancia 056 / 681 85 19", "https://www.pnmi.sk/k_index.php"]] },
+    { h: "Dlhodobá podpora", chip: "ok", sym: "∞", c: [
+      ["Anonymní alkoholici Slovensko", "0948 045 418", "infolinka, skupiny po celom Slovensku", "https://www.aaslovensko.sk/skupiny-aa-na-slovensku"],
+      ["Klub abstinentov Žilina", "0905 353 373", "", "https://www.infodrogy.sk/institucia/2751/klub-abstinentov-zilina"],
+      ["Klub abstinentov pri CPLDZ Žilina", "041 / 5110 499", "štvrtok 17:30 – 20:00, Dom odborov", "https://www.fnspza.sk/centrum-pre-liecbu-drogovych-zavislosti/klub-abstinentov"],
+      ["Al-Anon Slovensko", "0950 465 952", "pre rodinu a blízkych", "https://alanon.sk/"],
+      ["Ďalšie kluby abstinentov", "", "zoznam podľa miest", "https://drogy.org/en/abstinent-clubs/"]] }
+  ];
+  var tel = function (p) { return 'tel:' + p.replace(/[^\d+]/g, ''); };
+  document.getElementById('helpTiers').innerHTML = HELP.map(function (t) {
+    return '<div class="tier"><h2 class="reveal"><span class="chip ' + t.chip + '">' + t.sym + '</span>' + t.h + '</h2><div class="contacts">' +
+      t.c.map(function (c, i) {
+        return '<div class="card ct reveal' + (c[4] ? ' urgent' : '') + '" style="--i:' + (i % 4) + '"><span class="nm">' + esc(c[0]) + '</span>' +
+          (c[1] ? '<span class="ph"><a href="' + tel(c[1]) + '">' + esc(c[1]) + '</a></span>' : '') +
+          (c[2] ? '<span class="nt">' + esc(c[2]) + '</span>' : '') +
+          (c[3] ? '<a href="' + c[3] + '" target="_blank" rel="noopener">Web ↗</a>' : '') + '</div>';
+      }).join('') + '</div></div>';
+  }).join('');
+  KA.observe();
+})();
+</script>
+</body>
+</html>

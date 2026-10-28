@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moja výzva · Kapitán Abstinencia</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kapitan.css">
+</head>
+<body class="has-proto">
+
+<div class="proto-bar">Prototyp · ukážkové dáta · nič sa neukladá ani neodosiela</div>
+<header class="topbar solid">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">A</span>Kapitán Abstinencia</a>
+    <nav class="nav" id="nav" aria-label="Členské menu">
+      <a href="clenska.html" aria-current="page">Moja výzva</a>
+      <a href="pomoc.html">Pomoc</a>
+      <a href="admin.html">Kapitánov prehľad</a>
+      <a href="index.html">Odhlásiť sa</a>
+    </nav>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="wrap">
+    <div class="mhead">
+      <div>
+        <p class="eyebrow" id="mEyebrow"></p>
+        <h1 id="mTitle"></h1>
+        <div class="pkg"><label for="pkgSel">Zobraziť ako balík:</label>
+          <select id="pkgSel"><option value="zaklad">Základná výzva</option><option value="pro" selected>PRO výzva</option><option value="vip">VIP vedenie</option></select>
+        </div>
+      </div>
+      <div class="counter" title="Počítadlo triezvych dní">
+        <div class="n" id="soberN">0</div><div class="l">dní triezvo</div>
+      </div>
+    </div>
+
+    <div class="weeks" id="weeks" aria-label="Týždne výzvy"></div>
+
+    <div class="mgrid">
+      <div class="stack">
+        <div class="card" id="weekCard"></div>
+        <div class="card" id="taskCard"></div>
+      </div>
+      <div class="stack">
+        <div class="card" id="journalCard"></div>
+        <div class="card" id="historyCard"></div>
+        <div class="helpstrip"><span>Je ti veľmi zle? Nie si v tom sám.</span><a class="btn small" href="pomoc.html">Pomoc a kontakty</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="sign">Kapitán Abstinencia · Sloboda je voľba.</div>
+      <nav class="foot-links" aria-label="Odkazy v päte"><a href="index.html">Úvod</a><a href="pomoc.html">Pomoc</a><a href="mailto:kapitananbtinencia@gmail.com">Napíš Kapitánovi</a></nav>
+    </div>
+    <div class="credits">Keď je zle, nečakaj: <b>112</b> · Linka dôvery Nezábudka <b>0800 800 566</b> (nonstop, zadarmo).</div>
+  </div>
+</footer>
+
+<script src="assets/kapitan.js"></script>
+<script>
+(function () {
+  var esc = KA.esc, toast = KA.toast;
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+  /* ---------- obsah kurzu ---------- */
+  var WEEKS = [
+    { t: "Prvý krok: Priznať si pravdu", task: "Ako sa cítim na začiatku tejto cesty?", daily: "Napíš si pravdu: kedy si vedel, že to nie je v poriadku?", story: "Nechcel som abstinovať" },
+    { t: "Strach zo zmeny a straty identity", task: "Koho sa bojím stratiť, ak sa zmením?", daily: "Pozoruj, kde cítiš odpor voči zmene. Čo ťa drží?", story: "Kamarátska bublina" },
+    { t: "Detox vzťahov a prostredia", task: "5 ľudí alebo situácií, ktoré ťa ťahajú späť", daily: "Ako reagujem, keď sa cítim sám? Kto mi chýba?", story: "Kto ma podporuje a kto brzdí" },
+    { t: "Rutina a disciplína", task: "Napíš si ideálny triezvy deň, od rána do večera", daily: "Ako vyzeral môj deň? Bol plán? Bol chaos?", story: "Život bez chaosu" },
+    { t: "Telo: jedlo, pohyb, spánok 8/8/8", task: "Môj plán zdravých rituálov na týždeň", daily: "Ako sa cíti moje telo? Čo by potrebovalo?", story: "Obnova tela po záťaži" },
+    { t: "Emócie a úprimnosť", task: "Veci, ktoré som si ešte nikdy nepriznal", daily: "Čo som dnes cítil a čo som potlačil?", story: "Čo som musel povedať nahlas" },
+    { t: "Pády a recidíva", task: "Moja hranica: čo už nikdy nechcem prekročiť?", daily: "Mal som dnes chuť? Prečo? Ako som s tým naložil?", story: "Zlyhanie ako učiteľ" },
+    { t: "Mýty o abstinencii", task: "Ktoré lži som si rozprával ja sám?", daily: "Na aké výhovorky som dnes takmer skočil?", story: "„Len trochu“" },
+    { t: "Rodina, partneri, spoluzávislosť", task: "Komu som ublížil a ako to možno napraviť?", daily: "Aké emócie vo mne vzbudzujú ľudia okolo mňa?", story: "Dôvera a odpustenie" },
+    { t: "Duchovno, viera, zmysel", task: "Čo mi dáva zmysel ráno vstať?", daily: "Vnímal som dnes niečo väčšie? Nádej? Pokoj?", story: "Viera v niečo väčšie než ja" },
+    { t: "Návrat do života", task: "Aký by bol môj ideálny život bez závislosti?", daily: "Čo som dnes urobil inak než predtým?", story: "Medzi „normálnymi“ ľuďmi" },
+    { t: "Ukotvenie: Moja nová identita", task: "List svojmu budúcemu JA", daily: "Kedy som dnes cítil, že som na správnej ceste?", story: "Kto som, keď už nie som ten, čo pije" },
+    { t: "Triezvy prechod: Iniciačný rituál", task: "Absolvuj rituál pre novú identitu (1 – 2 hodiny)", daily: "Čo si nechávam za sebou a čo si beriem so sebou?", story: "Rituál" }
+  ];
+
+  /* ---------- dátumy ---------- */
+  var DAY = 864e5;
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var REG = new Date(today.getTime() - 16 * DAY);   // ukážka: registrácia pred 16 dňami → deň 17, týždeň 3
+  var dayNo = function (d) { return Math.floor((d - REG) / DAY) + 1; };
+  var curDay = dayNo(today), curWeek = Math.ceil(curDay / 7);
+  var WD = ["ne", "po", "ut", "st", "št", "pi", "so"];
+  var fmt = function (d) { return d.getDate() + ". " + (d.getMonth() + 1) + "."; };
+  var dateOfDay = function (n) { return new Date(REG.getTime() + (n - 1) * DAY); };
+
+  /* ---------- stav člena (ukážka) ---------- */
+  var param = new URLSearchParams(location.search).get('balik');
+  var S = { pkg: ['zaklad', 'pro', 'vip'].indexOf(param) > -1 ? param : 'pro', viewWeek: curWeek, selDay: curDay, tasks: { 1: true, 2: true }, entries: {} };
+  var sample = {
+    1: "Prvý deň. Ráno som vylial poslednú fľašu. Ruky sa trochu trasú, ale je to v poriadku.",
+    2: "Žena sa na mňa dnes pozrela inak. Asi mi ešte neverí. Chápem to.", 3: "Nespal som dobre. Chuť bola silná okolo šiestej večer.",
+    4: "Prechádzka namiesto krčmy. Pomohlo.", 5: "Kamoš volal na pivo. Povedal som, že nemôžem. Bolo to ťažké.",
+    6: "Lepší spánok. Prvýkrát po rokoch som raňajkoval.", 7: "Týždeň za mnou. Neveril by som.",
+    8: "Bojím sa, že bez pitia budem nudný.", 9: "Ostatní v práci idú v piatok von. Ja nie.",
+    11: "Dnes som cítil odpor voči všetkému. Ale nepil som.", 12: "Syn sa ma spýtal, prečo už nechodím von. Povedal som mu pravdu.",
+    13: "Zistil som, že ma drží hlavne strach z ticha večer.", 14: "Druhý týždeň. Ide to.",
+    15: "Spísal som si ľudí, ktorí ma ťahajú späť. Je ich viac, ako som čakal."
+  };
+  Object.keys(sample).forEach(function (k) { S.entries[k] = { text: sample[k], g: ["ráno", "káva", "syn"], reply: null }; });
+  S.entries[1].reply = { who: "Kapitán", text: "Prvý krok je najťažší a ty si ho urobil. Trasenie rúk sleduj, ak by zosilnelo, ozvi sa lekárovi." };
+  S.entries[7].reply = { who: "Kapitán", text: "Týždeň! Pamätaj si, ako sa teraz cítiš. Toto je tvoj dôkaz." };
+  S.entries[13].reply = { who: "Kapitán", text: "Ticho večer poznám. Skús si naň pripraviť plán: čaj, sprcha, kniha, prechádzka." };
+
+  $('#pkgSel').value = S.pkg;
+  $('#pkgSel').onchange = function (e) { S.pkg = e.target.value; render(); };
+  $('#soberN').textContent = curDay;
+
+  /* ---------- týždne ---------- */
+  function renderWeeks() {
+    $('#weeks').innerHTML = WEEKS.map(function (w, i) {
+      var n = i + 1, cls = n < curWeek ? 'done' : n === curWeek ? 'now' : 'locked';
+      var opens = dateOfDay((n - 1) * 7 + 1);
+      return '<button type="button" class="wkb ' + cls + '" data-wk="' + n + '" aria-pressed="' + (n === S.viewWeek) + '"' + (n > curWeek ? ' aria-disabled="true"' : '') + ' title="' + esc(w.t) + '">' +
+        '<b>' + (n < 13 ? n : '★') + '</b><small>' + (n < curWeek ? '✓ hotovo' : n === curWeek ? 'teraz' : '🔒 ' + fmt(opens)) + '</small></button>';
+    }).join('');
+    $$('.wkb').forEach(function (b) {
+      b.onclick = function () {
+        var n = +b.dataset.wk;
+        if (n > curWeek) { toast('Týždeň ' + n + ' sa ti otvorí ' + fmt(dateOfDay((n - 1) * 7 + 1))); return; }
+        S.viewWeek = n; render();
+      };
+    });
+    var now = $('.wkb.now'); if (now && now.scrollIntoView && $('#weeks').scrollWidth > $('#weeks').clientWidth) $('#weeks').scrollLeft = now.offsetLeft - 16;
+  }
+
+  /* ---------- obsah týždňa a úloha ---------- */
+  function render() {
+    var w = WEEKS[S.viewWeek - 1];
+    $('#mEyebrow').textContent = 'Deň ' + curDay + ' z 84 · týždeň ' + curWeek + ' · začal si ' + fmt(REG);
+    $('#mTitle').textContent = 'Ahoj, kapitán. Dnes je tvoj ' + curDay + '. deň.';
+    renderWeeks();
+    $('#weekCard').innerHTML = '<p class="eyebrow">Týždeň ' + S.viewWeek + (S.viewWeek === curWeek ? ' · aktuálny' : '') + '</p>' +
+      '<h2>' + esc(w.t) + '</h2>' +
+      '<div class="video"><button type="button" class="play" aria-label="Prehrať video">▶</button><span class="cap">VIDEO · TÝŽDEŇ ' + S.viewWeek + ' · UKÁŽKA</span></div>' +
+      '<ul class="files">' +
+      '<li><span class="ic">PDF</span><span>Pracovný list: ' + esc(w.t) + '</span><button type="button" class="btn small">Otvoriť</button></li>' +
+      '<li><span class="ic v">VIDEO</span><span>Príbeh: ' + esc(w.story) + '</span><button type="button" class="btn small">Pozrieť</button></li>' +
+      (S.pkg !== 'zaklad' ? '<li><span class="ic v">BONUS</span><span>Rozhovor s abstinentom</span><button type="button" class="btn small">Pozrieť</button></li>' : '') +
+      '</ul>';
+    var done = !!S.tasks[S.viewWeek];
+    var points = Object.keys(S.tasks).filter(function (k) { return S.tasks[k]; }).length * 10;
+    $('#taskCard').innerHTML = '<p class="eyebrow">Týždenná úloha · odškrtni raz za týždeň</p>' +
+      '<div class="task"><button type="button" class="tick" id="taskTick" aria-pressed="' + done + '" aria-label="Úloha splnená">' + (done ? '✓' : '') + '</button>' +
+      '<div><div class="prompt">' + esc(w.task) + '</div><p class="muted" style="margin:6px 0 0;font-size:14px">' +
+      (done ? 'Splnené. Za úlohu máš +10 bodov' + (S.pkg === 'zaklad' ? ' (body sa dajú vymeniť len v PRO a VIP).' : ' do konzultácie.') : 'Keď ju dokončíš, odškrtni ju.') + '</p></div></div>' +
+      (S.pkg !== 'zaklad' ? '<div><div class="mono muted" style="margin-bottom:8px">Body: ' + points + ' / 50 do osobnej konzultácie</div>' +
+        '<div style="height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden"><div style="height:100%;width:' + Math.min(points * 2, 100) + '%;background:var(--accent)"></div></div></div>' : '');
+    $('#taskTick').onclick = function () { S.tasks[S.viewWeek] = !S.tasks[S.viewWeek]; render(); if (S.tasks[S.viewWeek]) toast('Týždenná úloha splnená'); };
+    renderJournal();
+  }
+
+  /* ---------- denník ---------- */
+  function countWeek() { var s = (curWeek - 1) * 7 + 1, c = 0; for (var n = s; n <= curDay; n++) if (S.entries[n]) c++; return c; }
+  function replyHtml(e) {
+    if (S.pkg === 'zaklad') return '';
+    if (!e.reply) return '<div class="mono muted">Čaká na odpoveď Kapitána</div>';
+    return '<div class="reply"><div class="who">' + esc(e.reply.who) + ' <span class="chip">odpovedal človek</span></div>' + esc(e.reply.text) + '</div>';
+  }
+  function renderJournal() {
+    var wkStart = (curWeek - 1) * 7 + 1, w = WEEKS[curWeek - 1];
+    var sel = S.selDay, editable = sel === curDay || sel === curDay - 1, e = S.entries[sel];
+    var daysHtml = '';
+    for (var i = 0; i < 7; i++) {
+      var n = wkStart + i, d = dateOfDay(n), has = !!S.entries[n];
+      var cls = n > curDay ? 'future' : has ? 'written' : (n < curDay - 1 ? 'missed' : '');
+      var can = n <= curDay && (has || n >= curDay - 1);
+      daysHtml += '<button type="button" class="day ' + cls + (n === sel ? ' sel' : '') + '" data-day="' + n + '"' + (can ? '' : ' disabled') + ' aria-label="Deň ' + n + '"><small>' + WD[d.getDay()] + '</small><b>' + (has ? '✓' : d.getDate()) + '</b></button>';
+    }
+    var body;
+    if (e && !editable) {
+      body = '<div class="entry"><div class="meta">Deň ' + sel + ' · ' + fmt(dateOfDay(sel)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
+    } else if (!editable) {
+      body = '<div class="locknote">Tento deň už nejde dopísať. Zápis sa dá doplniť najviac 1 deň dozadu.</div>';
+    } else {
+      var locked = e && e.reply;
+      body = '<div class="prompt">' + esc(w.daily) + '</div>' +
+        '<label class="field" for="jText">' + (sel === curDay ? 'Dnešný zápis' : 'Včerajší zápis (dá sa ešte doplniť)') +
+        '<textarea id="jText"' + (locked ? ' readonly' : '') + ' placeholder="Píš úprimne. Vidíš to len ty' + (S.pkg === 'zaklad' ? '' : ' a Kapitán') + '.">' + (e ? esc(e.text) : '') + '</textarea></label>' +
+        '<div class="grat"><span class="eyebrow">3 vďačnosti na večer</span>' +
+        [0, 1, 2].map(function (i) { return '<input type="text" id="g' + i + '" aria-label="Vďačnosť ' + (i + 1) + '" placeholder="' + (i + 1) + '. za čo som dnes vďačný" value="' + (e ? esc(e.g[i] || '') : '') + '"' + (locked ? ' readonly' : '') + '>'; }).join('') + '</div>' +
+        '<div id="crisisBox"></div>' +
+        (locked ? replyHtml(e) : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary small" id="jSave">' + (e ? 'Uložiť zmeny' : 'Uložiť a odškrtnúť deň') + '</button></div>');
+    }
+    $('#journalCard').innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><p class="eyebrow">Môj denník · týždeň ' + curWeek + '</p><span class="chip ' + (countWeek() >= 5 ? 'ok' : '') + '">' + countWeek() + ' / 7 dní</span></div>' +
+      '<div class="days">' + daysHtml + '</div>' + body;
+    $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; renderJournal(); }; });
+    var sv = $('#jSave');
+    if (sv) sv.onclick = function () {
+      var t = $('#jText').value.trim();
+      if (!t) { toast('Napíš aspoň pár slov'); return; }
+      S.entries[sel] = { text: t, g: [0, 1, 2].map(function (i) { return $('#g' + i).value; }), reply: null };
+      var crisis = /nechcem žiť|zabiť sa|samovra|ublížiť si|skonč(iť|ím) so životom|nemá zmysel žiť/i.test(t);
+      renderJournal();
+      if (crisis) {
+        $('#crisisBox').innerHTML = '<div class="crisis"><b>Ďakujem, že si to napísal. Nemusíš v tom byť sám.</b><span>Linka dôvery Nezábudka <b class="mono">0800 800 566</b> (nonstop, zadarmo). Ak si v ohrození, volaj <b>112</b>.</span><span class="mono muted">Kapitán dostal upozornenie a ozve sa ti.</span></div>';
+      } else toast('Zápis uložený, deň odškrtnutý ✓');
+    };
+    renderHistory();
+  }
+  function renderHistory() {
+    var ks = Object.keys(S.entries).map(Number).sort(function (a, b) { return b - a; }).slice(0, 4);
+    $('#historyCard').innerHTML = '<p class="eyebrow">Posledné zápisy</p>' +
+      (S.pkg === 'zaklad' ? '<p class="mono muted" style="margin:0">Základná výzva: zápisy sú len pre teba, bez odpovedí.</p>' : '') +
+      ks.map(function (n) { var e = S.entries[n]; return '<div class="entry"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>'; }).join('');
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.play')) toast('Ukážka: tu sa prehrá video týždňa');
+    else if (e.target.closest('.files .btn')) toast('Ukážka: materiál sa otvorí v novom okne');
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

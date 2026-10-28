@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O mne · Kapitán Abstinencia</title>
+<meta name="description" content="Kapitán Abstinencia – príbehy, pravda a pomoc pri závislosti. Online program 12 týždňov k slobode čoskoro.">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0B0D;
+    --surface: #15171B;
+    --surface-2: #1C1F25;
+    --text: #F2F3F5;
+    --muted: #9399A3;
+    --line: rgba(255, 255, 255, .09);
+    --line-strong: rgba(255, 255, 255, .18);
+    --accent: #C8363F;          /* výplň tlačidla, biely text 5,2 : 1 */
+    --accent-hover: #D7444D;
+    --accent-text: #EF5D67;     /* odkazy a popisky na tmavom, 5,3 : 1 */
+    --accent-soft: rgba(239, 93, 103, .12);
+    --accent-glow: rgba(200, 54, 63, .22);
+    --cursor-glow: rgba(200, 54, 63, .13);
+    --card-spot: rgba(255, 255, 255, .055);
+    --gold: #D8B13C;
+    --on-accent: #FFFFFF;
+    --glass: rgba(10, 11, 13, .72);
+    --radius: 6px;
+    --wrap: 1200px;
+    --gap-section: clamp(64px, 9vw, 128px);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: clamp(16px, .25vw + 15px, 18px);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: var(--accent-text); text-underline-offset: 3px; }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+
+  /* Typografia */
+  .eyebrow {
+    font-family: "IBM Plex Mono", "Courier New", monospace;
+    font-size: clamp(12px, .1vw + 11.5px, 13px);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin: 0 0 18px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+  h1, .display {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    color: var(--text);
+  }
+  h1 { font-size: clamp(40px, 7.4vw, 120px); line-height: .95; margin: 0 0 clamp(32px, 4vw, 56px); }
+  h1 .accent { color: var(--accent-text); }
+  h2 {
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  h3 { font-size: clamp(19px, .6vw + 16px, 23px); line-height: 1.3; font-weight: 700; color: var(--text); margin: 0 0 10px; letter-spacing: -.01em; }
+  p { margin: 0 0 16px; }
+  .lead { font-size: clamp(17px, .5vw + 15px, 20px); color: var(--muted); max-width: 62ch; }
+  .muted { color: var(--muted); }
+
+  /* Tlačidlá */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-family: inherit; font-weight: 700; font-size: 15px; letter-spacing: .01em;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform .15s var(--ease), background-color .15s, border-color .15s, color .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0) scale(.98); }
+  .btn-primary { background: var(--accent); color: var(--on-accent); box-shadow: 0 0 0 0 var(--accent-glow); }
+  .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 10px 30px -8px var(--accent-glow); }
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--line-strong); }
+  .btn-secondary:hover { border-color: var(--text); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* Hlavička */
+  .topbar {
+    position: fixed; inset: 0 0 auto; z-index: 50;
+    padding: 14px 0;
+    border-bottom: 1px solid transparent;
+    transition: background-color .3s, border-color .3s, backdrop-filter .3s;
+  }
+  .topbar.scrolled {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border-bottom-color: var(--line);
+  }
+  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 15px; letter-spacing: .02em; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line-strong); color: var(--accent-text);
+    display: grid; place-items: center; font-weight: 800; font-size: 15px;
+  }
+  .topbar .btn { min-height: 44px; padding: 10px 20px; font-size: 14px; }
+
+  /* Úvod */
+  .hero {
+    position: relative; overflow: hidden;
+    min-height: max(88vh, 640px);
+    display: flex; align-items: center;
+    padding: 120px 0 clamp(64px, 8vw, 112px);
+  }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .hero-bg .glow-a { stop-color: var(--accent); }
+  .hero-bg .rays { stroke: var(--accent-text); }
+  .hero-bg .rings { stroke: var(--muted); }
+  .hero-bg .ridge { fill: var(--text); }
+  .hero-bg .path { stroke: var(--accent-text); }
+  /* Svetlo za kurzorom (len myš) */
+  .cursor-glow { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .cursor-glow {
+      display: block; position: absolute; top: 0; left: 0; z-index: 0;
+      width: 640px; height: 640px; margin: -320px 0 0 -320px; border-radius: 50%;
+      background: radial-gradient(closest-side, var(--cursor-glow), transparent);
+      pointer-events: none; opacity: 0; transition: opacity .8s; will-change: transform;
+    }
+    .hero.lit .cursor-glow { opacity: 1; }
+    .card::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--card-spot), transparent 60%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .card:hover::after { opacity: 1; }
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: auto 0 0; height: 160px; z-index: 0;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+  }
+  .hero .wrap {
+    position: relative; z-index: 1; width: 100%;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+    grid-template-areas: "eyebrow eyebrow" "title title" "bio portrait" "actions portrait";
+    column-gap: clamp(32px, 5vw, 80px); align-items: start;
+  }
+  .hero-text { display: contents; }
+  .hero-text > .eyebrow { grid-area: eyebrow; justify-self: start; }
+  .hero h1 { grid-area: title; }
+  .hero .bio { grid-area: bio; }
+  .hero .actions { grid-area: actions; }
+  .hero .portrait { grid-area: portrait; align-self: center; margin-top: clamp(-160px, -8vw, -40px) !important; }
+  .bio { list-style: none; padding: 0; margin: 0 0 40px; display: grid; gap: 4px; max-width: 520px; }
+  .bio li {
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+    font-size: clamp(16px, .3vw + 15px, 18px); font-weight: 600; color: var(--text);
+  }
+  .bio li:last-child { border-bottom: 0; }
+  .bio .ico { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; }
+  .bio .ico svg { width: 20px; height: 20px; stroke: var(--muted); }
+  .bio li.hl .ico svg, .bio li.soon .ico svg { stroke: var(--accent-text); }
+  .bio li.soon { color: var(--accent-text); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .portrait { position: relative; justify-self: end; width: 100%; max-width: 440px; aspect-ratio: 1; }
+  .portrait::before {
+    content: ""; position: absolute; inset: -12%; border-radius: 50%; z-index: -1;
+    background: radial-gradient(closest-side, var(--accent-glow), transparent);
+  }
+  .portrait img { width: 100%; height: 100%; object-fit: contain; clip-path: circle(46.6% at 50% 49.2%); }
+  .portrait .fallback { width: 100%; height: 100%; }
+
+  /* Fotky s náhradou */
+  .photo { overflow: hidden; }
+  .photo .fallback { display: none; }
+  .photo.failed img { display: none; }
+  .photo.failed .fallback { display: block; }
+
+  /* Sekcie a karty */
+  section { padding: var(--gap-section) 0; }
+  .section-head { max-width: 760px; margin-bottom: clamp(40px, 5vw, 64px); }
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: border-color .25s;
+  }
+  .card:hover { border-color: var(--line-strong); }
+  .tinted { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(to bottom, var(--surface) -40%, var(--bg) 60%); }
+
+  .story { display: grid; grid-template-columns: 1.1fr .9fr; overflow: hidden; }
+  .story-text { padding: clamp(28px, 5vw, 64px); }
+  .story .photo { min-height: 420px; position: relative; }
+  .story .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, var(--surface), transparent 35%); }
+  .story .photo img, .story .photo .fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .quote {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 22px; margin: 32px 0 0;
+    font-size: clamp(19px, .6vw + 16px, 23px); font-weight: 600; color: var(--text); line-height: 1.4;
+  }
+  .stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: clamp(24px, 4vw, 56px); margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .stat .num { font-size: clamp(44px, 5vw, 72px); font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--text); font-variant-numeric: tabular-nums; }
+  .stat .lbl { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+
+  /* Bento: s čím pomáham */
+  .bento { display: grid; grid-template-columns: 1.15fr 1fr; grid-template-rows: auto auto; gap: 16px; }
+  .help-card { overflow: hidden; display: flex; flex-direction: column; }
+  .help-card .art { background: #1B2032; overflow: hidden; }
+  .help-card .art svg { width: 100%; height: 100%; transition: transform 1.2s var(--ease); }
+  .help-card:hover .art svg { transform: scale(1.04); }
+  .help-card .body { padding: clamp(24px, 3vw, 36px); }
+  .help-card p { color: var(--muted); margin: 0; }
+  .help-card.big { grid-row: span 2; }
+  .help-card.big .art { flex: 1; min-height: 280px; }
+  .help-card.big h3 { font-size: clamp(24px, 1.6vw + 16px, 34px); }
+  .help-card.big p { font-size: clamp(17px, .3vw + 16px, 19px); max-width: 52ch; }
+  .help-card.side { flex-direction: row; }
+  .help-card.side .art { flex: 0 0 34%; }
+  .help-card.side .body { padding: clamp(22px, 2.4vw, 32px); }
+  .help-card.side .art svg { height: 100%; object-fit: cover; }
+
+  /* Program */
+  .program { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; align-items: stretch; }
+  .program-main { padding: clamp(28px, 5vw, 56px); overflow: hidden; }
+  .program-main::before {
+    content: ""; position: absolute; top: -30%; right: -20%; width: 70%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(closest-side, var(--accent-soft), transparent); pointer-events: none;
+  }
+  .badge-soon {
+    display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
+    border: 1px solid var(--accent-soft); background: var(--accent-soft); color: var(--accent-text);
+    font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .badge-soon::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .program-main .display { font-size: clamp(36px, 5.2vw, 72px); line-height: .98; margin: 0 0 14px; }
+  .subtitle { color: var(--muted); font-weight: 600; margin-bottom: 32px; }
+  .timeline { margin: 8px 0 36px; width: 100%; }
+  .timeline line { stroke: var(--line-strong); }
+  .timeline .weeks circle { fill: var(--surface); stroke: var(--muted); }
+  .timeline .weeks circle:first-child { fill: var(--accent); stroke: var(--accent); }
+  .timeline text { fill: var(--muted); }
+  .features { list-style: none; padding: 0; margin: 0 0 40px; display: grid; gap: 0; }
+  .features li { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--line); color: var(--muted); }
+  .features svg { flex: none; width: 22px; height: 22px; margin-top: 2px; stroke: var(--accent-text); }
+  .features strong { color: var(--text); }
+  .daily { overflow: hidden; display: flex; flex-direction: column; }
+  .daily .photo { position: relative; aspect-ratio: 4 / 3; }
+  .daily .photo img, .daily .photo .fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .daily .body { padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; flex: 1; }
+  .daily .eyebrow { color: var(--muted); }
+  .rhythm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; padding-top: 24px; }
+  .rhythm div { text-align: center; padding: 18px 6px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface-2); }
+  .rhythm b { display: block; font-weight: 800; font-size: clamp(32px, 3vw, 44px); color: var(--text); line-height: 1; margin-bottom: 6px; }
+  .rhythm span { font-size: 13px; color: var(--muted); }
+
+  /* Pre koho */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .who { padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; }
+  .who .tag { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 40px; }
+  .who h3 { font-size: clamp(21px, .8vw + 17px, 26px); }
+  .who p { color: var(--muted); margin: 0; }
+
+  /* Kontakt */
+  .contact { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
+  .contact-card { padding: clamp(28px, 4vw, 56px); }
+  .links { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 8px; }
+  .links a {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px; border-radius: var(--radius);
+    border: 1px solid var(--line); background: var(--surface-2);
+    color: var(--text); text-decoration: none; font-weight: 600; overflow-wrap: anywhere;
+    transition: border-color .15s, transform .15s var(--ease);
+  }
+  .links a:hover { border-color: var(--accent-text); transform: translateY(-2px); }
+  .links svg { flex: none; width: 22px; height: 22px; stroke: var(--accent-text); }
+  .links svg circle[fill] { fill: var(--accent-text); }
+  .links small { display: block; font-weight: 400; color: var(--muted); font-size: 13px; }
+  .safety { padding: clamp(28px, 4vw, 56px); background: var(--surface-2); border-color: var(--accent-soft); }
+  .safety .eyebrow { color: var(--muted); }
+  .safety .must { font-size: clamp(18px, .5vw + 16px, 21px); font-weight: 600; line-height: 1.5; margin-bottom: 32px; }
+  .safety ul { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 0; }
+  .safety li { display: flex; gap: 16px; align-items: baseline; color: var(--muted); padding: 14px 0; border-top: 1px solid var(--line); }
+  .safety li b { color: var(--text); font-family: "IBM Plex Mono", monospace; font-weight: 500; min-width: 130px; }
+
+  footer { padding: 48px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .wrap { display: grid; gap: 12px; }
+  footer .sign { font-family: "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--text); font-size: 13px; }
+  footer .credits { font-size: 12px; max-width: 90ch; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--text); }
+
+  /* Jemný pohyb: objavenie pri scrollovaní */
+  .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js .zoom img { transform: scale(1.06); transition: transform 1.4s var(--ease); }
+  .js .zoom.in img { transform: scale(1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+    .js .zoom img { transform: none; }
+    .btn:hover, .links a:hover { transform: none; }
+  }
+
+  /* Tablet a mobil */
+  @media (max-width: 960px) {
+    .hero .wrap { grid-template-columns: 1fr; grid-template-areas: "portrait" "eyebrow" "title" "bio" "actions"; }
+    .hero .portrait { justify-self: start; max-width: 260px; margin: 0 0 24px !important; }
+    .story, .program, .contact, .bento { grid-template-columns: 1fr; }
+    .help-card.big { grid-row: auto; }
+    .help-card.big .art { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .story .photo { min-height: 280px; }
+    .story .photo::after { background: linear-gradient(to bottom, var(--surface), transparent 30%); }
+    .who .tag { margin-bottom: 20px; }
+  }
+  @media (max-width: 560px) {
+    .hero { padding-top: 96px; min-height: 0; }
+    .hero .portrait { max-width: 180px; }
+    .topbar .btn { display: none; }
+    .actions .btn { width: 100%; }
+    .help-card.side { flex-direction: column; }
+    .help-card.side .art { flex: none; aspect-ratio: 16 / 10; }
+    .stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .stat .lbl { font-size: 11px; letter-spacing: .08em; }
+    .safety li { flex-direction: column; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      Kapitán Abstinencia
+    </a>
+    <a class="btn btn-primary" href="index.html">Online program</a>
+  </div>
+</header>
+
+<!-- ÚVOD -->
+<section class="hero">
+  <svg class="hero-bg" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="glow" cx="76%" cy="44%" r="45%">
+        <stop class="glow-a" offset="0" stop-opacity=".22"/>
+        <stop class="glow-a" offset="1" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1440" height="720" fill="url(#glow)"/>
+    <!-- lúče energie z odznaku -->
+    <g class="rays" stroke-opacity=".10" stroke-width="1.5" stroke-linecap="round">
+      <line x1="1095" y1="316" x2="1440" y2="40"/>
+      <line x1="1095" y1="316" x2="1440" y2="200"/>
+      <line x1="1095" y1="316" x2="1440" y2="380"/>
+      <line x1="1095" y1="316" x2="1440" y2="560"/>
+      <line x1="1095" y1="316" x2="1300" y2="0"/>
+      <line x1="1095" y1="316" x2="1110" y2="0"/>
+      <line x1="1095" y1="316" x2="900" y2="0"/>
+      <line x1="1095" y1="316" x2="780" y2="90"/>
+    </g>
+    <!-- kruhy: kruh sa uzatvára -->
+    <g class="rings" fill="none" stroke-opacity=".18">
+      <circle cx="1095" cy="316" r="290" stroke-width="1"/>
+      <circle cx="1095" cy="316" r="350" stroke-width="1" stroke-dasharray="2 10" stroke-linecap="round"/>
+    </g>
+    <!-- horizont: hory a cesta von -->
+    <path class="ridge" d="M0 640 L170 560 L260 600 L420 500 L560 590 L700 530 L860 610 L1010 540 L1180 620 L1320 560 L1440 600 L1440 720 L0 720 Z" fill-opacity=".025"/>
+    <path class="ridge" d="M0 680 L210 620 L360 660 L520 600 L690 670 L880 620 L1060 680 L1260 630 L1440 670 L1440 720 L0 720 Z" fill-opacity=".035"/>
+    <path class="path" d="M140 720 C 300 690, 420 700, 560 660 S 820 610, 980 600" fill="none" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 14"/>
+  </svg>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="hero-text">
+      <p class="eyebrow reveal">Čistý a šťastný · abstinujem už 12 rokov</p>
+      <h1 class="reveal" style="--i:1">Kapitán<br><span class="accent">Abstinencia</span></h1>
+      <ul class="bio">
+        <li class="reveal" style="--i:2">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          Bol som otrokom závislosti
+        </li>
+        <li class="hl reveal" style="--i:3">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></span>
+          Dnes som Kapitán Abstinencia
+        </li>
+        <li class="reveal" style="--i:4">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></span>
+          Príbehy, pravda a pomoc pri závislosti
+        </li>
+        <li class="soon reveal" style="--i:5">
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12M6 22h12"/><path d="M7 2v4l5 6-5 6v4M17 2v4l-5 6 5 6v4"/></svg></span>
+          Online program čoskoro
+        </li>
+      </ul>
+      <div class="actions reveal" style="--i:6">
+        <a class="btn btn-primary" href="#program">
+          Chcem vedieť ako prvý
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+        <a class="btn btn-secondary" href="#pribeh">Môj príbeh</a>
+      </div>
+    </div>
+
+    <figure class="portrait photo reveal" style="margin:0;overflow:visible;--i:2">
+      <img src="obrazky/kapitan-odznak.webp" alt="Odznak Kapitána Abstinencia: Kamil odhaľuje na hrudi emblém A" onerror="this.parentNode.classList.add('failed')">
+      <svg class="fallback" viewBox="0 0 400 400" role="img" aria-label="Iniciály KA">
+        <circle cx="200" cy="200" r="196" fill="#C9CED1"/>
+        <circle cx="200" cy="200" r="176" fill="#7C858D"/>
+        <circle cx="200" cy="200" r="168" fill="#1B2032"/>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#AD2F39" stroke-width="2" stroke-opacity=".6"/>
+        <text x="200" y="236" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="110" fill="#F6F4EF" letter-spacing="4">KA</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- PRÍBEH -->
+<section id="pribeh" style="padding-top:0">
+  <div class="wrap">
+    <div class="card story reveal">
+      <div class="story-text">
+        <p class="eyebrow">Prežil som závislosť</p>
+        <h2>Nie som doktor v bielom plášti. Som chlap, ktorý bol na dne.</h2>
+        <p class="muted">Volám sa Kamil. Moja cesta viedla od prvej dávky cez liečenie až po slobodný život. Dnes abstinujem už dvanásť rokov a viem, aké to je. A viem, že sa z toho dá vyjsť.</p>
+        <p class="muted">Nekážem z výšky. Rozprávam, čo som prežil ja a čo mi naozaj pomohlo. Na rovinu, bez prikrášľovania a bez strašenia.</p>
+        <blockquote class="quote">„Chcem ti len podať ruku, ktorú kedysi niekto podal mne.“</blockquote>
+        <div class="stats">
+          <div class="stat"><div class="num" data-count="12" data-suffix="+">12+</div><div class="lbl">rokov abstinencie</div></div>
+          <div class="stat"><div class="num" data-count="12">12</div><div class="lbl">týždňov programu</div></div>
+          <div class="stat"><div class="num">[ ]</div><div class="lbl">[ďalší údaj]</div></div>
+        </div>
+      </div>
+      <figure class="photo zoom reveal" style="margin:0">
+        <img src="obrazky/tatry-vychod-slnka.jpg" alt="Východ slnka nad Tatrami" loading="lazy" onerror="this.parentNode.classList.add('failed')">
+        <svg class="fallback" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="450" fill="#1B2032"/>
+          <circle cx="300" cy="300" r="70" fill="#D8B13C" fill-opacity=".9"/>
+          <circle cx="300" cy="300" r="120" fill="#AD2F39" fill-opacity=".18"/>
+          <path d="M0 330 L120 220 L200 280 L300 180 L410 290 L480 240 L600 320 L600 450 L0 450 Z" fill="#7C858D"/>
+          <path d="M0 380 L150 300 L260 350 L380 290 L500 360 L600 330 L600 450 L0 450 Z" fill="#2B3247"/>
+          <path d="M290 450 C 300 420, 280 400, 300 370" stroke="#F6F4EF" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 10"/>
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- S ČÍM POMÁHAM -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">S čím pomáham</p>
+      <h2 class="reveal" style="--i:1">Príbehy, pravda a pomoc pri závislosti</h2>
+      <p class="lead reveal" style="--i:2">Závislosť je jedna, len má viacero typov: alkohol, drogy, lieky, hranie. Preto nehovorím o látke, ale o človeku.</p>
+    </div>
+    <div class="bento">
+      <!-- Príbehy -->
+      <article class="card help-card big reveal">
+        <div class="art">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="320" height="200" fill="#1B2032"/>
+            <circle cx="160" cy="92" r="70" fill="#AD2F39" fill-opacity=".14"/>
+            <!-- oheň -->
+            <path d="M160 40 C 176 62, 190 74, 186 96 C 183 114, 170 122, 160 122 C 148 122, 134 113, 133 96 C 132 82, 140 74, 146 64 C 148 76, 152 82, 158 84 C 154 68, 152 56, 160 40 Z" fill="#AD2F39"/>
+            <path d="M160 74 C 168 88, 174 96, 172 106 C 170 116, 165 120, 160 120 C 153 120, 147 114, 148 105 C 149 97, 154 92, 160 74 Z" fill="#D8B13C"/>
+            <!-- otvorená kniha -->
+            <path d="M60 128 C 100 116, 140 120, 160 136 L160 172 C 140 158, 100 154, 60 166 Z" fill="#F6F4EF"/>
+            <path d="M260 128 C 220 116, 180 120, 160 136 L160 172 C 180 158, 220 154, 260 166 Z" fill="#C9CED1"/>
+            <g stroke="#7C858D" stroke-width="2" stroke-linecap="round">
+              <path d="M78 136 C 100 130, 126 131, 146 140"/><path d="M78 148 C 100 142, 126 143, 146 152"/>
+              <path d="M174 140 C 194 131, 220 130, 242 136"/><path d="M174 152 C 194 143, 220 142, 242 148"/>
+            </g>
+            <g fill="#D8B13C"><circle cx="112" cy="70" r="2.5"/><circle cx="214" cy="60" r="2"/><circle cx="198" cy="34" r="2.5"/><circle cx="122" cy="40" r="2"/></g>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>Príbehy</h3>
+          <p>Moja cesta zo závislosti a rozhovory s ľuďmi, ktorí to zvládli. Dôkaz, že sa to dá, od niekoho, kto bol tam, kde si teraz ty.</p>
+        </div>
+      </article>
+
+      <!-- Pravda -->
+      <article class="card help-card side reveal" style="--i:1">
+        <div class="art">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="320" height="200" fill="#1B2032"/>
+            <!-- lúč majáka -->
+            <path d="M160 62 L320 20 L320 110 Z" fill="#D8B13C" fill-opacity=".22"/>
+            <path d="M160 62 L0 24 L0 104 Z" fill="#D8B13C" fill-opacity=".12"/>
+            <!-- maják -->
+            <path d="M146 80 L174 80 L182 168 L138 168 Z" fill="#F6F4EF"/>
+            <path d="M143 104 L177 104 L179 122 L141 122 Z" fill="#AD2F39"/>
+            <path d="M140 140 L180 140 L181 156 L139 156 Z" fill="#AD2F39"/>
+            <rect x="148" y="54" width="24" height="22" rx="3" fill="#D8B13C"/>
+            <path d="M144 54 L160 40 L176 54 Z" fill="#AD2F39"/>
+            <rect x="140" y="76" width="40" height="6" rx="2" fill="#7C858D"/>
+            <!-- búrka a vlny -->
+            <path d="M0 176 C 30 166, 50 186, 80 176 S 130 166, 160 176 S 210 186, 240 176 S 290 166, 320 176 L320 200 L0 200 Z" fill="#2B3247"/>
+            <path d="M0 186 C 30 178, 50 194, 80 186 S 130 178, 160 186 S 210 194, 240 186 S 290 178, 320 186" fill="none" stroke="#7C858D" stroke-width="2" stroke-linecap="round"/>
+            <g fill="#C9CED1"><circle cx="40" cy="150" r="2"/><circle cx="280" cy="146" r="2"/></g>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>Pravda</h3>
+          <p>Hovorím aj to, čo bolí: o chutiach, recidíve aj hanbe. Bez prikrášľovania a bez strašenia. Chuť príde a prejde, a ty máš plán.</p>
+        </div>
+      </article>
+
+      <!-- Pomoc -->
+      <article class="card help-card side reveal" style="--i:2">
+        <div class="art">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="320" height="200" fill="#1B2032"/>
+            <!-- lano -->
+            <path d="M160 0 C 160 20, 150 30, 158 46" fill="none" stroke="#C9CED1" stroke-width="3" stroke-linecap="round"/>
+            <!-- záchranné koleso -->
+            <circle cx="160" cy="104" r="58" fill="#F6F4EF"/>
+            <g fill="#AD2F39">
+              <path d="M160 46 A58 58 0 0 1 201 63 L182 82 A31 31 0 0 0 160 73 Z"/>
+              <path d="M218 104 A58 58 0 0 1 201 145 L182 126 A31 31 0 0 0 191 104 Z"/>
+              <path d="M160 162 A58 58 0 0 1 119 145 L138 126 A31 31 0 0 0 160 135 Z"/>
+              <path d="M102 104 A58 58 0 0 1 119 63 L138 82 A31 31 0 0 0 129 104 Z"/>
+            </g>
+            <circle cx="160" cy="104" r="31" fill="#1B2032"/>
+            <circle cx="160" cy="104" r="58" fill="none" stroke="#7C858D" stroke-width="2"/>
+            <!-- vlny -->
+            <path d="M0 176 C 30 168, 50 184, 80 176 S 130 168, 160 176 S 210 184, 240 176 S 290 168, 320 176 L320 200 L0 200 Z" fill="#2B3247"/>
+            <g fill="#D8B13C"><circle cx="70" cy="60" r="2.5"/><circle cx="252" cy="70" r="2"/><circle cx="240" cy="36" r="2"/></g>
+          </svg>
+        </div>
+        <div class="body">
+          <h3>Pomoc</h3>
+          <p>Praktické kroky na každý deň pre teba aj pre tvojich blízkych. A keď treba viac, nasmerujem ťa na odborníkov.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="program">
+  <div class="wrap">
+    <div class="program">
+      <div class="card program-main reveal">
+        <span class="badge-soon">Online program · čoskoro</span>
+        <p class="display">12 týždňov k slobode</p>
+        <p class="subtitle">Výzva k triezvemu a vedomému životu</p>
+
+        <svg class="timeline" viewBox="0 0 520 64" role="img" aria-label="12 týždňov programu, na konci iniciačný rituál">
+          <line x1="20" y1="28" x2="470" y2="28" stroke-width="2" stroke-linecap="round"/>
+          <g class="weeks" stroke-width="1.5">
+            <circle cx="20" cy="28" r="9"/>
+            <circle cx="61" cy="28" r="7"/><circle cx="102" cy="28" r="7"/><circle cx="143" cy="28" r="7"/>
+            <circle cx="184" cy="28" r="7"/><circle cx="225" cy="28" r="7"/><circle cx="266" cy="28" r="7"/>
+            <circle cx="307" cy="28" r="7"/><circle cx="348" cy="28" r="7"/><circle cx="389" cy="28" r="7"/>
+            <circle cx="430" cy="28" r="7"/><circle cx="471" cy="28" r="7"/>
+          </g>
+          <circle cx="504" cy="28" r="12" fill="none" stroke="#D8B13C" stroke-width="2"/>
+          <circle cx="504" cy="28" r="5" fill="#D8B13C"/>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1.2">
+            <text x="20" y="58" text-anchor="start">TÝŽDEŇ 01</text>
+            <text x="471" y="58" text-anchor="end">12</text>
+            <text x="520" y="58" text-anchor="end" style="fill:var(--gold)">✦</text>
+          </g>
+        </svg>
+
+        <ul class="features">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg>
+            <span><strong>Každý týždeň</strong> video, textový sprievodca a úloha.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 9h6M9 13h6"/></svg>
+            <span><strong>Denník</strong> každý deň: zápis a tri vďačnosti na večer.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c.6-.3 1.3-.5 2-.5 2.5 0 4 1.8 4 4.5"/></svg>
+            <span><strong>Komunita:</strong> uzavretá skupina a raz mesačne živý stream.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8"/><circle cx="12" cy="12" r="2"/></svg>
+            <span><strong>Iniciačný rituál</strong> na záver: kruh sa uzatvára.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/></svg>
+            <span><strong>Anonymne.</strong> Nick namiesto mena, kamera vypnutá, nikto ťa nesúdi.</span>
+          </li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://d8bc249c.sibforms.com/serve/MUIFAE-TKVSNuaAL3ZmV78OrDSkjRdmc29H45ah4fZZwoEecxZ0ByqF20GcQp4IQvJfRHC0u8R2Xlln6ltW3mxsGXP0Tg7SwG1zJgHnRcOuR5Q3leL8PeED_xr5xZdkySusqDd-aOvT2rueQucK9HQ8FkKo04wt5do7GFtKLqz-z00dgQ6WDmZcXl6qhl96JZ7-S7s2rpO2yGrJPAQ==" target="_blank" rel="noopener">Chcem lepší život</a>
+          <a class="btn btn-secondary" href="#kontakt">Napíš mi</a>
+        </div>
+      </div>
+
+      <aside class="card daily reveal" style="--i:1">
+        <figure class="photo zoom" style="margin:0">
+          <img src="obrazky/ranna-kava.jpg" alt="Šálka kávy na parapete v rannom svetle" loading="lazy" onerror="this.parentNode.classList.add('failed')">
+          <svg class="fallback" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="300" fill="#ECEAE3"/>
+            <rect x="0" y="0" width="400" height="190" fill="#F6F4EF"/>
+            <g stroke="#C9CED1" stroke-width="2"><line x1="200" y1="0" x2="200" y2="190"/><line x1="0" y1="95" x2="400" y2="95"/></g>
+            <rect x="60" y="200" width="150" height="70" rx="6" fill="#FFFFFF" stroke="#C9CED1" stroke-width="2"/>
+            <g stroke="#C9CED1" stroke-width="2" stroke-linecap="round"><line x1="76" y1="222" x2="190" y2="222"/><line x1="76" y1="238" x2="180" y2="238"/><line x1="76" y1="254" x2="160" y2="254"/></g>
+            <path d="M250 190 h70 v50 a25 25 0 0 1 -25 25 h-20 a25 25 0 0 1 -25 -25 z" fill="#1B2032"/>
+            <path d="M320 200 a14 14 0 0 1 0 28" fill="none" stroke="#1B2032" stroke-width="6"/>
+            <g fill="none" stroke="#7C858D" stroke-width="3" stroke-linecap="round"><path d="M270 176 c-8 -12 8 -18 0 -32"/><path d="M296 176 c-8 -12 8 -18 0 -32"/></g>
+          </svg>
+        </figure>
+        <div class="body">
+          <p class="eyebrow">Denná prax</p>
+          <h3>Rutina 8/8/8</h3>
+          <p class="muted" style="margin:0">Malé denné kroky. Aj slon sa dá zjesť kúsok po kúsku, deň čo deň.</p>
+          <div class="rhythm">
+            <div><b>8</b><span>spánok</span></div>
+            <div><b>8</b><span>práca</span></div>
+            <div><b>8</b><span>pre seba</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRE KOHO -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Pre koho to je</p>
+      <h2 class="reveal" style="--i:1">Nikto sa neuzdravuje sám</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card who reveal">
+        <div class="tag">Prvý krok</div>
+        <h3>Tušíš, že máš problém</h3>
+        <p>Funguješ, ale „víkend“ začína vo štvrtok. Na liečenie by si nešiel, lebo hanba. Tu nájdeš zrkadlo bez súdenia.</p>
+      </div>
+      <div class="card who reveal" style="--i:1">
+        <div class="tag">Po liečbe</div>
+        <h3>Si čerstvo po liečení</h3>
+        <p>Motivovaný, ale krehký. Potrebuješ štruktúru na každý deň a komunitu, ktorá vie, o čom hovoríš. Aj o tretej ráno.</p>
+      </div>
+      <div class="card who reveal" style="--i:2">
+        <div class="tag">Blízky človek</div>
+        <h3>Máš doma niekoho, kto pije alebo berie</h3>
+        <p>Roky zachraňuješ a pomaly strácaš seba. Aj ty sa potrebuješ uzdraviť a aj pre teba tu je miesto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+  <div class="wrap">
+    <div class="contact">
+      <div class="card contact-card reveal">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Ozvi sa. Na rovinu.</h2>
+        <p class="muted">Napíš mi alebo ma sleduj. Tykáme si, vždy.</p>
+        <ul class="links">
+          <li><a href="https://www.instagram.com/kapitanabstinencia/">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+            <span>@kapitanabstinencia<small>Instagram</small></span></a></li>
+          <li><a href="mailto:kapitananbtinencia@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg>
+            <span>kapitananbtinencia@gmail.com<small>E-mail</small></span></a></li>
+          <li><a href="[odkaz na YouTube / TikTok / Facebook]">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/></svg>
+            <span>[ďalšia sociálna sieť]<small>[YouTube / TikTok / Facebook]</small></span></a></li>
+        </ul>
+      </div>
+
+      <div class="card safety reveal" style="--i:1">
+        <p class="eyebrow">Dôležité</p>
+        <p class="must">„Tento kurz nenahrádza odbornú liečbu. Je bezpečným miestom pre každého, kto chce urobiť prvý krok.“</p>
+        <h3>Keď je zle, nečakaj</h3>
+        <ul>
+          <li><b>112</b> ohrozenie života</li>
+          <li><b>0800 800 566</b> Linka dôvery Nezábudka, nonstop a bezplatne</li>
+          <li><b>ipcko.sk</b> <a href="https://ipcko.sk">krízový chat online</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="sign">Kapitán Abstinencia · Sloboda je voľba.</div>
+    <div class="credits">
+      Fotky: <a href="https://commons.wikimedia.org/wiki/File:Sunrise_in_Tatra_Mountais_(24989087299).jpg">Sunrise in Tatra Mountains</a>, Maciej Kraus, CC BY 2.0 ·
+      <a href="https://commons.wikimedia.org/wiki/File:Warm_coffee_cup_resting_on_window_sill_during_a_quiet_morning_with_soft_natural_light.jpg">Warm coffee cup on window sill</a>, Shixart1985, CC BY 2.0. Zdroj: Wikimedia Commons.
+      Ilustrácie a ikony: vlastné SVG. Odznak: Kapitán Abstinencia.
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Menu dostane pozadie po odscrollovaní
+  var bar = document.getElementById('topbar');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      bar.classList.toggle('scrolled', window.scrollY > 24);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (finePointer && !reduce) {
+    // Svetlo v úvode plynulo dobieha kurzor (8 % vzdialenosti na snímku)
+    var hero = document.querySelector('.hero');
+    var glow = hero.querySelector('.cursor-glow');
+    var tx = 0, ty = 0, gx = 0, gy = 0, running = false;
+    function follow() {
+      gx += (tx - gx) * 0.08;
+      gy += (ty - gy) * 0.08;
+      glow.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
+      if (Math.abs(tx - gx) > 0.5 || Math.abs(ty - gy) > 0.5) requestAnimationFrame(follow);
+      else running = false;
+    }
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      tx = e.clientX - r.left;
+      ty = e.clientY - r.top;
+      if (!hero.classList.contains('lit')) { gx = tx; gy = ty; hero.classList.add('lit'); }
+      if (!running) { running = true; requestAnimationFrame(follow); }
+    });
+    hero.addEventListener('pointerleave', function () { hero.classList.remove('lit'); });
+
+    // Karty: jemný kruh svetla pod kurzorom
+    document.querySelectorAll('.card').forEach(function (card) {
+      var last = null, queued = false;
+      card.addEventListener('pointermove', function (e) {
+        last = e;
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          var r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (last.clientX - r.left) + 'px');
+          card.style.setProperty('--my', (last.clientY - r.top) + 'px');
+          queued = false;
+        });
+      });
+    });
+  }
+
+  var items = document.querySelectorAll('.reveal, .zoom');
+  var counters = document.querySelectorAll('[data-count]');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+
+  // Sekcie sa objavia pri scrollovaní
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(function (el) { io.observe(el); });
+
+  // Čísla sa odpočítajú od nuly
+  function countUp(el) {
+    var end = +el.dataset.count, suffix = el.dataset.suffix || '', start = null;
+    function step(t) {
+      if (start === null) start = t;
+      var p = Math.min((t - start) / 1200, 1);
+      el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var co = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      countUp(e.target);
+      co.unobserve(e.target);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(function (el) { co.observe(el); });
+})();
+</script>
+</body>
+</html>

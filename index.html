@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kapitán Abstinencia</title>
+<meta name="description" content="12-týždňová online výzva k triezvemu životu od Kapitána Abstinencia. Dvanásť týždňov, jeden denník a komunita, ktorá ťa podrží.">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kapitan.css">
+</head>
+<body>
+
+<header class="topbar overlay">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">A</span>Kapitán Abstinencia</a>
+    <nav class="nav" id="nav" aria-label="Hlavné menu">
+      <a href="#vyzva">Výzva</a>
+      <a href="#cesta">Môj príbeh</a>
+      <a href="#baliky">Balíky</a>
+      <a href="pomoc.html">Pomoc</a>
+      <a href="clenska.html">Prihlásiť sa</a>
+    </nav>
+    <a class="btn btn-primary cta-top" href="#baliky">Chcem začať</a>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main>
+<!-- ÚVOD -->
+<section class="hero sales-hero">
+  <svg class="hero-bg" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <radialGradient id="glow" cx="76%" cy="44%" r="45%">
+        <stop class="glow-a" offset="0" stop-opacity=".22"/>
+        <stop class="glow-a" offset="1" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1440" height="720" fill="url(#glow)"/>
+    <g class="rays" stroke-opacity=".10" stroke-width="1.5" stroke-linecap="round">
+      <line x1="1095" y1="316" x2="1440" y2="40"/><line x1="1095" y1="316" x2="1440" y2="200"/>
+      <line x1="1095" y1="316" x2="1440" y2="380"/><line x1="1095" y1="316" x2="1440" y2="560"/>
+      <line x1="1095" y1="316" x2="1300" y2="0"/><line x1="1095" y1="316" x2="1110" y2="0"/>
+      <line x1="1095" y1="316" x2="900" y2="0"/><line x1="1095" y1="316" x2="780" y2="90"/>
+    </g>
+    <g class="rings" fill="none" stroke-opacity=".18">
+      <circle cx="1095" cy="316" r="290" stroke-width="1"/>
+      <circle cx="1095" cy="316" r="350" stroke-width="1" stroke-dasharray="2 10" stroke-linecap="round"/>
+    </g>
+    <path class="ridge" d="M0 640 L170 560 L260 600 L420 500 L560 590 L700 530 L860 610 L1010 540 L1180 620 L1320 560 L1440 600 L1440 720 L0 720 Z" fill-opacity=".025"/>
+    <path class="ridge" d="M0 680 L210 620 L360 660 L520 600 L690 670 L880 620 L1060 680 L1260 630 L1440 670 L1440 720 L0 720 Z" fill-opacity=".035"/>
+    <path class="path" d="M140 720 C 300 690, 420 700, 560 660 S 820 610, 980 600" fill="none" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 14"/>
+  </svg>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div>
+      <p class="eyebrow reveal">12-týždňová online výzva k triezvemu životu</p>
+      <h1 class="reveal" style="--i:1">Prežil som život, z ktorého som nemal vyjsť <em>živý.</em></h1>
+      <p class="lead reveal" style="--i:2">Prešiel som tou cestou sám, abstinujem už 12 rokov. Každý týždeň sa ti otvorí nová kapitola, každý deň si zapíšeš pravdu o sebe a nebudeš na to sám.</p>
+      <div class="hero-cta reveal" style="--i:3">
+        <a class="btn btn-primary" href="#baliky">Chcem začať
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+        <button class="btn" type="button" data-buy="webinar">Úvodný webinár zadarmo</button>
+      </div>
+      <p class="hero-note mono muted reveal" style="--i:4">Anonymne · nick namiesto mena · 14-dňová garancia</p>
+    </div>
+    <figure class="badge-portrait photo reveal" style="--i:2">
+      <img src="obrazky/kapitan-odznak.webp" alt="Odznak Kapitána Abstinencia: Kamil odhaľuje na hrudi emblém A" onerror="this.parentNode.classList.add('failed')">
+      <svg class="fallback" viewBox="0 0 400 400" role="img" aria-label="Iniciály KA">
+        <circle cx="200" cy="200" r="196" fill="#C9CED1"/><circle cx="200" cy="200" r="168" fill="#1B2032"/>
+        <text x="200" y="236" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="110" fill="#F6F4EF">KA</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- ČÍSLA -->
+<section class="stat-strip" aria-label="V číslach">
+  <div class="wrap">
+    <div class="stat reveal"><div class="num" data-count="12">12</div><div class="lbl">rokov abstinujem</div></div>
+    <div class="stat reveal" style="--i:1"><div class="num" data-count="12" data-suffix="+1">12<small>+1</small></div><div class="lbl">týždňov výzvy</div></div>
+    <div class="stat reveal" style="--i:2"><div class="num" data-count="100" data-suffix="%">100<small>%</small></div><div class="lbl">anonymne</div></div>
+    <div class="stat reveal" style="--i:3"><div class="num" data-count="14">14</div><div class="lbl">dní garancia vrátenia</div></div>
+  </div>
+</section>
+
+<!-- ZRKADLO -->
+<section>
+  <div class="wrap mirror">
+    <p class="eyebrow reveal">Poznáš to?</p>
+    <p class="big reveal" style="--i:1">Pamätáš si ten moment, keď si si prvýkrát uvedomil, že to už nemáš pod kontrolou?</p>
+    <p class="big reveal" style="--i:2"><span class="dim">Keď si klamal všetkým okolo, len aby si si mohol dať ďalší pohárik, dávku alebo ešte jednu hru?</span></p>
+    <blockquote class="quote reveal" style="--i:3">„Nie som doktor v bielom plášti. Som chlap, ktorý bol na dne. A viem, že sa z toho dá vyjsť.“</blockquote>
+  </div>
+</section>
+
+<!-- MOJA CESTA -->
+<section id="cesta" class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Moja cesta</p>
+      <h2 class="reveal" style="--i:1">Od prvej dávky po slobodný život</h2>
+      <p class="lead reveal" style="--i:2">Volám sa Kamil. Nekážem z výšky. Rozprávam, čo som prežil ja a čo mi naozaj pomohlo.</p>
+    </div>
+    <div class="journey">
+      <figure class="journey-photo photo zoom reveal" style="margin:0">
+        <img src="obrazky/tatry-vychod-slnka.jpg" alt="Východ slnka nad Tatrami" loading="lazy" onerror="this.parentNode.classList.add('failed')">
+        <svg class="fallback" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="500" fill="#1B2032"/><circle cx="200" cy="320" r="60" fill="#D8B13C"/><path d="M0 360 L120 260 L220 330 L400 240 L400 500 L0 500 Z" fill="#2B3247"/></svg>
+      </figure>
+      <ol class="timeline-v">
+        <li class="reveal"><div class="when">Začiatok</div><h3>Prvá dávka</h3><p>[Doplniť: kedy a ako to začalo.]</p></li>
+        <li class="reveal" style="--i:1"><div class="when">Dno</div><h3>Bol som otrokom závislosti</h3><p>[Doplniť: čo všetko mi závislosť vzala.]</p></li>
+        <li class="reveal" style="--i:2"><div class="when">Bod zlomu</div><h3>Liečenie</h3><p>[Doplniť: kde a ako som sa rozhodol prestať.]</p></li>
+        <li class="reveal" style="--i:3"><div class="when">Deň po dni</div><h3>Malé denné kroky</h3><p>Aj slon sa dá zjesť kúsok po kúsku, deň čo deň. Rutina 8/8/8: spánok, práca, čas pre seba.</p></li>
+        <li class="hl reveal" style="--i:4"><div class="when">Dnes · 12 rokov</div><h3>Dnes som Kapitán Abstinencia</h3><p>Čistý a šťastný. A chcem ti podať ruku, ktorú kedysi niekto podal mne.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- BOD ZLOMU -->
+<section>
+  <div class="wrap">
+    <div class="turning">
+      <div class="card reveal">
+        <p class="eyebrow">Bod zlomu</p>
+        <p class="big-quote">Chuť príde a prejde. <span>A ty máš plán.</span></p>
+        <p class="muted">Hovorím aj to, čo bolí: o chutiach, recidíve aj hanbe. Bez prikrášľovania a bez strašenia.</p>
+        <p class="muted" style="margin:0">[Doplniť: tvoj príbeh bodu zlomu, moment, keď si sa rozhodol prestať.]</p>
+      </div>
+      <div class="card reveal" style="--i:1">
+        <p class="eyebrow">Dôležité</p>
+        <p style="font-size:clamp(18px,.5vw + 16px,21px);font-weight:600;line-height:1.5">„Táto výzva nenahrádza odbornú liečbu. Je bezpečným miestom pre každého, kto chce urobiť prvý krok.“</p>
+        <p class="muted">Ak sa ti pri ukončení pitia robí veľmi zle, nie je to zlyhanie. Je to signál vyhľadať odbornú pomoc.</p>
+        <a class="btn small" href="pomoc.html">Kontakty na pomoc</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VÝZVA -->
+<section id="vyzva" class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Online program</p>
+      <h2 class="reveal" style="--i:1">12 týždňov k triezvemu a vedomému životu</h2>
+      <p class="lead reveal" style="--i:2">Každý týždeň sa ti otvorí nová kapitola, počítané od dňa tvojej registrácie. Na konci ťa čaká iniciačný rituál: kruh sa uzatvára.</p>
+    </div>
+    <div class="voyage" id="voyage"></div>
+  </div>
+</section>
+
+<!-- ČO DOSTANEŠ -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Čo dostaneš</p>
+      <h2 class="reveal" style="--i:1">Jeden denník. Jedna komunita. Žiadne súdenie.</h2>
+    </div>
+    <div class="bento-features">
+      <article class="card f-a reveal">
+        <div class="f-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 9h6M9 13h6"/></svg></div>
+        <h3>Denník každý deň</h3>
+        <p>Krátky zápis a tri vďačnosti na večer. Uložením sa deň odškrtne a ty vidíš, ako rastie tvoj triezvy čas.</p>
+        <div class="rhythm" aria-label="Rutina 8/8/8">
+          <div><b>8</b><span>spánok</span></div><div><b>8</b><span>práca</span></div><div><b>8</b><span>pre seba</span></div>
+        </div>
+      </article>
+      <article class="card f-b reveal" style="--i:1">
+        <div class="f-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/></svg></div>
+        <h3>Každý týždeň</h3>
+        <p>Video, textový sprievodca, pracovný list a úloha.</p>
+      </article>
+      <article class="card f-c reveal">
+        <div class="f-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c.6-.3 1.3-.5 2-.5 2.5 0 4 1.8 4 4.5"/></svg></div>
+        <h3>Komunita</h3>
+        <p>Uzavretá komunita a raz mesačne živý stream.</p>
+      </article>
+      <article class="card f-d reveal" style="--i:1">
+        <div class="f-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/></svg></div>
+        <h3>Anonymne</h3>
+        <p>Nick namiesto mena, kamera vypnutá, nikto ťa nesúdi.</p>
+      </article>
+      <article class="card f-e reveal" style="--i:2">
+        <div class="f-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3>Iniciačný rituál</h3>
+        <p>Na záver 13. týždeň: čo si nechávaš za sebou a čo si berieš so sebou.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PRE KOHO -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Pre koho to je</p>
+      <h2 class="reveal" style="--i:1">Nikto sa neuzdravuje sám</h2>
+    </div>
+    <div class="who-grid">
+      <div class="card who reveal"><div class="tag">Prvý krok</div><h3>Tušíš, že máš problém</h3><p>Funguješ, ale „víkend“ začína vo štvrtok. Na liečenie by si nešiel, lebo hanba. Tu nájdeš zrkadlo bez súdenia.</p></div>
+      <div class="card who reveal" style="--i:1"><div class="tag">Po liečbe</div><h3>Si čerstvo po liečení</h3><p>Motivovaný, ale krehký. Potrebuješ štruktúru na každý deň a komunitu, ktorá vie, o čom hovoríš. Aj o tretej ráno.</p></div>
+      <div class="card who reveal" style="--i:2"><div class="tag">Blízky človek</div><h3>Máš doma niekoho, kto pije alebo berie</h3><p>Roky zachraňuješ a pomaly strácaš seba. Aj ty sa potrebuješ uzdraviť a aj pre teba tu je miesto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BALÍKY -->
+<section id="baliky">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow reveal">Balíky</p>
+      <h2 class="reveal" style="--i:1">Vyber si, ako pôjdeš</h2>
+      <p class="lead reveal" style="--i:2">Na splátky +5 %. Na všetky platené balíky platí 14-dňová garancia vrátenia peňazí.</p>
+    </div>
+    <div class="prices" id="priceCards"></div>
+    <div class="card guar reveal">
+      <div class="shield">14</div>
+      <div><b>14-dňová garancia</b> vrátenia peňazí na všetky balíky, bez otázok.</div>
+    </div>
+    <p class="disclaimer">Výzva nenahrádza lekársku ani psychologickú liečbu. Ak pri ukončení pitia cítiš silné telesné príznaky, poraď sa s lekárom. Kontakty na odbornú pomoc nájdeš na stránke <a href="pomoc.html">Pomoc</a>.</p>
+  </div>
+</section>
+
+<!-- ZÁVER -->
+<section class="final-cta" style="padding-top:0">
+  <div class="wrap">
+    <div class="card reveal">
+      <p class="eyebrow">Sloboda je voľba</p>
+      <h2>Prvý krok je najťažší. <em>Urob ho dnes.</em></h2>
+      <p class="lead" style="margin:0 auto 32px;position:relative">Začni webinárom zadarmo, alebo rovno začni výzvu.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#baliky">Chcem nový život</a>
+        <button class="btn" type="button" data-buy="webinar">Úvodný webinár zadarmo</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="sign">Kapitán Abstinencia · Sloboda je voľba.</div>
+      <nav class="foot-links" aria-label="Odkazy v päte">
+        <a href="#vyzva">Výzva</a><a href="pomoc.html">Pomoc</a><a href="vizitka.html">O mne</a><a href="clenska.html">Členská sekcia</a>
+        <a href="https://www.instagram.com/kapitanabstinencia/">Instagram</a><a href="mailto:kapitananbtinencia@gmail.com">E-mail</a>
+      </nav>
+    </div>
+    <div class="credits">
+      Keď je zle, nečakaj: <b>112</b> · Linka dôvery Nezábudka <b>0800 800 566</b> (nonstop, zadarmo).<br>
+      Fotka: <a href="https://commons.wikimedia.org/wiki/File:Sunrise_in_Tatra_Mountais_(24989087299).jpg">Sunrise in Tatra Mountains</a>, Maciej Kraus, CC BY 2.0, Wikimedia Commons. Odznak: Kapitán Abstinencia.
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" hidden></div>
+
+<script src="assets/kapitan.js"></script>
+<script>
+(function () {
+  var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
+
+  var WEEKS = ["Prvý krok: Priznať si pravdu", "Strach zo zmeny a straty identity", "Detox vzťahov a prostredia", "Rutina a disciplína",
+    "Telo: jedlo, pohyb, spánok 8/8/8", "Emócie a úprimnosť", "Pády a recidíva", "Mýty o abstinencii",
+    "Rodina, partneri, spoluzávislosť", "Duchovno, viera, zmysel", "Návrat do života", "Ukotvenie: Moja nová identita",
+    "Triezvy prechod: Iniciačný rituál"];
+  $('#voyage').innerHTML = WEEKS.map(function (t, i) {
+    var last = i === 12;
+    return '<div class="card wk reveal' + (last ? ' final' : '') + '" style="--i:' + (i % 4) + '"><b>' + (last ? '13 · ★ Rituál' : 'Týždeň ' + String(i + 1).padStart(2, '0')) + '</b><span>' + esc(t) + '</span></div>';
+  }).join('');
+
+  var PRICES = [
+    { id: "webinar", tag: "Zadarmo", name: "Úvodný webinár", desc: "Môj osobný príbeh, prehľad celej metódy a priestor na tvoje otázky.", items: ["cca 60 minút · live alebo záznam", "online, anonymne v skupine", "žiadna platba, žiadny záväzok"], amt: "0 €", cta: "Chcem webinár zadarmo" },
+    { id: "zaklad", tag: "Samoštúdium", name: "Základná výzva", desc: "Celý program, ak chceš ísť sám a vlastným tempom.", items: ["12 + 1 týždňov: videá, PDF, úlohy", "denník s odškrtávaním", "prístup na 6 mesiacov"], no: ["bez komunity a spätnej väzby"], amt: "49 €", inst: "bez splátok", cta: "Zvoliť základ" },
+    { id: "pro", tag: "Najčastejšia voľba", name: "PRO výzva", desc: "Celý program plus podpora, aby si na to nebol sám.", items: ["všetko zo Základnej výzvy", "doživotný prístup", "spätná väzba na tvoj denník", "uzavretá komunita + online A-klub", "body za úlohy → osobná konzultácia", "bonusové videá s abstinentmi"], amt: "119 €", inst: "alebo 2 × 62,50 €", cta: "Chcem nový život", pro: true },
+    { id: "vip", tag: "Osobné vedenie", name: "VIP vedenie", desc: "Rok, počas ktorého ťa vediem osobne ja.", items: ["všetko z PRO", "10 × osobná konzultácia, raz týždenne", "prioritný kontakt v dohodnutých hodinách", "sekcia pre tvojich blízkych", "členská sekcia na celý rok", "len 5 miest naraz"], amt: "1 490 €", inst: "alebo 12 × 130,50 € · po webinári 1 190 €", cta: "Zvoliť VIP" }
+  ];
+  $('#priceCards').innerHTML = PRICES.map(function (p, i) {
+    return '<article class="card price reveal' + (p.pro ? ' pro' : '') + '" style="--i:' + i + '">' +
+      '<span class="chip ' + (p.pro ? 'accent' : '') + '" style="align-self:flex-start">' + p.tag + '</span>' +
+      '<h3>' + p.name + '</h3><p class="desc">' + p.desc + '</p>' +
+      '<ul>' + p.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + (p.no || []).map(function (x) { return '<li class="no">' + x + '</li>'; }).join('') + '</ul>' +
+      '<div class="amt">' + p.amt + (p.id !== 'webinar' ? '<small>jednorazovo</small>' : '') + '</div>' +
+      (p.inst ? '<div class="inst">' + p.inst + '</div>' : '') +
+      '<button type="button" class="btn ' + (p.pro ? 'btn-primary' : '') + '" data-buy="' + p.id + '">' + p.cta + '</button></article>';
+  }).join('');
+  KA.observe();
+
+  var modal = $('#modal'), lastFocus = null;
+  function close() { modal.hidden = true; modal.innerHTML = ''; if (lastFocus) lastFocus.focus(); }
+  function openBuy(id) {
+    var p = PRICES.filter(function (x) { return x.id === id; })[0];
+    lastFocus = document.activeElement;
+    if (id === 'webinar') {
+      modal.innerHTML = '<div class="card" role="dialog" aria-modal="true" aria-labelledby="mt">' +
+        '<p class="eyebrow" style="margin:0">Zadarmo · ukážka</p><h2 id="mt">Úvodný webinár</h2>' +
+        '<label class="field" for="wMail">E-mail (pošlem ti odkaz)<input type="email" id="wMail" placeholder="tvoj@email.sk" autocomplete="email"></label>' +
+        '<label class="check"><input type="checkbox" id="wGdpr">Súhlasím so spracovaním e-mailu kvôli webináru.</label>' +
+        '<p class="mono" id="mErr" hidden style="color:var(--accent-text);margin:0">Vyplň e-mail a potvrď súhlas.</p>' +
+        '<div class="row-end"><button type="button" class="btn" id="mClose">Zavrieť</button><button type="button" class="btn btn-primary" id="mGo">Prihlásiť sa</button></div></div>';
+    } else {
+      var inst = id === 'pro' ? '2 × 62,50 €' : id === 'vip' ? '12 × 130,50 €' : null;
+      modal.innerHTML = '<div class="card" role="dialog" aria-modal="true" aria-labelledby="mt">' +
+        '<p class="eyebrow" style="margin:0">Krok 1 z 2 · pred platbou</p><h2 id="mt">' + p.name + '</h2>' +
+        '<div class="paymode"><label><input type="radio" name="pm" checked><span class="mono muted">Jednorazovo</span><b>' + p.amt + '</b></label>' +
+        (inst ? '<label><input type="radio" name="pm"><span class="mono muted">Na splátky (+5 %)</span><b>' + inst + '</b></label>'
+              : '<label style="opacity:.5;cursor:default"><input type="radio" disabled><span class="mono muted">Na splátky</span><b>nie je</b></label>') + '</div>' +
+        '<div class="warnbox"><b>Dôležité pred začatím.</b> Piješ denne väčšie množstvo alkoholu alebo sa ti ráno trasú ruky, kým sa nenapiješ? Ak áno, pred začatím sa poraď s lekárom. Náhle prestať piť môže byť pri silnej závislosti nebezpečné.</div>' +
+        '<label class="check"><input type="checkbox" id="c1">Rozumiem, že výzva nenahrádza lekársku ani psychologickú liečbu, a mám aspoň 18 rokov.</label>' +
+        '<label class="check"><input type="checkbox" id="c2">Výslovne súhlasím so spracovaním údajov o mojom zdraví, ktoré zapíšem do denníka.</label>' +
+        '<label class="check"><input type="checkbox" id="c3">Súhlasím s obchodnými podmienkami. Do 14 dní môžem požiadať o vrátenie celej sumy.</label>' +
+        '<p class="mono" id="mErr" hidden style="color:var(--accent-text);margin:0">Pre pokračovanie potvrď všetky tri body.</p>' +
+        '<div class="row-end"><button type="button" class="btn" id="mClose">Zavrieť</button><button type="button" class="btn btn-primary" id="mGo">Pokračovať na platbu</button></div></div>';
+    }
+    modal.hidden = false;
+    var first = modal.querySelector('input:not([disabled])'); if (first) first.focus();
+    $('#mClose').onclick = close;
+    $('#mGo').onclick = function () {
+      if (id === 'webinar') {
+        if (!$('#wMail').value.trim() || !$('#wGdpr').checked) { $('#mErr').hidden = false; return; }
+        close(); KA.toast('Ukážka: prihláška na webinár by sa odoslala.'); return;
+      }
+      if (!['#c1', '#c2', '#c3'].every(function (s) { return $(s).checked; })) { $('#mErr').hidden = false; return; }
+      close(); KA.toast('Ukážka: platba by prebehla cez platobnú bránu. Vitaj vo výzve.');
+      setTimeout(function () { location.href = 'clenska.html?balik=' + id; }, 1400);
+    };
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-buy]'); if (b) openBuy(b.dataset.buy);
+  });
+  modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+})();
+</script>
+</body>
+</html>
