@@ -645,3 +645,29 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .kraj .okres { margin: 6px 0 28px; }
 .kraj .okres h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 12px; }
 .data-note { font-size: 13px; color: var(--muted); margin-top: 28px; max-width: 80ch; }
+
+/* ---------- Úvod: Prepni si život ---------- */
+.switch-wrap { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 28px; }
+.sw-label { font-weight: 800; font-size: clamp(18px, 1vw + 13px, 24px); transition: color .3s; cursor: pointer; }
+.sw { position: relative; width: 84px; height: 44px; border-radius: 99px; border: 1px solid var(--line-strong); background: var(--accent-soft); cursor: pointer; flex: none; transition: background .3s; }
+.sw::after { content: ""; position: absolute; top: 5px; left: 5px; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-text); transition: transform .35s var(--ease), background .3s; }
+.sw[aria-checked="true"] { background: var(--gold-soft); }
+.sw[aria-checked="true"]::after { transform: translateX(40px); background: var(--gold); }
+.flip-wrap .sw-label.l { color: var(--accent-text); }
+.flip-wrap .sw-label.r { color: var(--muted); }
+.flip-wrap.on .sw-label.l { color: var(--muted); }
+.flip-wrap.on .sw-label.r { color: var(--gold); }
+.flip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.flip { padding: 24px; display: grid; gap: 10px; align-content: start; transition: border-color .3s, background .3s; }
+.flip .t { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); transition: color .3s; }
+.flip p { margin: 0; font-size: 17px; line-height: 1.5; }
+.flip .g { display: none; }
+.flip-wrap.on .flip { border-color: var(--gold-soft); background: linear-gradient(to bottom, var(--gold-soft), var(--surface) 70%); }
+.flip-wrap.on .flip .t { color: var(--gold); }
+.flip-wrap.on .flip .b { display: none; }
+.flip-wrap.on .flip .g { display: block; }
+.punch { margin-top: clamp(32px, 4vw, 48px); font-size: clamp(20px, 1vw + 15px, 26px); font-weight: 700; line-height: 1.4; max-width: 46ch; }
+.punch em { font-style: normal; color: var(--accent-text); }
+.punch + .lead { margin-top: 4px; }
+@media (max-width: 900px) { .flip-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .flip-grid { grid-template-columns: 1fr; } }

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=13">
+<link rel="stylesheet" href="assets/kapitan.css?v=14">
 </head>
 <body>
 
@@ -182,6 +182,34 @@
   </div>
 </section>
 
+<!-- PREPNI SI ŽIVOT -->
+<section id="prepni" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head wide">
+      <p class="eyebrow reveal">Abstinencia nielen pre mladých</p>
+      <h2 class="reveal" style="--i:1">Prepni si život.</h2>
+      <p class="lead reveal" style="--i:2">Byť čistý a šťastný je lepšie ako byť závislý a nešťastný. Neveríš? Klikni na prepínač a porovnaj si to sám.</p>
+    </div>
+    <div class="flip-wrap" id="flipWrap">
+      <div class="switch-wrap reveal">
+        <span class="sw-label l" data-sw="0">Závislý a nešťastný</span>
+        <button class="sw" type="button" role="switch" aria-checked="false" aria-label="Prepnúť na čistý a šťastný život" id="flipSw"></button>
+        <span class="sw-label r" data-sw="1">Čistý a šťastný</span>
+      </div>
+      <div class="flip-grid">
+        <div class="card flip reveal" style="--i:0"><span class="t">Ráno</span><p class="b">Budíš sa s opicou a z útržkov skladáš, čo si včera narobil, pričom správy v mobile radšej ani neotváraš.</p><p class="g">Budíš sa svieži, pamätáš si celý večer a jediné, čo ťa ráno bolí, je brucho od smiechu.</p></div>
+        <div class="card flip reveal" style="--i:1"><span class="t">Peniaze</span><p class="b">Výplata sa rozkotúľa medzi bar, automaty a kamarátov, ktorí vždy niečo zoženú, takže v polovici mesiaca už rátaš drobné.</p><p class="g">Peniaze, ktoré si kedysi prepil alebo prehral, ti zostanú na dovolenku, auto alebo veci, ktoré ťa naozaj bavia.</p></div>
+        <div class="card flip reveal" style="--i:2"><span class="t">Ľudia</span><p class="b">Klameš blízkych tak dlho, až ti prestanú veriť aj vtedy, keď výnimočne hovoríš pravdu.</p><p class="g">Blízki ti znovu veria a ty sa im môžeš pozrieť do očí bez toho, aby si musel niečo zakrývať.</p></div>
+        <div class="card flip reveal" style="--i:0"><span class="t">Zdravie</span><p class="b">Pečeň, srdce aj hlava platia účet za každú noc, lenže faktúru ti pošlú až o pár rokov.</p><p class="g">Lepšie spíš, máš viac energie a telo sa ti po kúsku dáva dokopy, aj keď si mu roky dával zabrať.</p></div>
+        <div class="card flip reveal" style="--i:1"><span class="t">Zábava</span><p class="b">Bez pohárika alebo jointu nevieš byť veselý ani odvážny, takže zábava končí tam, kde sa minie fľaša.</p><p class="g">Zabávaš sa naplno, tancuješ aj bez promile a odvaha, s ktorou sa prihovoríš, je konečne tvoja vlastná.</p></div>
+        <div class="card flip reveal" style="--i:2"><span class="t">Sloboda</span><p class="b">O tvojom dni rozhoduje fľaša, tráva, automat alebo obrazovka, kým ty si myslíš, že to máš pod kontrolou.</p><p class="g">O tvojom dni rozhoduješ ty, takže čas, peniaze aj energiu dávaš tomu, na čom ti naozaj záleží.</p></div>
+      </div>
+    </div>
+    <p class="punch reveal">V skutočnom živote to neprepneš zo dňa na deň. <em>Ale prepnúť na abstinenciu stojí za to.</em></p>
+    <p class="lead reveal">To, že abstinuješ, neznamená, že problémy zmiznú, no s čistou hlavou ich dokážeš riešiť namiesto toho, aby si pred nimi utekal.</p>
+  </div>
+</section>
+
 <!-- VÝZVA -->
 <section id="vyzva" class="tinted">
   <div class="wrap">
@@ -303,7 +331,7 @@
 
 <div class="modal" id="modal" hidden></div>
 
-<script src="assets/kapitan.js?v=13"></script>
+<script src="assets/kapitan.js?v=14"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
@@ -379,6 +407,15 @@
   });
   modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
+})();
+</script>
+<script>
+(function () {
+  var w = document.getElementById('flipWrap'), b = document.getElementById('flipSw');
+  var nastav = function (on) { b.setAttribute('aria-checked', on); w.classList.toggle('on', on); };
+  b.addEventListener('click', function () { nastav(b.getAttribute('aria-checked') !== 'true'); });
+  w.querySelectorAll('[data-sw]').forEach(function (l) { l.addEventListener('click', function () { nastav(l.dataset.sw === '1'); }); });
+  if (/[?&]zapni/.test(location.search)) nastav(true);
 })();
 </script>
 </body>
