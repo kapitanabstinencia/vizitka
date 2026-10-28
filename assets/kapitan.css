@@ -592,5 +592,9 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .help-card.side .art { flex: none; aspect-ratio: 16 / 10; }
   .safety li { flex-direction: column; gap: 2px; }
 }
-.why-video { display: flex; justify-content: center; }
-.why-video .instagram-media { margin: 0 !important; min-width: 0 !important; width: 100% !important; max-width: 400px !important; border-radius: var(--radius) !important; }
+.why-video { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.why-video video { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 9 / 16; border-radius: var(--radius); border: 1px solid var(--accent-text); background: #000; box-shadow: 0 30px 80px -30px rgba(200, 54, 63, .45); }
+.ig-cap { margin: 4px 0 0; font-weight: 700; color: var(--text); text-align: center; }
+.ig-pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border: 1px solid var(--accent-text); border-radius: 999px; background: var(--accent-soft); color: var(--text); font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: 14px; letter-spacing: .04em; text-decoration: none; transition: background .2s, transform .15s var(--ease); }
+.ig-pill:hover { background: var(--accent); transform: translateY(-2px); }
+.ig-pill svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; }
