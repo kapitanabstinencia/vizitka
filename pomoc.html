@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=12">
+<link rel="stylesheet" href="assets/kapitan.css?v=13">
 </head>
 <body>
 
@@ -39,6 +39,31 @@
       <p class="disclaimer" style="margin-top:48px">Ústavná liečba zvyčajne vyžaduje odporúčanie od psychiatra a môže mať čakaciu dobu. Kontakty sú overené k októbru 2026.</p>
     </div>
   </section>
+
+  <section id="kluby" class="tinted">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow reveal">Kluby abstinentov</p>
+        <h2 class="reveal" style="--i:1">Nájdi klub, kde sa stretávajú ľudia ako ty</h2>
+        <p class="lead reveal" style="--i:2">V kluboch sa pravidelne stretávajú ľudia, ktorí abstinujú. Napíš, kde sa práve nachádzaš. Ukážem ti kluby do 20 km od teba.</p>
+      </div>
+      <div class="club-search reveal" style="--i:3" role="search">
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <label for="kde" class="sr-only">Kde sa práve nachádzaš?</label>
+          <input type="text" id="kde" placeholder="Kde sa práve nachádzaš? Napíš obec alebo mesto" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="kdeList">
+          <ul class="suggest" id="kdeList" role="listbox" hidden></ul>
+        </div>
+        <button class="btn" type="button" id="mojaPoloha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg>Použiť moju polohu</button>
+      </div>
+      <p class="club-status" id="clubStatus" aria-live="polite"></p>
+      <div class="club-grid" id="clubNear"></div>
+
+      <h2 style="margin-top:clamp(56px,7vw,96px);font-size:clamp(24px,2.4vw + 10px,40px)">Všetky kluby podľa krajov</h2>
+      <div id="clubAll"></div>
+      <p class="data-note">Zoznam klubov je prevzatý z <a href="https://www.askas.sk/index.php/zoznam-klubov" target="_blank" rel="noopener">askas.sk</a> k októbru 2026. Termíny sa môžu zmeniť, preto pred prvou návštevou radšej zavolaj. Vzdialenosť je vzdušnou čiarou. Polohy obcí pochádzajú z <a href="https://www.geonames.org/" target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0). Hľadanie aj tvoja poloha zostávajú iba v tvojom prehliadači, nikam ich neposielame.</p>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -50,7 +75,7 @@
   </div>
 </footer>
 
-<script src="assets/kapitan.js?v=12"></script>
+<script src="assets/kapitan.js?v=13"></script>
 <script>
 (function () {
   var esc = KA.esc;
@@ -70,10 +95,8 @@
       ["Psychiatrická nemocnica Michalovce", "056 / 681 81 11", "ústredňa, ambulancia 056 / 681 85 19", "https://www.pnmi.sk/k_index.php"]] },
     { h: "Dlhodobá podpora", chip: "ok", sym: "∞", c: [
       ["Anonymní alkoholici Slovensko", "0948 045 418", "infolinka, skupiny po celom Slovensku", "https://www.aaslovensko.sk/skupiny-aa-na-slovensku"],
-      ["Klub abstinentov Žilina", "0905 353 373", "", "https://www.infodrogy.sk/institucia/2751/klub-abstinentov-zilina"],
-      ["Klub abstinentov pri CPLDZ Žilina", "041 / 5110 499", "štvrtok 17:30 – 20:00, Dom odborov", "https://www.fnspza.sk/centrum-pre-liecbu-drogovych-zavislosti/klub-abstinentov"],
       ["Al-Anon Slovensko", "0950 465 952", "pre rodinu a blízkych", "https://alanon.sk/"],
-      ["Ďalšie kluby abstinentov", "", "zoznam podľa miest", "https://drogy.org/en/abstinent-clubs/"]] }
+      ["Kluby abstinentov", "", "87 klubov po celom Slovensku, nájdeš ich nižšie", "#kluby"]] }
   ];
   var tel = function (p) { return 'tel:' + p.replace(/[^\d+]/g, ''); };
   document.getElementById('helpTiers').innerHTML = HELP.map(function (t) {
@@ -82,10 +105,124 @@
         return '<div class="card ct reveal' + (c[4] ? ' urgent' : '') + '" style="--i:' + (i % 4) + '"><span class="nm">' + esc(c[0]) + '</span>' +
           (c[1] ? '<span class="ph"><a href="' + tel(c[1]) + '">' + esc(c[1]) + '</a></span>' : '') +
           (c[2] ? '<span class="nt">' + esc(c[2]) + '</span>' : '') +
-          (c[3] ? '<a href="' + c[3] + '" target="_blank" rel="noopener">Web ↗</a>' : '') + '</div>';
+          (c[3] ? (c[3].charAt(0) === '#' ? '<a href="' + c[3] + '">Nájsť klub ↓</a>' : '<a href="' + c[3] + '" target="_blank" rel="noopener">Web ↗</a>') : '') + '</div>';
       }).join('') + '</div></div>';
   }).join('');
   KA.observe();
+})();
+
+(function () {
+  var esc = KA.esc;
+  var kluby = [], obce = [];
+  var input = document.getElementById('kde'), list = document.getElementById('kdeList');
+  var status = document.getElementById('clubStatus'), near = document.getElementById('clubNear');
+  var norm = function (s) { return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); };
+  var tel = function (p) { return 'tel:' + p.replace(/[^\d+]/g, ''); };
+  var ICO = {
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+    time: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+  };
+  // vzdialenosť vzdušnou čiarou v km
+  var km = function (a, b, c, d) {
+    var r = Math.PI / 180, x = Math.sin((c - a) * r / 2), y = Math.sin((d - b) * r / 2);
+    return 12742 * Math.asin(Math.sqrt(x * x + Math.cos(a * r) * Math.cos(c * r) * y * y));
+  };
+  var slovo = function (n) { return n === 1 ? ' klub' : n < 5 ? ' kluby' : ' klubov'; };
+  var card = function (k, dist) {
+    return '<div class="card club"><div class="top"><span class="town">' + esc(k.mesto || 'Online') + '</span>' +
+      (dist != null ? '<span class="km">' + (dist < 1 ? '&lt; 1' : Math.round(dist)) + ' km</span>' : '') + '</div>' +
+      '<span class="nm">' + esc(k.n) + '</span>' +
+      (k.m ? '<span class="row">' + ICO.pin + '<span>' + esc(k.m) + '</span></span>' : '') +
+      (k.k ? '<span class="row">' + ICO.time + '<span>' + esc(k.k) + '</span></span>' : '') +
+      '<span class="ctc">' + k.t.map(function (p) { return '<a class="tel" href="' + tel(p) + '">' + esc(p) + '</a>'; }).join('') +
+      k.e.map(function (e) { return '<a href="mailto:' + esc(e) + '">' + esc(e) + '</a>'; }).join('') + '</span></div>';
+  };
+
+  // do 20 km, a keď ich je menej ako 3, tak aspoň 3 najbližšie
+  function ukazNajblizsie(lat, lon, kde) {
+    var s = kluby.filter(function (k) { return !k.online; }).map(function (k) { return { k: k, d: km(lat, lon, k.la, k.lo) }; })
+      .sort(function (a, b) { return a.d - b.d; });
+    var v = s.filter(function (x) { return x.d <= 20; });
+    var pocet = v.length;
+    if (v.length < 3) v = s.filter(function (x) { return x.d <= s[2].d + 0.5; });
+    var od = 'Do 20 km od ' + kde + ' ';
+    status.innerHTML = pocet >= 3 ? od + (pocet < 5 ? 'sú ' : 'je ') + pocet + slovo(pocet) + '.'
+      : pocet ? od + (pocet === 1 ? 'je len 1 klub' : 'sú len 2 kluby') + ', preto pridávam ďalšie najbližšie.'
+      : od + 'nie je žiadny klub. Tu sú tri najbližšie.';
+    var online = kluby.filter(function (k) { return k.online; });
+    near.innerHTML = v.map(function (x) { return card(x.k, x.d); }).join('') + online.map(function (k) { return card(k, null); }).join('');
+  }
+
+  function ukazVsetky() {
+    var kraje = {};
+    kluby.forEach(function (k) { if (k.online) return; ((kraje[k.kr] = kraje[k.kr] || {})[k.o] = kraje[k.kr][k.o] || []).push(k); });
+    var sk = function (a, b) { return a.localeCompare(b, 'sk'); };
+    var html = Object.keys(kraje).sort(sk).map(function (kr) {
+      var okresy = kraje[kr], n = 0;
+      var vnutro = Object.keys(okresy).sort(sk).map(function (o) {
+        var arr = okresy[o].sort(function (a, b) { return sk(a.mesto, b.mesto) || sk(a.n, b.n); });
+        n += arr.length;
+        return '<div class="okres"><h3>Okres ' + esc(o) + '</h3><div class="club-grid">' + arr.map(function (k) { return card(k, null); }).join('') + '</div></div>';
+      }).join('');
+      return '<details class="kraj"><summary><span>' + esc(kr) + ' kraj</span><span class="cnt">' + n + slovo(n) + '</span></summary>' + vnutro + '</details>';
+    }).join('');
+    var online = kluby.filter(function (k) { return k.online; });
+    html += '<details class="kraj"><summary><span>Online</span><span class="cnt">' + online.length + slovo(online.length) + '</span></summary><div class="okres"><div class="club-grid">' + online.map(function (k) { return card(k, null); }).join('') + '</div></div></details>';
+    document.getElementById('clubAll').innerHTML = html;
+  }
+
+  // Našepkávač obcí (bez diakritiky: "krasno" nájde Krásno)
+  var vyber = [], aktivny = -1;
+  function navrhy() {
+    var q = norm(input.value);
+    if (q.length < 2) { zavri(); return; }
+    var zac = [], obs = [];
+    for (var i = 0; i < obce.length && zac.length < 8; i++) {
+      var n = obce[i]._n;
+      if (n.indexOf(q) === 0) zac.push(obce[i]); else if (obs.length < 8 && n.indexOf(q) > 0) obs.push(obce[i]);
+    }
+    vyber = zac.concat(obs).slice(0, 8);
+    if (!vyber.length) { list.innerHTML = '<li aria-disabled="true">Takú obec nepoznám. Skús napísať iný tvar.</li>'; list.hidden = false; return; }
+    aktivny = 0;
+    kresli();
+  }
+  function kresli() {
+    list.innerHTML = vyber.map(function (o, i) {
+      return '<li role="option" data-i="' + i + '" aria-selected="' + (i === aktivny) + '">' + esc(o[0]) + '<span>okres ' + esc(o[1]) + '</span></li>';
+    }).join('');
+    list.hidden = false; input.setAttribute('aria-expanded', 'true');
+  }
+  function zavri() { list.hidden = true; input.setAttribute('aria-expanded', 'false'); vyber = []; aktivny = -1; }
+  function zvol(o) { input.value = o[0]; zavri(); ukazNajblizsie(o[2], o[3], 'miesta <b>' + esc(o[0]) + '</b>'); }
+  input.addEventListener('input', navrhy);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' && vyber.length) { aktivny = (aktivny + 1) % vyber.length; kresli(); e.preventDefault(); }
+    else if (e.key === 'ArrowUp' && vyber.length) { aktivny = (aktivny - 1 + vyber.length) % vyber.length; kresli(); e.preventDefault(); }
+    else if (e.key === 'Enter') { if (vyber[aktivny]) zvol(vyber[aktivny]); e.preventDefault(); }
+    else if (e.key === 'Escape') zavri();
+  });
+  list.addEventListener('mousedown', function (e) {
+    var li = e.target.closest('li[data-i]'); if (li) { e.preventDefault(); zvol(vyber[+li.dataset.i]); }
+  });
+  input.addEventListener('blur', function () { setTimeout(zavri, 100); });
+
+  document.getElementById('mojaPoloha').addEventListener('click', function () {
+    if (!navigator.geolocation) { status.textContent = 'Tvoj prehliadač polohu nepodporuje. Napíš obec do políčka.'; return; }
+    status.textContent = 'Zisťujem polohu…';
+    navigator.geolocation.getCurrentPosition(function (p) {
+      ukazNajblizsie(p.coords.latitude, p.coords.longitude, 'tvojej polohy');
+    }, function () { status.textContent = 'Polohu sa nepodarilo zistiť. Napíš obec do políčka.'; }, { timeout: 10000, maximumAge: 600000 });
+  });
+
+  Promise.all([fetch('data/kluby.json').then(function (r) { return r.json(); }), fetch('data/obce.json').then(function (r) { return r.json(); })])
+    .then(function (d) {
+      kluby = d[0]; obce = d[1];
+      obce.forEach(function (o) { o._n = norm(o[0]); });
+      ukazVsetky();
+      var q = new URLSearchParams(location.search).get('obec');
+      if (q) { var o = obce.filter(function (x) { return x._n === norm(q); })[0]; if (o) zvol(o); }
+    })
+    .catch(function () { status.textContent = 'Zoznam klubov sa nepodarilo načítať. Skús obnoviť stránku.'; });
 })();
 </script>
 </body>
