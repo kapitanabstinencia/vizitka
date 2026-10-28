@@ -809,3 +809,11 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .foot-priv { font-size: 12px; }
 .foot-priv a { color: var(--muted); opacity: .7; text-decoration: none; }
 .foot-priv a:hover { opacity: 1; text-decoration: underline; }
+
+/* Päta: ikonky sociálnych sietí */
+.foot-brand { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.foot-social { display: flex; gap: 8px; }
+.foot-social a { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; transition: border-color .15s, transform .15s var(--ease); }
+.foot-social a:hover { border-color: var(--accent-text); transform: translateY(-2px); }
+.foot-social svg { width: 17px; height: 17px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.foot-social a:hover svg { stroke: var(--accent-text); }
