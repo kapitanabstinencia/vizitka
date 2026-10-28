@@ -666,8 +666,6 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .flip-wrap.on .flip .t { color: var(--gold); }
 .flip-wrap.on .flip .b { display: none; }
 .flip-wrap.on .flip .g { display: block; }
-.punch { margin-top: clamp(32px, 4vw, 48px); font-size: clamp(20px, 1vw + 15px, 26px); font-weight: 700; line-height: 1.4; max-width: 46ch; }
-.punch em { font-style: normal; color: var(--accent-text); }
-.punch + .lead { margin-top: 4px; }
+.punch { margin-top: clamp(32px, 4vw, 48px); font-size: clamp(19px, .8vw + 14px, 24px); font-weight: 700; line-height: 1.4; max-width: none; }
 @media (max-width: 900px) { .flip-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .flip-grid { grid-template-columns: 1fr; } }
