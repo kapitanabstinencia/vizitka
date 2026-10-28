@@ -774,3 +774,12 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .price .inst { grid-row: 5; margin: 4px 0 0; }
   .price .btn { grid-row: 6; min-height: 46px; margin-top: 12px; }
 }
+
+/* ---------- Úvod: hadovitá čiara so svetlom pri scrollovaní ---------- */
+:root { --snake: var(--accent-text); }
+.snake { position: absolute; left: 0; top: 0; width: 100%; pointer-events: none; z-index: 2; overflow: visible; }
+.snake .base { fill: none; stroke: var(--line-strong); stroke-width: 1.5; }
+.snake .trail { fill: none; stroke: var(--snake); stroke-width: 1.5; opacity: .55; }
+.snake .dot { fill: #fff; filter: drop-shadow(0 0 4px var(--snake)) drop-shadow(0 0 10px var(--snake)) drop-shadow(0 0 22px var(--snake)); }
+.snake .halo { fill: var(--snake); opacity: .25; }
+@media (prefers-reduced-motion: reduce) { .snake .trail { transition: none; } }

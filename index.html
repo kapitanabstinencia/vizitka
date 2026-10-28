@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=22">
+<link rel="stylesheet" href="assets/kapitan.css?v=23">
 </head>
 <body>
 
@@ -331,7 +331,7 @@
 
 <div class="modal" id="modal" hidden></div>
 
-<script src="assets/kapitan.js?v=22"></script>
+<script src="assets/kapitan.js?v=23"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
@@ -444,6 +444,60 @@
   var upd = function () { b.classList.toggle('show', !vHero && !vBal); };
   new IntersectionObserver(function (e) { vHero = e[0].isIntersecting; upd(); }).observe(hero);
   new IntersectionObserver(function (e) { vBal = e[0].isIntersecting; upd(); }).observe(bal);
+})();
+</script>
+<script>
+// hadovitá čiara: ide popri sekciách, na hraniciach sekcií sa zalomí na druhú stranu; svetlo ide po nej podľa scrollovania
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  var secs = [].slice.call(document.querySelectorAll('main > section, body > section')).filter(function (s) { return !s.classList.contains('sales-hero'); });
+  var end = document.getElementById('baliky');
+  if (!secs.length || !end) return;
+  secs = secs.slice(0, secs.indexOf(end) + 1);
+  var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'snake'); svg.setAttribute('aria-hidden', 'true');
+  var base = document.createElementNS(NS, 'path'), trail = document.createElementNS(NS, 'path');
+  var halo = document.createElementNS(NS, 'circle'), dot = document.createElementNS(NS, 'circle');
+  base.setAttribute('class', 'base'); trail.setAttribute('class', 'trail'); halo.setAttribute('class', 'halo'); dot.setAttribute('class', 'dot');
+  halo.setAttribute('r', 9); dot.setAttribute('r', 3.5);
+  [base, trail, halo, dot].forEach(function (n) { svg.appendChild(n); });
+  document.body.style.position = 'relative'; document.body.appendChild(svg);
+  var len = 0, pts = [];
+  function build() {
+    var vw = document.documentElement.clientWidth, mob = vw <= 700;
+    var wrap = document.querySelector('main .wrap, section .wrap').getBoundingClientRect();
+    var L = mob ? 7 : Math.max(14, wrap.left + (vw > 1280 ? 0 : 20) - 34), R = mob ? vw - 7 : Math.min(vw - 14, wrap.right - (vw > 1280 ? 0 : 20) + 34);
+    var r = mob ? 14 : 28, sy = window.scrollY;
+    var ys = secs.map(function (s) { return s.getBoundingClientRect().top + sy; });
+    var last = end.getBoundingClientRect().bottom + sy - 60;
+    var x = L, d = 'M' + L + ' ' + (ys[0] + 40);
+    for (var i = 1; i < ys.length; i++) {
+      var y = ys[i], nx = x === L ? R : L, dir = nx > x ? 1 : -1;
+      d += ' L' + x + ' ' + (y - r) + ' Q' + x + ' ' + y + ' ' + (x + dir * r) + ' ' + y + ' L' + (nx - dir * r) + ' ' + y + ' Q' + nx + ' ' + y + ' ' + nx + ' ' + (y + r);
+      x = nx;
+    }
+    d += ' L' + x + ' ' + last;
+    svg.setAttribute('height', document.documentElement.scrollHeight);
+    base.setAttribute('d', d); trail.setAttribute('d', d);
+    len = base.getTotalLength(); pts = [];
+    for (var l = 0; l <= len; l += 6) pts.push([l, base.getPointAtLength(l).y]);
+    trail.style.strokeDasharray = len;
+    move();
+  }
+  function move() {
+    if (!pts.length) return;
+    var target = window.scrollY + window.innerHeight * .55, lo = 0, hi = pts.length - 1;
+    while (lo < hi) { var m = (lo + hi) >> 1; if (pts[m][1] < target) lo = m + 1; else hi = m; }
+    var l = pts[lo][0], p = base.getPointAtLength(l);
+    if (target > pts[pts.length - 1][1]) { l = len; p = base.getPointAtLength(len); }
+    // na vodorovnom úseku (hranica sekcie) prejdi svetlom plynulo zo strany na stranu podľa scrollu
+    dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); halo.setAttribute('cx', p.x); halo.setAttribute('cy', p.y);
+    trail.style.strokeDashoffset = len - l;
+  }
+  var t; function later() { clearTimeout(t); t = setTimeout(build, 120); }
+  window.addEventListener('scroll', function () { requestAnimationFrame(move); }, { passive: true });
+  window.addEventListener('resize', later); window.addEventListener('load', build);
+  if ('ResizeObserver' in window) new ResizeObserver(later).observe(document.querySelector('main') || document.body);
+  build();
 })();
 </script>
 </body>
