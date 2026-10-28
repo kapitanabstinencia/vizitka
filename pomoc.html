@@ -116,20 +116,7 @@
     { h: "Akútne, hneď", chip: "crit", sym: "!", c: [
       ["Tiesňová linka", "112", "nonstop, celá EÚ", null, 1], ["Záchranná služba", "155", "nonstop", null, 1],
       ["Linka dôvery Nezábudka", "0800 800 566", "nonstop, zadarmo, anonymne", "https://linkanezabudka.sk/", 1],
-      ["Krízová linka pomoci", "0800 500 333", "nonstop, aj chat", "https://www.krizovalinkapomoci.sk/", 1]] },
-    { h: "Keď to nezvládam: liečba", chip: "warn", sym: "+", c: [
-      ["CPLDZ Bratislava", "02 / 5341 7464", "ambulantná aj ústavná liečba", "https://cpldz.sk/"],
-      ["Psychiatrická nemocnica Pezinok", "033 / 6482 111", "Klinika drogových závislostí 033 / 6482 325 (8:00 – 8:30)", "https://www.pnpp.sk/kontaktne-udaje-1/kontakty"],
-      ["Psychiatrická nemocnica Hronovce", "036 / 757 7200", "oddelenie pre liečbu závislostí", "https://pnh.sk/pre-pacientov/lozkove-oddelenia/oddelenie-pre-liecbu-drogovych-zavislosti-opldz/"],
-      ["CPLDZ Žilina (FNsP)", "041 / 500 76 92", "ambulancia 041 / 5110 233", "https://www.fnspza.sk/centrum-pre-liecbu-drogovych-zavislosti/kontakty"],
-      ["CPLDZ Banská Bystrica", "0901 911 912", "aj 048 / 433 56 47, 7:00 – 15:00", "https://www.cpldz-bb.sk/kontakty/"],
-      ["OLÚP Predná Hora", "058 / 7875 850", "call centrum, pracovné dni 7:00 – 15:30", "https://olup-prednahora.sk/kontakt/"],
-      ["CPLDZ Košice", "055 / 622 2848", "aj e-mailová poradňa", "https://www.infodrogy.sk/institucia/2219/centrum-pre-liecbu-drogovych-zavislosti-kosice"],
-      ["Psychiatrická nemocnica Michalovce", "056 / 681 81 11", "ústredňa, ambulancia 056 / 681 85 19", "https://www.pnmi.sk/k_index.php"]] },
-    { h: "Dlhodobá podpora", chip: "ok", sym: "∞", c: [
-      ["Anonymní alkoholici Slovensko", "0948 045 418", "infolinka, skupiny po celom Slovensku", "https://www.aaslovensko.sk/skupiny-aa-na-slovensku"],
-      ["Al-Anon Slovensko", "0950 465 952", "pre rodinu a blízkych", "https://alanon.sk/"],
-      ["Kluby abstinentov", "", "87 klubov po celom Slovensku, nájdeš ich nižšie", "#kluby"]] }
+      ["Krízová linka pomoci", "0800 500 333", "nonstop, aj chat", "https://www.krizovalinkapomoci.sk/", 1]] }
   ];
   var tel = function (p) { return 'tel:' + p.replace(/[^\d+]/g, ''); };
   document.getElementById('helpTiers').innerHTML = HELP.map(function (t) {
