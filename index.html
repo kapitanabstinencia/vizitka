@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/kapitan.css?v=5">
+<link rel="stylesheet" href="assets/kapitan.css?v=6">
 </head>
 <body>
 
@@ -90,13 +90,47 @@
 </section>
 
 <!-- ZRKADLO -->
-<section>
-  <div class="wrap mirror">
-    <p class="eyebrow reveal">Poznáš to?</p>
-    <p class="big reveal" style="--i:1">Povedal si si, že ideš len na jedno, a domov si prišiel o štvrtej ráno?</p>
-    <p class="big reveal" style="--i:2"><span class="dim">Už v robote rozmýšľaš, kam pôjdeš po šichte, a v piatok sa tešíš, že sa konečne rozbiješ, či už pri pive, lajne alebo automatoch?</span></p>
-    <blockquote class="quote reveal" style="--i:3">„Aj ja som si hovoril, že si dám, len keď chcem. Problém bol, že som chcel vždy.“</blockquote>
+<section id="poznas">
+  <div class="wrap test">
+    <div class="section-head center">
+      <p class="eyebrow plain reveal">Poznáš to?</p>
+      <h2 class="reveal" style="--i:1">Odškrtni, čo platí <em>na teba.</em></h2>
+      <p class="lead reveal" style="--i:2">Nikto to nevidí, je to len pre teba.</p>
+    </div>
+    <div class="test-list reveal">
+      <label class="test-row"><input type="checkbox"><span>Povedal si si, že ideš len na jedno, a domov si prišiel o štvrtej ráno.</span></label>
+      <label class="test-row"><input type="checkbox"><span>V robote už rozmýšľaš, kam pôjdeš po šichte.</span></label>
+      <label class="test-row"><input type="checkbox"><span>V piatok sa tešíš, že sa konečne rozbiješ.</span></label>
+      <label class="test-row"><input type="checkbox"><span>Dal si si pauzu a po dvoch dňoch si si dal znova.</span></label>
+      <label class="test-row"><input type="checkbox"><span>Kvôli tomu si vynechal niečo, čo ťa kedysi bavilo.</span></label>
+      <label class="test-row"><input type="checkbox"><span>Pri predstave mesiaca bez toho ťa hneď niečo pichne.</span></label>
+    </div>
+    <div class="test-result" id="testResult" aria-live="polite"></div>
   </div>
+  <script>
+  (function () {
+    var box = document.querySelector('.test-list'), out = document.getElementById('testResult');
+    var R = [
+      ['Ešte to máš pod kontrolou. Alebo si to aspoň myslíš.', 'Aj ja som si hovoril, že si dám, len keď chcem. Problém bol, že som chcel vždy. Najľahšie sa zastavuje teraz, kým to ešte ide.'],
+      ['Toto už nie je len občas.', 'Si presne tam, kde som bol ja, keď som tvrdil, že to mám pod kontrolou. Dobrá správa je, že sa z toho dá vyjsť a nemusíš čakať, kým padneš na dno.'],
+      ['Je čas niečo s tým robiť.', 'Takto som to mal ja tesne pred liečením a viem, aké je to ťažké. Nie si v tom sám. Ak ti je telesne zle, keď nepiješ, poraď sa najprv s lekárom, kontakty nájdeš na stránke <a href="pomoc.html">Pomoc</a>.']
+    ];
+    function upd() {
+      box.querySelectorAll(".test-row").forEach(function (l) { l.classList.toggle("on", l.querySelector("input").checked); });
+      var n = box.querySelectorAll('input:checked').length;
+      if (!n) { out.innerHTML = ''; out.classList.remove('on'); return; }
+      var r = R[n <= 2 ? 0 : n <= 4 ? 1 : 2];
+      var mail = 'mailto:kapitanabstinencia@gmail.com?subject=' + encodeURIComponent('Môj výsledok ' + n + ' z 6, chcem prvú lekciu zadarmo');
+      out.innerHTML = '<p class="test-score">' + n + ' z 6</p><h3>' + r[0] + '</h3><p>' + r[1] + '</p>' +
+        '<div class="gift"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8c3 0 6-.5 6-1.5S14 4 12 8z"/></svg>' +
+        '<div><b>Darček pre teba</b><span>Napíš mi svoj výsledok a pošlem ti zadarmo prvú lekciu výzvy „Prvý krok: Priznať si pravdu“.</span></div>' +
+        '<a class="btn btn-primary" href="' + mail + '">Chcem prvú lekciu</a></div>' +
+        '<p class="test-note">Toto nie je diagnóza, len zrkadlo.</p>';
+      out.classList.add('on');
+    }
+    box.addEventListener('change', upd); upd();
+  })();
+  </script>
 </section>
 
 <!-- MOJA CESTA -->
@@ -264,7 +298,7 @@
 
 <div class="modal" id="modal" hidden></div>
 
-<script src="assets/kapitan.js?v=5"></script>
+<script src="assets/kapitan.js?v=6"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
