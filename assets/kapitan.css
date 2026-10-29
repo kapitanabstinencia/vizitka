@@ -796,7 +796,7 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .foot-legal .links { display: flex; gap: 6px 18px; flex-wrap: wrap; font-weight: 600; }
 .foot-legal .links a { text-decoration: none; color: var(--text); }
 .foot-legal .links a:hover { color: var(--accent-text); }
-.ph { background: var(--gold-soft); color: var(--gold); border-radius: 3px; padding: 0 3px; }
+:not(.ct) > .ph { background: var(--gold-soft); color: var(--gold); border-radius: 3px; padding: 0 3px; }
 .legal { max-width: 78ch; }
 .legal h1 { font-size: clamp(32px, 4vw, 52px); margin-bottom: 12px; }
 .legal h2 { font-size: clamp(20px, 1vw + 15px, 26px); margin: 40px 0 12px; }
@@ -817,3 +817,18 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .foot-social a:hover { border-color: var(--accent-text); transform: translateY(-2px); }
 .foot-social svg { width: 17px; height: 17px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .foot-social a:hover svg { stroke: var(--accent-text); }
+
+/* Stránky krajov: drobčeky, nadpisy okresov, odkazy na ďalšie kraje */
+.crumbs { display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+.crumbs a { color: var(--accent-text); font-weight: 600; text-decoration: none; }
+.okres-h { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 36px 0 14px; font-weight: 700; }
+.chip-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 8px; }
+.chip-link { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 600; text-decoration: none; color: var(--text); transition: border-color .15s, color .15s; }
+.chip-link:hover { border-color: var(--accent-text); color: var(--accent-text); }
+.ct.urgent .ph { white-space: nowrap; font-size: clamp(24px, 1.2vw + 14px, 30px); }
+/* Mobil: kraje v jednom riadku, posúvajú sa do boku */
+@media (max-width: 700px) {
+  .chip-links { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory; margin-right: -16px; padding-right: 16px; scrollbar-width: none; }
+  .chip-links::-webkit-scrollbar { display: none; }
+  .chip-link { flex: none; scroll-snap-align: start; }
+}

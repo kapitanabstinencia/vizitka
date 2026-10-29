@@ -129,7 +129,8 @@
       b.setAttribute('aria-expanded', on);
     });
   });
-  document.querySelectorAll('.voyage, .bento-features, .who-grid, .prices, .flip-grid, .life-grid, .bento, .club-grid').forEach(function (el) {
+  document.querySelectorAll('.voyage, .bento-features, .who-grid, .prices, .flip-grid, .life-grid, .bento, .club-grid, .chip-links').forEach(function (el) {
+    if (!el.children.length) return; // prázdna mriežka (napr. výsledky hľadania) nápovedu nepotrebuje
     var sec = el.closest('section') || el.parentNode;
     if (sec.querySelector('.m-swipe')) return;
     var p = document.createElement('p'); p.className = 'm-swipe'; p.setAttribute('aria-hidden', 'true');
