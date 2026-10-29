@@ -832,3 +832,5 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .chip-links::-webkit-scrollbar { display: none; }
   .chip-link { flex: none; scroll-snap-align: start; }
 }
+.kraj-page { display: inline-block; margin: 0 0 18px 4px; font-weight: 700; font-size: 15px; text-decoration: none; color: var(--accent-text); }
+.kraj-page:hover { text-decoration: underline; }

@@ -17,7 +17,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","url":"https://kapitanabstinencia.sk/pomoc.html","name":"Kluby abstinentov a liečebne závislostí na Slovensku","description":"Nájdi klub abstinentov do 20 km od teba. 87 klubov a 13 liečební závislostí podľa krajov s kontaktmi, plus krízové linky. Zadarmo a anonymne.","inLanguage":"sk","author":{"@type":"Person","name":"Kamil Sapár","url":"https://kapitanabstinencia.sk/vizitka.html"}}</script>
 <meta name="theme-color" content="#0A0B0D">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="assets/kapitan.css?v=28">
+<link rel="stylesheet" href="assets/kapitan.css?v=29">
 </head>
 <body>
 
@@ -100,7 +100,6 @@
       <div class="club-grid" id="clubNear"></div>
 
       <h2 style="margin-top:clamp(56px,7vw,96px);font-size:clamp(24px,2.4vw + 10px,40px)">Všetky kluby podľa krajov</h2>
-      <div class="chip-links"><a class="chip-link" href="kluby-abstinentov-bratislavsky-kraj.html">Bratislavský kraj</a><a class="chip-link" href="kluby-abstinentov-trnavsky-kraj.html">Trnavský kraj</a><a class="chip-link" href="kluby-abstinentov-trenciansky-kraj.html">Trenčiansky kraj</a><a class="chip-link" href="kluby-abstinentov-nitriansky-kraj.html">Nitriansky kraj</a><a class="chip-link" href="kluby-abstinentov-zilinsky-kraj.html">Žilinský kraj</a><a class="chip-link" href="kluby-abstinentov-banskobystricky-kraj.html">Banskobystrický kraj</a><a class="chip-link" href="kluby-abstinentov-presovsky-kraj.html">Prešovský kraj</a><a class="chip-link" href="kluby-abstinentov-kosicky-kraj.html">Košický kraj</a></div>
       <div id="clubAll"></div>
       <p class="data-note">Zoznam klubov je prevzatý z <a href="https://www.askas.sk/index.php/zoznam-klubov" target="_blank" rel="noopener">askas.sk</a> k októbru 2026. Termíny sa môžu zmeniť, preto pred prvou návštevou radšej zavolaj. Vzdialenosť je vzdušnou čiarou. Polohy obcí pochádzajú z <a href="https://www.geonames.org/" target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0). Hľadanie aj tvoja poloha zostávajú iba v tvojom prehliadači, nikam ich neposielame.</p>
     </div>
@@ -117,7 +116,7 @@
   </div>
 </footer>
 
-<script src="assets/kapitan.js?v=28"></script>
+<script src="assets/kapitan.js?v=29"></script>
 <script>
 (function () {
   var esc = KA.esc;
@@ -182,6 +181,7 @@
     near.innerHTML = v.map(function (x) { return card(x.k, x.d); }).join('') + online.map(function (k) { return card(k, null); }).join('');
   }
 
+  var SLUG = { 'Bratislavský': 'bratislavsky', 'Trnavský': 'trnavsky', 'Trenčiansky': 'trenciansky', 'Nitriansky': 'nitriansky', 'Žilinský': 'zilinsky', 'Banskobystrický': 'banskobystricky', 'Prešovský': 'presovsky', 'Košický': 'kosicky' };
   function ukazVsetky() {
     var kraje = {};
     kluby.forEach(function (k) { if (k.online) return; ((kraje[k.kr] = kraje[k.kr] || {})[k.o] = kraje[k.kr][k.o] || []).push(k); });
@@ -193,7 +193,8 @@
         n += arr.length;
         return '<div class="okres"><h3>Okres ' + esc(o) + '</h3><div class="club-grid">' + arr.map(function (k) { return card(k, null); }).join('') + '</div></div>';
       }).join('');
-      return '<details class="kraj"><summary><span>' + esc(kr) + ' kraj</span><span class="cnt">' + n + slovo(n) + '</span></summary>' + vnutro + '</details>';
+      return '<details class="kraj"><summary><span>' + esc(kr) + ' kraj</span><span class="cnt">' + n + slovo(n) + '</span></summary>' +
+        (SLUG[kr] ? '<a class="kraj-page" href="kluby-abstinentov-' + SLUG[kr] + '-kraj.html">Stránka kraja aj s liečebňami ›</a>' : '') + vnutro + '</details>';
     }).join('');
     var online = kluby.filter(function (k) { return k.online; });
     html += '<details class="kraj"><summary><span>Online</span><span class="cnt">' + online.length + slovo(online.length) + '</span></summary><div class="okres"><div class="club-grid">' + online.map(function (k) { return card(k, null); }).join('') + '</div></div></details>';
