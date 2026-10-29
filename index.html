@@ -73,7 +73,7 @@
       <h1 class="reveal" style="--i:1">Poslali ma na dva týždne oddýchnuť si. <em>Oddychujem doteraz.</em></h1>
       <p class="lead reveal" style="--i:2">Keď som mal 19, dotiahli ma na liečenie, hoci som mal pevný plán fetovať ďalej, lenže ten plán mi nevyšiel... Našťastie... Dnes abstinujem 12 rokov, mám ženu a dve deti a chcem ti ukázať, ako sa z toho dostaneš aj ty.</p>
       <div class="hero-cta reveal" style="--i:3">
-        <a class="btn btn-primary" href="clenska.html">Chcem byť medzi prvými 30
+        <a class="btn btn-primary" href="#zlava">Chcem byť medzi prvými 30
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <button class="btn" type="button" data-buy="webinar">Úvodný webinár zadarmo</button>
@@ -307,15 +307,39 @@
   </div>
 </section>
 
+<!-- ZOZNAM ZÁUJEMCOV (Brevo) -->
+<section id="zlava" class="tinted">
+  <div class="wrap">
+    <div class="member-hero">
+      <div>
+        <p class="eyebrow reveal">Zakladateľská zľava 30%</p>
+        <h2 class="reveal" style="--i:1">Buď medzi <em>prvými 30</em></h2>
+        <p class="lead reveal" style="--i:2">Výzva vychádza čoskoro. Zanechaj mi e-mail a pri spustení ti pošlem ponuku so zľavou 30% ako poďakovanie za dôveru. Na nič sa nezaväzuješ, zľavu môžeš využiť alebo nie.</p>
+      </div>
+      <form class="card login-card reveal" style="--i:2" id="zlavaForm" method="POST" action="https://d8bc249c.sibforms.com/serve/MUIFAE-TKVSNuaAL3ZmV78OrDSkjRdmc29H45ah4fZZwoEecxZ0ByqF20GcQp4IQvJfRHC0u8R2Xlln6ltW3mxsGXP0Tg7SwG1zJgHnRcOuR5Q3leL8PeED_xr5xZdkySusqDd-aOvT2rueQucK9HQ8FkKo04wt5do7GFtKLqz-z00dgQ6WDmZcXl6qhl96JZ7-S7s2rpO2yGrJPAQ==" aria-label="Zoznam záujemcov o výzvu">
+        <div class="lc-top"><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Chcem zľavu</h2><span class="chip accent">−30%</span></div>
+        <label for="zlavaMail">E-mail</label>
+        <input type="email" id="zlavaMail" name="EMAIL" placeholder="tvoj@email.sk" autocomplete="email" required>
+        <label class="check" style="font-size:14px;font-weight:400;margin:0"><input type="checkbox" id="zlavaSuhlas" required><span>Súhlasím so zasielaním e-mailov o spustení výzvy a so spracovaním e-mailu podľa <a href="ochrana-udajov.html">zásad ochrany osobných údajov</a>.</span></label>
+        <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+        <input type="hidden" name="locale" value="en">
+        <input type="hidden" name="html_type" value="simple">
+        <button class="btn btn-primary" type="submit">Chcem zľavu 30%</button>
+        <p class="nt">Z každého e-mailu sa odhlásiš jedným klikom. Tvoj e-mail nikomu nedávam.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- ZÁVER -->
-<section class="final-cta" style="padding-top:0">
+<section class="final-cta" style="padding-top:clamp(48px,6vw,80px)">
   <div class="wrap">
     <div class="card reveal">
       <p class="eyebrow">Sloboda je voľba</p>
       <h2>Ak chceš mať istotu pred každým krokom,<br><em>tak žiadny neurobíš.</em></h2>
       <p class="lead" style="margin:0 auto 32px;position:relative">Prvý krok je najťažší, tak ho urob dnes. Začni webinárom zadarmo alebo rovno výzvou, prvých 30 ľudí má zľavu 30%.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="clenska.html">Chcem byť medzi prvými 30</a>
+        <a class="btn btn-primary" href="#zlava">Chcem byť medzi prvými 30</a>
         <button class="btn" type="button" data-buy="webinar">Úvodný webinár zadarmo</button>
       </div>
     </div>
@@ -413,8 +437,23 @@
     };
   }
   document.addEventListener('click', function (e) {
-    // kým nie je spustená platba a členská sekcia, tlačidlá vedú na stránku Pripravujeme (openBuy ostáva na neskôr)
-    var b = e.target.closest('[data-buy]'); if (b) location.href = 'clenska.html';
+    // kým nie je spustená platba, tlačidlá balíkov vedú na zoznam záujemcov so zľavou (openBuy ostáva na neskôr)
+    var b = e.target.closest('[data-buy]'); if (b) { var z = document.getElementById('zlava'); z.scrollIntoView({ behavior: 'smooth' }); setTimeout(function () { $('#zlavaMail').focus({ preventScroll: true }); }, 600); }
+  });
+  // zoznam záujemcov: odoslanie do Brevo bez opustenia stránky; keď to nejde, klasické odoslanie formulára
+  var zf = $('#zlavaForm');
+  zf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = zf.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Odosielam…';
+    var hotovo = function () {
+      zf.innerHTML = '<div class="lc-top"><h2>Hotovo, si v zozname</h2><span class="chip ok">−30%</span></div>' +
+        '<p style="margin:0">Keď výzvu spustím, pošlem ti ponuku so zľavou ako jednému z prvých. Ak ti teraz príde e-mail na potvrdenie, klikni naň, inak ťa zoznam nezaradí.</p>' +
+        '<p class="nt">Nič neprišlo? Pozri aj do priečinka Spam alebo Promo akcie.</p>';
+    };
+    fetch(zf.action + '?isAjax=1', { method: 'POST', body: new FormData(zf) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (d && d.success) hotovo(); else throw 0; })
+      .catch(function () { HTMLFormElement.prototype.submit.call(zf); });
   });
   modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
