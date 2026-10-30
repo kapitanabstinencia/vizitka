@@ -382,9 +382,9 @@
 
   var PRICES = [
     { id: "webinar", tag: "Zadarmo", name: "Úvodný webinár", desc: "Môj osobný príbeh, prehľad celej metódy a priestor na tvoje otázky.", items: ["cca 60 minút · live alebo záznam", "online, anonymne v skupine", "žiadna platba, žiadny záväzok"], amt: "0 €", cta: "Chcem webinár zadarmo" },
-    { id: "zaklad", tag: "Samoštúdium", name: "Základná výzva", desc: "Celý program, ak chceš ísť sám a vlastným tempom.", items: ["12 + 1 týždňov: videá, PDF, úlohy", "krízový plán, spôsoby odmietania a zoznam potravín s alkoholom", "denník s otázkou na každý deň", "prístup na 4 mesiace"], no: ["bez komunity a spätnej väzby"], amt: "49 €", inst: "bez splátok", cta: "Idem po svojom" },
+    { id: "zaklad", tag: "Samoštúdium", name: "Základná výzva", desc: "Celý program, ak chceš ísť sám a vlastným tempom.", items: ["12 + 1 týždňov: videá, PDF, úlohy", "krízový plán, spôsoby odmietania a zoznam potravín s alkoholom", "denník s otázkou na každý deň", "prístup na 4 mesiace", "na PRO môžeš kedykoľvek prejsť doplatením rozdielu"], no: ["bez komunity a spätnej väzby"], amt: "49 €", inst: "bez splátok", cta: "Idem po svojom" },
     { id: "pro", tag: "Najčastejšia voľba", name: "PRO výzva", desc: "Celý program plus podpora, aby si na to nebol sám.", items: ["všetko zo Základnej výzvy", "doživotný prístup k celej výzve", "spätná väzba na tvoj denník", "uzavretá komunita + online A-klub", "body za úlohy → zľava na osobnú konzultáciu"], amt: "119 €", inst: "alebo 2 × 62,50 €", cta: "Chcem nový život", pro: true },
-    { id: "vip", tag: "Osobné vedenie", name: "VIP vedenie", desc: "Celú výzvu ťa vediem osobne ja.", items: ["všetko z PRO", "12 osobných konzultácií, každý týždeň jedna", "prioritný kontakt v dohodnutých hodinách", "len 5 miest naraz"], amt: "1 990 €", inst: "alebo 12 × 174,20 €<br>po webinári 1 690 €", cta: "Chcem ísť s tebou" },
+    { id: "vip", tag: "Osobné vedenie", name: "VIP vedenie", desc: "Celú výzvu ťa vediem osobne ja.", items: ["všetko z PRO", "12 osobných konzultácií, každý týždeň jedna", "prioritný kontakt v dohodnutých hodinách", "len 5 miest naraz"], amt: "1 290 €", inst: "alebo 12 × 112,90 €<br>po webinári 1 090 €", cta: "Chcem ísť s tebou" },
   ];
   $('#priceCards').innerHTML = PRICES.map(function (p, i) {
     return '<article class="card price reveal' + (p.pro ? ' pro' : '') + '" style="--i:' + i + '">' +
@@ -410,7 +410,7 @@
         '<p class="mono" id="mErr" hidden style="color:var(--accent-text);margin:0">Vyplň e-mail a potvrď súhlas.</p>' +
         '<div class="row-end"><button type="button" class="btn" id="mClose">Zavrieť</button><button type="button" class="btn btn-primary" id="mGo">Prihlásiť sa</button></div></div>';
     } else {
-      var inst = id === 'pro' ? '2 × 62,50 €' : id === 'vip' ? '12 × 130,50 €' : null;
+      var inst = id === 'pro' ? '2 × 62,50 €' : id === 'vip' ? '12 × 112,90 €' : null;
       modal.innerHTML = '<div class="card" role="dialog" aria-modal="true" aria-labelledby="mt">' +
         '<p class="eyebrow" style="margin:0">Krok 1 z 2 · pred platbou</p><h2 id="mt">' + p.name + '</h2>' +
         '<div class="paymode"><label><input type="radio" name="pm" checked><span class="mono muted">Jednorazovo</span><b>' + p.amt + '</b></label>' +
