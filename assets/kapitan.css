@@ -843,3 +843,7 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .then-grid figcaption b { display: block; margin-bottom: 4px; color: var(--text); font-size: 16px; }
 @media (max-width: 900px) { .then-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .then-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) {
+  .then-grid figcaption .m-toggle { margin-top: 10px; }
+  .then-grid .m-collapse:not(.open) figcaption b { margin-bottom: 0; }
+}
