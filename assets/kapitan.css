@@ -834,3 +834,12 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 }
 .kraj-page { display: inline-block; margin: 0 0 18px 4px; font-weight: 700; font-size: 15px; text-decoration: none; color: var(--accent-text); }
 .kraj-page:hover { text-decoration: underline; }
+
+/* Môj príbeh: fotky z obdobia závislosti */
+.then-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.then-grid figure { margin: 0; overflow: hidden; display: flex; flex-direction: column; }
+.then-grid img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: grayscale(.3); }
+.then-grid figcaption { padding: 18px 22px 22px; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.then-grid figcaption b { display: block; margin-bottom: 4px; color: var(--text); font-size: 16px; }
+@media (max-width: 900px) { .then-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .then-grid { grid-template-columns: 1fr; } }
