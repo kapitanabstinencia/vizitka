@@ -847,3 +847,18 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .then-grid figcaption .m-toggle { margin-top: 10px; }
   .then-grid .m-collapse:not(.open) figcaption b { margin-bottom: 0; }
 }
+
+/* Prepni si život: výrazný panel s prepínačom */
+@keyframes sw-pulz { 0% { box-shadow: 0 0 0 0 rgba(239, 93, 103, .55); } 70% { box-shadow: 0 0 0 16px rgba(239, 93, 103, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 93, 103, 0); } }
+.sw-panel { margin-bottom: 28px; padding: clamp(24px, 3vw, 38px); text-align: center; border: 1px solid var(--accent-text); border-radius: var(--radius); background: linear-gradient(to bottom, var(--accent-soft), var(--surface) 80%); transition: border-color .3s, background .3s; }
+.flip-wrap.on .sw-panel { border-color: var(--gold); background: linear-gradient(to bottom, var(--gold-soft), var(--surface) 80%); }
+.sw-vyzva { margin: 0 0 18px; font: 500 13px "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-text); transition: color .3s; }
+.flip-wrap.on .sw-vyzva { color: var(--gold); }
+.sw-panel .switch-wrap { justify-content: center; margin: 0; gap: 24px; }
+.sw-panel .sw-label { font-size: clamp(20px, 1.2vw + 14px, 28px); }
+.sw-panel .sw { width: 112px; height: 58px; animation: sw-pulz 1.8s infinite; }
+.sw-panel .sw::after { top: 6px; left: 6px; width: 44px; height: 44px; }
+.flip-wrap.on .sw-panel .sw { animation: none; background: var(--gold-soft); border-color: var(--gold); }
+.flip-wrap.on .sw-panel .sw::after { transform: translateX(54px); background: var(--gold); }
+@media (max-width: 560px) { .sw-panel .switch-wrap { flex-direction: column; gap: 14px; } }
+@media (prefers-reduced-motion: reduce) { .sw-panel .sw { animation: none; } }

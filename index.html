@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="obrazky/apple-touch-icon.png">
 <meta name="theme-color" content="#0A0B0D">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="assets/kapitan.css?v=31">
+<link rel="stylesheet" href="assets/kapitan.css?v=32">
 </head>
 <body>
 
@@ -203,10 +203,13 @@
       <p class="lead reveal" style="--i:2">Byť čistý a šťastný je lepšie ako byť závislý a nešťastný. Neveríš? Klikni na prepínač a porovnaj si to sám.</p>
     </div>
     <div class="flip-wrap" id="flipWrap">
-      <div class="switch-wrap reveal">
+      <div class="sw-panel reveal">
+        <p class="sw-vyzva">Skús to. Klikni na prepínač</p>
+        <div class="switch-wrap">
         <span class="sw-label l" data-sw="0">Závislý a nešťastný</span>
         <button class="sw" type="button" role="switch" aria-checked="false" aria-label="Prepnúť na čistý a šťastný život" id="flipSw"></button>
         <span class="sw-label r" data-sw="1">Čistý a šťastný</span>
+      </div>
       </div>
       <div class="flip-grid">
         <div class="card flip reveal" style="--i:0"><span class="t">Ráno</span><p class="b">Budíš sa s opicou a z útržkov skladáš, čo si včera narobil, pričom správy v mobile radšej ani neotváraš.</p><p class="g">Budíš sa svieži, pamätáš si celý večer a jediné, čo ťa ráno bolí, je brucho od smiechu.</p></div>
@@ -367,7 +370,7 @@
 <div class="modal" id="modal" hidden></div>
 
 <script data-goatcounter="https://kapitanabstinencia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="assets/kapitan.js?v=31"></script>
+<script src="assets/kapitan.js?v=32"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
