@@ -862,3 +862,11 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .flip-wrap.on .sw-panel .sw::after { transform: translateX(54px); background: var(--gold); }
 @media (max-width: 560px) { .sw-panel .switch-wrap { flex-direction: column; gap: 14px; } }
 @media (prefers-reduced-motion: reduce) { .sw-panel .sw { animation: none; } }
+
+/* Môj príbeh: diplomy za roky abstinencie */
+.rok-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 820px; }
+.rok-grid figure { margin: 0; overflow: hidden; display: flex; flex-direction: column; }
+.rok-grid img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+.rok-grid figcaption { padding: 16px 20px 20px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.rok-grid figcaption b { display: block; margin-bottom: 4px; color: var(--text); font-size: 16px; }
+@media (max-width: 560px) { .rok-grid { gap: 10px; } .rok-grid figcaption { padding: 12px 14px 14px; font-size: 14px; } }
