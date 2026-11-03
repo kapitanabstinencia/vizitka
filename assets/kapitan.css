@@ -893,3 +893,10 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .dym-mob { display: inline; }
   .hero-kapitan .hero-bg { opacity: .3; }
 }
+
+/* Môj príbeh: ilustrácie v kartách Príbehy, Pravda, Pomoc */
+.help-card .art { position: relative; }
+.help-card .art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.help-card:hover .art img { transform: scale(1.04); }
+.ilu-pozn { margin: 10px 0 0; text-align: right; font-size: 11px; color: var(--muted); }
+@media (min-width: 901px) { .help-card.side .art { min-height: 230px; } .help-card.big .art { min-height: 360px; } }
