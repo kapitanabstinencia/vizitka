@@ -870,3 +870,11 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .rok-grid figcaption { padding: 16px 20px 20px; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .rok-grid figcaption b { display: block; margin-bottom: 4px; color: var(--text); font-size: 16px; }
 @media (max-width: 560px) { .rok-grid { gap: 10px; } .rok-grid figcaption { padding: 12px 14px 14px; font-size: 14px; } }
+
+/* Test: darček cez formulár */
+.gift-form { flex: 1 1 100%; display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+.gift-form input[type=email] { width: 100%; margin: 0; }
+.gift-check { grid-column: 1 / -1; margin: 0; font-size: 14px; font-weight: 400; color: var(--muted); }
+.test-result .gift-pozn { grid-column: 1 / -1; margin: 0; font-size: 13px; }
+.test-result .gift-hotovo { flex: 1 1 100%; margin: 0; color: var(--text); }
+@media (max-width: 560px) { .gift-form { grid-template-columns: 1fr; } .gift-form .btn { width: 100%; } }

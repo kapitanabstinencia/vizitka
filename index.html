@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="obrazky/apple-touch-icon.png">
 <meta name="theme-color" content="#0A0B0D">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="assets/kapitan.css?v=33">
+<link rel="stylesheet" href="assets/kapitan.css?v=34">
 </head>
 <body>
 
@@ -129,18 +129,38 @@
       ['Toto už nie je len občas.', 'Si presne tam, kde som bol ja, keď som tvrdil, že to mám pod kontrolou. Dobrá správa je, že sa z toho dá vyjsť a nemusíš čakať, kým padneš na dno.'],
       ['Je čas niečo s tým robiť.', 'Takto som to mal ja tesne pred liečením a viem, aké je to ťažké. Nie si v tom sám. Ak ti je telesne zle, keď nepiješ, poraď sa najprv s lekárom, kontakty nájdeš na stránke <a href="pomoc.html">Pomoc</a>.']
     ];
+    var gift = document.createElement('div');
+    gift.className = 'gift';
+    gift.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8c3 0 6-.5 6-1.5S14 4 12 8z"/></svg>' +
+      '<div><b>Darček pre teba</b><span>Pošlem ti zadarmo prvú lekciu výzvy „Prvý krok: Priznať si pravdu“. Výsledok testu sa nikam neposiela.</span></div>' +
+      '<form class="gift-form" id="darcekForm" method="POST" action="https://d8bc249c.sibforms.com/serve/MUIFAJC0-bl7v2M_hwCVSi6mMPUGd4pDq5YnWa0uLI3CAAq9SZNfjNrvjHvBsq_WKDhdtSofhKQPWj0eKX29Pigf5osixwgU72IUk54tTUfSjyizDxWN0SdPgBBws_6xgfq4LUoKk-zP2iDQvIDOFRoegc77rd3N8FHpYyMSrxL2cF9813IMDydbTvkUIHjCPP9rF8wtiYSMN2gRPQ==">' +
+      '<input type="email" name="EMAIL" placeholder="tvoj@email.sk" aria-label="Tvoj e-mail" autocomplete="email" required>' +
+      '<button class="btn btn-primary" type="submit">Pošli mi lekciu</button>' +
+      '<label class="check gift-check"><input type="checkbox" required><span>Súhlasím so zaslaním lekcie a so spracovaním e-mailu podľa <a href="ochrana-udajov.html">zásad ochrany osobných údajov</a>.</span></label>' +
+      '<input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">' +
+      '<input type="hidden" name="locale" value="en"><input type="hidden" name="html_type" value="simple">' +
+      '<p class="gift-pozn">Pokojne použi e-mail, ktorý nikto nepozná.</p></form>';
+    gift.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = e.target, btn = f.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Odosielam…';
+      fetch(f.action + '?isAjax=1', { method: 'POST', body: new FormData(f) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d || !d.success) throw 0;
+          f.outerHTML = '<p class="gift-hotovo"><b>Hotovo, lekcia je na ceste.</b> Príde ti do pár minút. Ak ju nevidíš, pozri aj do priečinka Spam alebo Promo akcie.</p>';
+        })
+        .catch(function () { HTMLFormElement.prototype.submit.call(f); });
+    });
     function upd() {
       var n = box.querySelectorAll('input:checked').length;
       if (!n) { box.querySelectorAll('.test-row').forEach(function (l) { l.classList.remove('on'); }); out.innerHTML = ''; out.classList.remove('on'); return; }
       var r = R[n <= 3 ? 0 : n <= 6 ? 1 : 2];
       var cb = box.querySelectorAll('input'), telo = cb[6].checked || cb[8].checked;
       box.querySelectorAll('.test-row').forEach(function (l) { l.classList.toggle('on', l.querySelector('input').checked); });
-      var mail = 'mailto:kapitanabstinencia@gmail.com?subject=' + encodeURIComponent('Môj výsledok ' + n + ' z 9, chcem prvú lekciu zadarmo');
       out.innerHTML = '<p class="test-score">' + n + ' z 9</p><h3>' + r[0] + '</h3><p>' + r[1] + (telo && n <= 6 ? ' Pri telesných ťažkostiach sa poraď najprv s lekárom, kontakty nájdeš na stránke <a href="pomoc.html">Pomoc</a>.' : '') + '</p>' +
-        '<div class="gift"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8c3 0 6-.5 6-1.5S14 4 12 8z"/></svg>' +
-        '<div><b>Darček pre teba</b><span>Napíš mi svoj výsledok a pošlem ti zadarmo prvú lekciu výzvy „Prvý krok: Priznať si pravdu“.</span></div>' +
-        '<a class="btn btn-primary" href="' + mail + '">Chcem prvú lekciu</a></div>' +
-        '<p class="test-note">Toto nie je diagnóza, len zrkadlo.</p>';
+        '';
+      out.appendChild(gift);
+      out.insertAdjacentHTML('beforeend', '<p class="test-note">Toto nie je diagnóza, len zrkadlo.</p>');
       out.classList.add('on');
     }
     box.addEventListener('change', upd); upd();
@@ -370,7 +390,7 @@
 <div class="modal" id="modal" hidden></div>
 
 <script data-goatcounter="https://kapitanabstinencia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="assets/kapitan.js?v=33"></script>
+<script src="assets/kapitan.js?v=34"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
