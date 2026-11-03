@@ -878,3 +878,18 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .test-result .gift-pozn { grid-column: 1 / -1; margin: 0; font-size: 13px; }
 .test-result .gift-hotovo { flex: 1 1 100%; margin: 0; color: var(--text); }
 @media (max-width: 560px) { .gift-form { grid-template-columns: 1fr; } .gift-form .btn { width: 100%; } }
+
+/* Úvod hlavnej stránky: ilustrácia Kapitána namiesto loga */
+.kapitan-fig { aspect-ratio: 4 / 5; }
+.kapitan-fig::before { display: none; }
+.kapitan-fig svg.k { display: block; width: 100%; height: 100%; overflow: visible; }
+.kapitan-fig figcaption { position: absolute; right: 0; bottom: 0; font-size: 11px; color: var(--muted); }
+.dym-mob { display: none; }
+@media (max-width: 960px) {
+  .sales-hero .kapitan-fig { width: calc(100% + 32px); max-width: none; margin: -8px -16px -6px; aspect-ratio: 1 / 1; }
+  .kapitan-fig svg.k { overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); }
+  .kapitan-fig figcaption { right: 16px; }
+  .dym-pc { display: none; }
+  .dym-mob { display: inline; }
+  .hero-kapitan .hero-bg { opacity: .3; }
+}

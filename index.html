@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="obrazky/apple-touch-icon.png">
 <meta name="theme-color" content="#0A0B0D">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="assets/kapitan.css?v=34">
+<link rel="stylesheet" href="assets/kapitan.css?v=35">
 </head>
 <body>
 
@@ -42,7 +42,7 @@
 
 <main>
 <!-- ÚVOD -->
-<section class="hero sales-hero">
+<section class="hero sales-hero hero-kapitan">
   <svg class="hero-bg" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <radialGradient id="glow" cx="76%" cy="44%" r="45%">
@@ -80,8 +80,18 @@
       </div>
       <p class="hero-note mono muted reveal" style="--i:4">Alkohol, drogy, hry, porno… závislosť je jedna · Anonymne · Liečbu nenahrádzame, dopĺňame ju</p>
     </div>
-    <figure class="badge-portrait photo reveal" style="--i:2">
-      <img src="obrazky/kapitan-odznak.webp" alt="Odznak Kapitána Abstinencia: Kamil odhaľuje na hrudi emblém A" onerror="this.parentNode.classList.add('failed')">
+    <figure class="badge-portrait kapitan-fig photo reveal" style="--i:2">
+      <svg class="k" viewBox="0 0 1122 1402" preserveAspectRatio="xMidYMin slice" role="img" aria-label="Ilustrácia: Kapitán Abstinencia odhaľuje na hrudi emblém A"><defs>
+  <filter id="pero" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="7"/></filter>
+  <linearGradient id="dolu" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stop-color="#fff"/><stop offset=".97" stop-color="#000"/></linearGradient>
+  <mask id="postava" maskUnits="userSpaceOnUse" x="0" y="0" width="1122" height="1402"><polygon points="540,78 610,88 665,125 700,190 705,270 712,350 705,410 680,470 668,540 700,560 790,610 920,680 1000,790 1060,900 1122,1000 1122,1225 1010,1185 890,1095 865,1140 865,1402 262,1402 262,1160 225,1070 150,1190 0,1225 0,1015 95,830 200,690 340,600 450,555 445,480 410,420 390,370 392,260 400,180 450,110" fill="url(#dolu)" filter="url(#pero)"/></mask>
+    <filter id="cervena" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".55 .55 .35 0 0  .05 .06 .05 0 0  .07 .07 .07 0 0  0 0 0 1 0"/><feGaussianBlur stdDeviation="4"/></filter>
+    <radialGradient id="ovalG" cx=".5" cy=".4" r=".5"><stop offset=".15" stop-color="#fff"/><stop offset=".55" stop-color="#777"/><stop offset="1" stop-color="#000"/></radialGradient><radialGradient id="ovalM" cx=".5" cy=".42" r=".36"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#aaa"/><stop offset=".65" stop-color="#555"/><stop offset=".85" stop-color="#1a1a1a"/><stop offset="1" stop-color="#000"/></radialGradient>
+    <mask id="oval" maskUnits="userSpaceOnUse" x="0" y="0" width="1122" height="1402"><rect width="1122" height="1402" fill="url(#ovalG)"/></mask><mask id="ovalMob" maskUnits="userSpaceOnUse" x="0" y="0" width="1122" height="1402"><rect width="1122" height="1402" fill="url(#ovalM)"/></mask>
+    <linearGradient id="horG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000"/><stop offset=".24" stop-color="#fff"/></linearGradient><mask id="hore" maskUnits="userSpaceOnUse" x="0" y="0" width="1122" height="1402"><rect width="1122" height="1402" fill="url(#horG)"/></mask><linearGradient id="bokG"><stop offset="0" stop-color="#000"/><stop offset=".2" stop-color="#fff"/><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+    <mask id="boky" maskUnits="userSpaceOnUse" x="0" y="0" width="1122" height="1402"><rect width="1122" height="1402" fill="url(#bokG)"/></mask></defs>
+    <g style="mix-blend-mode:screen" mask="url(#hore)"><g class="dym-pc" mask="url(#oval)"><image href="obrazky/kapitan-a.jpg" width="1122" height="1402" filter="url(#cervena)"/></g><g class="dym-mob" mask="url(#ovalMob)"><image href="obrazky/kapitan-a.jpg" width="1122" height="1402" filter="url(#cervena)"/></g></g><g mask="url(#boky)"><image href="obrazky/kapitan-a.jpg" width="1122" height="1402" mask="url(#postava)"/></g></svg>
+      <figcaption>Ilustrácia</figcaption>
       <svg class="fallback" viewBox="0 0 400 400" role="img" aria-label="Iniciály KA">
         <circle cx="200" cy="200" r="196" fill="#C9CED1"/><circle cx="200" cy="200" r="168" fill="#1B2032"/>
         <text x="200" y="236" text-anchor="middle" font-family="Montserrat, sans-serif" font-weight="800" font-size="110" fill="#F6F4EF">KA</text>
@@ -390,7 +400,7 @@
 <div class="modal" id="modal" hidden></div>
 
 <script data-goatcounter="https://kapitanabstinencia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="assets/kapitan.js?v=34"></script>
+<script src="assets/kapitan.js?v=35"></script>
 <script>
 (function () {
   var esc = KA.esc, $ = function (s) { return document.querySelector(s); };
