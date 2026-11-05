@@ -55,8 +55,8 @@ var CLEN = (function () {
         return fetch(API + '/functions/v1/video', { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + r.token }, body: JSON.stringify({ tyzden: tyzden }) });
       }).then(function (o) { if (!o.ok) throw new Error('video'); return o.json(); }).then(function (d) {
         var f = document.createElement('iframe');
-        f.src = d.url; f.title = 'Video lekcie ' + tyzden; f.loading = 'lazy';
-        f.allow = 'autoplay; fullscreen; picture-in-picture'; f.allowFullscreen = true;
+        f.src = d.url + '&autoplay=false'; f.title = 'Video lekcie ' + tyzden; f.loading = 'lazy';
+        f.allow = 'fullscreen; picture-in-picture'; f.allowFullscreen = true;
         f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
         box.innerHTML = ''; box.appendChild(f);
       }).catch(function () { box.innerHTML = '<span class="cap">Video sa nepodarilo načítať. Obnov stránku.</span>'; });

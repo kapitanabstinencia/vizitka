@@ -46,10 +46,14 @@
   function render() {
     var w = WEEKS[S.viewWeek - 1];
     renderWeeks();
-    $('#weekCard').innerHTML = '<p class="eyebrow">Týždeň ' + S.viewWeek + (S.viewWeek === curWeek ? ' · aktuálny' : '') + '</p>' +
-      '<h2>' + esc(w.t) + '</h2>' +
-      '<div class="video" id="videoBox"><span class="cap">VIDEO · TÝŽDEŇ ' + S.viewWeek + '</span></div>';
-    if (CLEN.video) CLEN.video(S.viewWeek, $('#videoBox'));
+    // Video sa načíta znova len pri zmene týždňa, po uložení úlohy beží ďalej
+    if (S.videoTyzden !== S.viewWeek) {
+      S.videoTyzden = S.viewWeek;
+      $('#weekCard').innerHTML = '<p class="eyebrow">Týždeň ' + S.viewWeek + (S.viewWeek === curWeek ? ' · aktuálny' : '') + '</p>' +
+        '<h2>' + esc(w.t) + '</h2>' +
+        '<div class="video" id="videoBox"><span class="cap">VIDEO · TÝŽDEŇ ' + S.viewWeek + '</span></div>';
+      if (CLEN.video) CLEN.video(S.viewWeek, $('#videoBox'));
+    }
     var uloha = S.tasks[S.viewWeek], done = !!(uloha && uloha.hotove), zad = ULOHY[S.viewWeek - 1], odp = uloha && uloha.odpovede || {};
     $('#taskCard').innerHTML = '<p class="eyebrow">Týždenná úloha</p>' +
       '<h3 style="margin:0">' + esc(zad.t) + '</h3><p class="muted" style="margin:0">' + esc(zad.p) + '</p>' +
