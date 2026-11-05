@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kapitánov prehľad · Kapitán Abstinencia</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="96x96" href="obrazky/ikonka-96.png">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/kapitan.css?v=42">
+<style>
+  .p-mail { overflow-wrap: anywhere; }
+  #detail details summary { cursor: pointer; }
+  @media (max-width: 700px) {
+    .tablewrap table { min-width: 0; }
+    .tablewrap thead, .p-sk { display: none; }
+    #mrows tr { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    #mrows tr:last-child { border-bottom: 0; }
+    #mrows td { padding: 0; border: 0; }
+    #mrows td.p-mail { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar solid">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><img src="obrazky/kapitan-odznak.webp" alt=""></span>Kapitán Abstinencia</a>
+    <nav class="nav" id="nav" aria-label="Menu">
+      <a href="prehlad.html" aria-current="page">Prehľad</a>
+      <a href="moja-vyzva.html">Pohľad člena</a>
+      <a href="clenska.html" id="odhlas">Odhlásiť sa</a>
+    </nav>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="wrap">
+    <div class="ahead">
+      <div><p class="eyebrow">Kapitánov prehľad</p><h1 id="aTitle">Kto potrebuje postrčiť</h1></div>
+    </div>
+    <div id="obsah" hidden>
+      <div class="kpis" id="kpis"></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Člen</th><th class="p-sk">Týždeň</th><th>Posledných 7 dní</th><th class="p-sk">Zápisy</th><th class="p-sk">Hotové úlohy</th><th>Stav</th></tr></thead>
+          <tbody id="mrows"></tbody>
+        </table>
+      </div>
+      <div class="agrid">
+        <div class="card" id="detail"></div>
+        <div class="card"><p class="eyebrow" style="margin:0">Čaká na tvoju odpoveď</p><div class="inbox" id="inbox"></div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/kapitan.js?v=42"></script>
+<script src="assets/clen.js?v=4"></script>
+<script src="assets/ulohy.js?v=1"></script>
+<script src="assets/prehlad.js?v=1"></script>
+</body>
+</html>
