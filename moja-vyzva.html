@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moja výzva · Kapitán Abstinencia</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="96x96" href="obrazky/ikonka-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="obrazky/ikonka-192.png">
+<link rel="apple-touch-icon" href="obrazky/apple-touch-icon.png">
+<meta name="theme-color" content="#0A0B0D">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/kapitan.css?v=41">
+</head>
+<body>
+
+<header class="topbar solid">
+  <div class="wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><img src="obrazky/kapitan-odznak.webp" alt=""></span>Kapitán Abstinencia</a>
+    <nav class="nav" id="nav" aria-label="Členské menu">
+      <a href="moja-vyzva.html" aria-current="page">Moja výzva</a>
+      <a href="pomoc.html">Pomoc</a>
+            <a href="clenska.html" id="odhlas">Odhlásiť sa</a>
+    </nav>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="wrap">
+    <div class="mhead">
+      <div>
+        <p class="eyebrow" id="mEyebrow"></p>
+        <h1 id="mTitle">Načítavam výzvu…</h1>
+        </div>
+      <div class="counter" title="Koľký deň výzvy práve máš">
+        <div class="n" id="soberN">0</div><div class="l">deň výzvy</div>
+      </div>
+    </div>
+
+    <div class="weeks" id="weeks" aria-label="Týždne výzvy"></div>
+
+    <div class="mgrid">
+      <div class="stack">
+        <div class="card" id="weekCard"></div>
+        <div class="card" id="taskCard"></div>
+      </div>
+      <div class="stack">
+        <div class="card" id="journalCard"></div>
+        <div class="card" id="historyCard"></div>
+        <div class="helpstrip"><span>Je ti veľmi zle? Nie si v tom sám.</span><a class="btn small" href="pomoc.html">Pomoc a kontakty</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="sign">Kapitán Abstinencia · Sloboda je voľba.</div>
+      <nav class="foot-links" aria-label="Odkazy v päte"><a href="./">Úvod</a><a href="pomoc.html">Pomoc</a><a href="mailto:kapitanabstinencia@gmail.com">Napíš Kapitánovi</a></nav>
+    </div>
+    <div class="credits">Keď je zle, nečakaj: <b>112</b> · Linka dôvery Nezábudka <b>0800 800 566</b> (nonstop, zadarmo).</div>
+  </div>
+</footer>
+
+<script src="assets/kapitan.js?v=41"></script>
+<script src="assets/clen.js?v=3"></script>
+<script src="assets/ulohy.js?v=1"></script>
+<script src="assets/vyzva.js?v=6"></script>
+</body>
+</html>

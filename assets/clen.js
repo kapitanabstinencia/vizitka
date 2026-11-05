@@ -37,6 +37,30 @@ var CLEN = (function () {
           return o.json().then(function (d) { var n = relaciaZo(d); uloz(n); return n; });
         });
     },
+    // Čítanie a zápis v databáze za prihláseného člena, pravidlá stráži Supabase
+    db: function (cesta, nastavenia) {
+      return this.relacia().then(function (r) {
+        if (!r) throw new Error('odhlaseny');
+        return volaj('/rest/v1/' + cesta, nastavenia || {}, r.token);
+      }).then(function (o) {
+        if (!o.ok) throw new Error('db ' + o.status);
+        return o.status === 200 ? o.json() : null;
+      });
+    },
+    // Dočasný odkaz na video vydá server len pre prihláseného člena a otvorený týždeň
+    video: function (tyzden, box) {
+      box.innerHTML = '<span class="cap">Načítavam video…</span>';
+      this.relacia().then(function (r) {
+        if (!r) throw new Error('odhlaseny');
+        return fetch(API + '/functions/v1/video', { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + r.token }, body: JSON.stringify({ tyzden: tyzden }) });
+      }).then(function (o) { if (!o.ok) throw new Error('video'); return o.json(); }).then(function (d) {
+        var f = document.createElement('iframe');
+        f.src = d.url; f.title = 'Video lekcie ' + tyzden; f.loading = 'lazy';
+        f.allow = 'autoplay; fullscreen; picture-in-picture'; f.allowFullscreen = true;
+        f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+        box.innerHTML = ''; box.appendChild(f);
+      }).catch(function () { box.innerHTML = '<span class="cap">Video sa nepodarilo načítať. Obnov stránku.</span>'; });
+    },
     pouzivatel: function (r) { return volaj('/auth/v1/user', {}, r.token).then(function (o) { if (!o.ok) throw new Error('user'); return o.json(); }); },
     odhlas: function () {
       var r = nacitaj(); uloz(null);
@@ -83,7 +107,7 @@ var CLEN = (function () {
     karta.onsubmit = function (e) { e.preventDefault(); };
     karta.innerHTML = '<div class="lc-top"><h2>' + CLOVEK + 'Si dnu</h2><span class="chip ok">Prihlásený</span></div>' +
       '<p style="margin:0">Prihlásený e-mail: <b id="lgAdresa"></b></p>' +
-      '<p class="nt">Lekcie a denník sem práve dopĺňam. Napíšem ti, keď budú pripravené.</p>' +
+      '<a class="btn btn-primary" href="moja-vyzva.html">Vstúpiť do výzvy</a>' +
       '<button class="btn" type="button" id="lgVon">Odhlásiť sa</button>';
     karta.querySelector('#lgAdresa').textContent = email;
     karta.querySelector('#lgVon').onclick = function () { CLEN.odhlas().then(function () { formular(); }); };

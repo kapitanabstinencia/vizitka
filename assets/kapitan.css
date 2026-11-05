@@ -900,3 +900,17 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 @media (min-width: 901px) { .help-card.side .art { min-height: 230px; } .help-card.big .art { min-height: 360px; } }
 
 .lg-chyba { margin: 0; padding: 10px 12px; border-radius: var(--radius); background: var(--accent-soft); color: var(--text); font-size: 14px; }
+
+/* Členská sekcia: nesplnené červené, splnené zlaté */
+.wkb.done { border-color: var(--gold); background: var(--gold-soft); }
+.wkb.done b, .wkb.done small { color: var(--gold); }
+.tick[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #16130A; }
+#taskCard, #journalCard { transition: border-color .3s, background .3s; }
+.z-caka { border-color: var(--accent-text); background: linear-gradient(to bottom, var(--accent-soft), var(--surface) 70%); }
+.z-hotove { border-color: var(--gold); background: linear-gradient(to bottom, var(--gold-soft), var(--surface) 70%); }
+.z-hotove .eyebrow { color: var(--gold); }
+.z-hotove .eyebrow::before { background: var(--gold); }
+.wkb.caka { border-color: var(--accent-text); }
+.wkb.caka small { color: var(--accent-text); }
+#taskCard h3 { font-size: clamp(20px, 1vw + 15px, 26px); }
+#taskCard .field { display: grid; gap: 8px; font-size: 15px; font-weight: 600; }
