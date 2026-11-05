@@ -8,6 +8,7 @@
   var PORADIE = ['alert', 'inactive', 'missed', 'nezacal', 'ok'];
   var C = [], filter = null, vybrany = null;
 
+  function meno(c) { return c.prezyvka ? esc(c.prezyvka) + ' <span class="muted" style="font-weight:400">' + esc(c.email) + '</span>' : esc(c.email); }
   function dnesnyDen(zaciatok) {
     var z = zaciatok.split('-'), t = new Date();
     return Math.min(91, Math.round((new Date(t.getFullYear(), t.getMonth(), t.getDate()) - new Date(+z[0], z[1] - 1, +z[2])) / 864e5) + 1);
@@ -38,7 +39,7 @@
   function zapisHtml(c, z) {
     var vd = (z.vdacnosti || []).filter(Boolean);
     return '<div class="entry' + (!z.odpoved && POZOR.test(z.text) ? ' crit' : '') + '" data-clen="' + C.indexOf(c) + '" data-den="' + z.den + '">' +
-      '<div class="meta">' + 'Deň ' + z.den + ' · ' + datum(c, z.den) + '</div>' +
+      '<div class="meta">' + 'Deň ' + z.den + ' · ' + datum(c, z.den) + (z.hodnotenie == null ? '' : ' · <span class="hchip" style="--h:' + Math.round(z.hodnotenie * 13) + '">' + z.hodnotenie + '/10</span>') + '</div>' +
       '<div style="white-space:pre-wrap">' + esc(z.text) + '</div>' +
       (vd.length ? '<div class="muted" style="font-size:14px">Vďačnosti: ' + vd.map(esc).join(' · ') + '</div>' : '') +
       '<textarea aria-label="Odpoveď na deň ' + z.den + '" maxlength="5000" placeholder="Tvoja odpoveď…">' + esc(z.odpoved || '') + '</textarea>' +
@@ -72,7 +73,7 @@
         var den = (c.den || 0) - i, ma = c.zapisky.some(function (z) { return z.den === den; });
         bar += '<i class="' + (ma ? 'w' : '') + '"></i>';
       }
-      return '<tr class="' + (c.id === vybrany ? 'selrow' : '') + '" data-i="' + C.indexOf(c) + '" tabindex="0"><td class="p-mail"><b>' + esc(c.email) + '</b></td>' +
+      return '<tr class="' + (c.id === vybrany ? 'selrow' : '') + '" data-i="' + C.indexOf(c) + '" tabindex="0"><td class="p-mail"><b>' + meno(c) + '</b></td>' +
         '<td class="num p-sk">' + (c.tyzden || '–') + ' / 13</td><td><div class="bar7">' + bar + '</div></td>' +
         '<td class="num p-sk">' + c.zapisky.length + '</td><td class="num p-sk">' + c.hotove + '</td>' +
         '<td><span class="chip ' + STAV[c.stav][1] + '">' + STAV[c.stav][0] + '</span></td></tr>';
@@ -83,13 +84,13 @@
     });
     var c = C.filter(function (x) { return x.id === vybrany; })[0];
     $('#detail').innerHTML = !c ? '<p class="muted" style="margin:0">Zatiaľ tu nie je žiadny člen.</p>' :
-      '<div><p class="eyebrow" style="margin:0 0 8px">Detail</p><h2 class="p-mail">' + esc(c.email) + '</h2></div>' +
+      '<div><p class="eyebrow" style="margin:0 0 8px">Detail</p><h2 class="p-mail">' + esc(c.prezyvka || c.email) + '</h2>' + (c.prezyvka ? '<div class="mono muted p-mail">' + esc(c.email) + '</div>' : '') + '</div>' +
       '<div class="mono muted">' + (c.zaciatok ? 'Deň ' + c.den + ' · týždeň ' + c.tyzden : 'Výzvu ešte nezačal') + '</div>' +
       '<h3 style="margin:8px 0 0;font-size:18px">Týždenné úlohy</h3>' + ulohyHtml(c) +
       '<h3 style="margin:8px 0 0;font-size:18px">Denník</h3>' + (c.zapisky.map(function (z) { return zapisHtml(c, z); }).join('') || '<p class="muted" style="margin:0">Zatiaľ žiadny zápis.</p>');
     cakajuce.sort(function (a, b) { return POZOR.test(b.z.text) - POZOR.test(a.z.text); });
     $('#inbox').innerHTML = cakajuce.map(function (x) {
-      return '<p class="mono muted p-mail" style="margin:4px 0 -6px">' + esc(x.c.email) + '</p>' + zapisHtml(x.c, x.z);
+      return '<p class="mono muted p-mail" style="margin:4px 0 -6px">' + esc(x.c.prezyvka || x.c.email) + '</p>' + zapisHtml(x.c, x.z);
     }).join('') || '<p class="muted" style="margin:0">Všetko zodpovedané.</p>';
     $$('[data-odpovedz]').forEach(function (b) {
       b.onclick = function () {
@@ -105,6 +106,7 @@
   }
   function hlaska(nadpis, text) {
     $('#aTitle').textContent = nadpis;
+    $('#obsah').hidden = false;
     $('#obsah').innerHTML = '<div class="card" style="padding:28px;display:grid;gap:14px;justify-items:start"><p style="margin:0">' + text + '</p><a class="btn" href="clenska.html">Na prihlásenie</a></div>';
   }
 

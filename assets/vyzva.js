@@ -39,6 +39,12 @@
     nastav();
   }
 
+  var odtien = function (h) { return Math.round(h * 13); };
+  var cislo = function (x) { return x.toFixed(1).replace('.', ','); };
+  function hodnChip(e) {
+    return e.hodnotenie == null ? '' : ' <span class="hchip" style="--h:' + odtien(e.hodnotenie) + '">' + e.hodnotenie + '/10</span>';
+  }
+
   function chyba() { toast('Nepodarilo sa to uložiť. Skontroluj pripojenie a skús to znova.'); }
 
   function renderWeeks() {
@@ -120,12 +126,15 @@
     }
     var body;
     if (e && !editable) {
-      body = '<div class="entry"><div class="meta">Deň ' + sel + ' · ' + fmt(dateOfDay(sel)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
+      body = '<div class="entry"><div class="meta">Deň ' + sel + ' · ' + fmt(dateOfDay(sel)) + hodnChip(e) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
     } else if (!editable) {
       body = '<div class="locknote">Tento deň už nejde dopísať. Zápis sa dá doplniť najviac 1 deň dozadu.</div>';
     } else {
-      var locked = e && e.odpoved, g = e && e.vdacnosti || [];
+      var locked = e && e.odpoved, g = e && e.vdacnosti || [], tlacidla = '';
+      S.hodn = e && e.hodnotenie != null ? e.hodnotenie : null;
+      for (var h = 0; h <= 10; h++) tlacidla += '<button type="button" class="hb" data-h="' + h + '" style="--h:' + odtien(h) + '" aria-pressed="' + (S.hodn === h) + '"' + (locked ? ' disabled' : '') + '>' + h + '</button>';
       body = '<div class="prompt">' + esc(w.daily) + '</div>' +
+        '<div class="hodn"><span class="eyebrow">' + (sel === curDay ? 'Ako hodnotíš dnešný deň?' : 'Ako hodnotíš včerajší deň?') + '</span><div class="hodn-r" role="group" aria-label="Hodnotenie dňa od 0 do 10">' + tlacidla + '</div><span class="mono muted hodn-p"><span>0 najhorší</span><span>10 najlepší</span></span></div>' +
         '<label class="field" for="jText">' + (sel === curDay ? 'Dnešný zápis' : 'Včerajší zápis (dá sa ešte doplniť)') +
         '<textarea id="jText" maxlength="10000"' + (locked ? ' readonly' : '') + ' placeholder="Píš úprimne. Počas testovania to vidíš ty a Kapitán.">' + (e ? esc(e.text) : '') + '</textarea></label>' +
         '<div class="grat"><span class="eyebrow">3 vďačnosti na večer</span>' +
@@ -141,6 +150,12 @@
     $('#journalCard').classList.toggle('z-hotove', !!S.entries[curDay]);
     $('#journalCard').classList.toggle('z-caka', !S.entries[curDay]);
     $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; renderJournal(); }; });
+    $$('.hb').forEach(function (b) {
+      b.onclick = function () {
+        S.hodn = +b.dataset.h;
+        $$('.hb').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      };
+    });
     var sv = $('#jSave');
     if (sv) sv.onclick = function () { ulozZapis(sel, e); };
     renderHistory();
@@ -151,10 +166,11 @@
     if (!t) { toast('Napíš aspoň pár slov'); return; }
     $('#jSave').disabled = true;
     var volanie = e
-      ? CLEN.db('zapisky?den=eq.' + sel, { method: 'PATCH', body: JSON.stringify({ text: t, vdacnosti: v }) })
-      : CLEN.db('zapisky', { method: 'POST', body: JSON.stringify({ user_id: S.id, den: sel, text: t, vdacnosti: v }) });
+      ? CLEN.db('zapisky?den=eq.' + sel, { method: 'PATCH', body: JSON.stringify({ text: t, vdacnosti: v, hodnotenie: S.hodn }) })
+      : CLEN.db('zapisky', { method: 'POST', body: JSON.stringify({ user_id: S.id, den: sel, text: t, vdacnosti: v, hodnotenie: S.hodn }) });
     volanie.then(function () {
-      S.entries[sel] = { text: t, vdacnosti: v, odpoved: e ? e.odpoved : null };
+      S.entries[sel] = { den: sel, text: t, vdacnosti: v, hodnotenie: S.hodn, odpoved: e ? e.odpoved : null };
+      renderGraf();
       var krizovy = /nechcem žiť|nechcem zit|zabiť sa|zabit sa|samovra|ublížiť si|ublizit si|skonč(iť|ím) so životom|skoncit so zivotom|nemá zmysel žiť|nema zmysel zit/i.test(t);
       renderJournal();
       if (krizovy) {
@@ -167,7 +183,7 @@
     var ks = Object.keys(S.entries).map(Number).sort(function (a, b) { return b - a; }).slice(0, 4);
     var zapis = function (n, trieda) {
       var e = S.entries[n];
-      return '<div class="entry' + trieda + '"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
+      return '<div class="entry' + trieda + '"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + hodnChip(e) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
     };
     var dalsie = ks.slice(1);
     $('#historyCard').innerHTML = '<p class="eyebrow">Posledné zápisy</p>' + (ks.length
@@ -177,6 +193,70 @@
     zbalovanie($('#historyCard'), 'historia', dalsie.some(function (n) { return S.entries[n].odpoved; }) ? 'Pozri odpoveď Kapitána' : 'Čítaj ďalej');
   }
 
+  function priemer(tyzden) {
+    var v = [];
+    for (var d = (tyzden - 1) * 7 + 1; d <= tyzden * 7; d++) if (S.entries[d] && S.entries[d].hodnotenie != null) v.push(S.entries[d].hodnotenie);
+    return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : null;
+  }
+
+  function renderGraf() {
+    var karta = $('#grafCard');
+    if (!karta) return;
+    var body = Object.keys(S.entries).map(Number).filter(function (d) { return S.entries[d].hodnotenie != null; }).sort(function (a, b) { return a - b; });
+    var teraz = priemer(curWeek), minule = curWeek > 1 ? priemer(curWeek - 1) : null, zhrnutie;
+    if (body.length < 2) zhrnutie = 'Každý večer ohodnoť deň v denníku a tu uvidíš, ako sa tvoj stav mení.';
+    else if (teraz == null) zhrnutie = 'Tento týždeň ešte nemáš hodnotenie.';
+    else if (minule == null) zhrnutie = 'Priemer tento týždeň: <b>' + cislo(teraz) + '</b>';
+    else zhrnutie = 'Priemer tento týždeň <b>' + cislo(teraz) + '</b>, minulý ' + cislo(minule) + '. ' +
+      (teraz - minule >= .5 ? '<b class="ok-t">↑ Ide to hore.</b>' : teraz - minule <= -.5 ? '<b class="zle-t">↓ Ťažší týždeň.</b> Napíš to do denníka, Kapitán to číta.' : '→ Držíš sa.');
+    karta.innerHTML = '<p class="eyebrow">Môj vývoj</p><h3 style="margin:0">Ako hodnotíš svoje dni</h3><div class="graf" id="graf"></div><p class="muted" style="margin:0">' + zhrnutie + '</p>';
+    var W = $('#graf').clientWidth || 300, H = 190, L = 24, R = 8, T = 10, B = 24, N = Math.max(curDay, 7);
+    var x = function (d) { return L + (d - 1) / (N - 1) * (W - L - R); }, y = function (v) { return T + (10 - v) / 10 * (H - T - B); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Graf hodnotenia dní">';
+    [0, 5, 10].forEach(function (v) { s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" class="g-os"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + '</text>'; });
+    for (var t = 1; (t - 1) * 7 + 1 <= N; t++) {
+      s += '<text x="' + x((t - 1) * 7 + 1) + '" y="' + (H - 6) + '" text-anchor="' + (t === 1 ? 'start' : 'middle') + '">T' + t + '</text>';
+      var p = priemer(t);
+      if (p != null) s += '<line x1="' + x((t - 1) * 7 + 1) + '" x2="' + x(Math.min(t * 7, N)) + '" y1="' + y(p) + '" y2="' + y(p) + '" class="g-pr"/>';
+    }
+    if (body.length > 1) s += '<polyline class="g-ciara" points="' + body.map(function (d) { return x(d) + ',' + y(S.entries[d].hodnotenie); }).join(' ') + '"/>';
+    body.forEach(function (d) { var h = S.entries[d].hodnotenie; s += '<circle cx="' + x(d) + '" cy="' + y(h) + '" r="5" style="--h:' + odtien(h) + '"><title>Deň ' + d + ': ' + h + '/10</title></circle>'; });
+    $('#graf').innerHTML = s + '</svg>';
+  }
+  var cakaj;
+  window.addEventListener('resize', function () { clearTimeout(cakaj); cakaj = setTimeout(function () { if (curDay) renderGraf(); }, 200); });
+
+  function nadpis() {
+    $('#mTitle').innerHTML = 'Ahoj, <span style="white-space:nowrap"><button type="button" class="prez" id="prezBtn" title="Zmeniť prezývku">' + esc(S.prez || 'kapitán') + '</button>.</span> Dnes je tvoj ' + curDay + '. deň.';
+    $('#prezBtn').onclick = prezyvkaForm;
+  }
+
+  // Prezývku vidí len člen a Kapitán, skutočné meno netreba
+  function prezyvkaForm() {
+    var box = $('#prezBox');
+    box.innerHTML = '<form class="card prez-karta" id="prezForm"><div><p class="eyebrow">' + (S.prez ? 'Zmeniť prezývku' : 'Vitaj na palube') + '</p>' +
+      '<label for="prezIn" class="prez-otazka">Ako ťa máme volať?</label>' +
+      '<p class="muted" style="margin:0">Stačí prezývka, skutočné meno písať nemusíš. Vidíš ju ty a Kapitán.</p></div>' +
+      '<div class="prez-riadok"><input type="text" id="prezIn" maxlength="30" required placeholder="napr. Jano, Kapitán Mišo, Tichý" value="' + esc(S.prez || '') + '">' +
+      '<button class="btn btn-primary" type="submit">Uložiť</button>' + (S.prez ? '<button class="btn" type="button" id="prezZrus">Zrušiť</button>' : '') + '</div></form>';
+    if (S.prez) { $('#prezIn').focus(); $('#prezZrus').onclick = function () { box.innerHTML = ''; }; }
+    $('#prezForm').onsubmit = function (ev) {
+      ev.preventDefault();
+      var p = $('#prezIn').value.trim().replace(/\s+/g, ' ');
+      if (!p) return;
+      var b = $('#prezForm button[type=submit]'); b.disabled = true;
+      CLEN.db('clenovia?id=eq.' + S.id, { method: 'PATCH', body: JSON.stringify({ prezyvka: p }) }).then(function () {
+        S.prez = p; nadpis(); box.innerHTML = ''; toast('Vitaj, ' + p + ' ✓');
+      }).catch(function () { b.disabled = false; chyba(); });
+    };
+  }
+
+  function renderVeta() {
+    var v = window.VETY && VETY[curDay - 1], box = $('#vetaBox');
+    if (!box || !v) return;
+    box.innerHTML = '<div class="card veta"><p class="eyebrow">Veta na dnes · deň ' + curDay + '</p><q>' + esc(v) + '</q></div>';
+  }
+
   $('#odhlas').onclick = function (e) {
     e.preventDefault();
     CLEN.odhlas().then(function () { location.href = 'clenska.html'; });
@@ -184,7 +264,7 @@
 
   CLEN.relacia().then(function (r) {
     if (!r) { location.replace('clenska.html'); return; }
-    return Promise.all([CLEN.pouzivatel(r), CLEN.db('rpc/zacni_vyzvu', { method: 'POST', body: '{}' }), CLEN.db('zapisky?select=den,text,vdacnosti,odpoved'), CLEN.db('ulohy?select=tyzden,odpovede,hotove')]).then(function (x) {
+    return Promise.all([CLEN.pouzivatel(r), CLEN.db('rpc/zacni_vyzvu', { method: 'POST', body: '{}' }), CLEN.db('zapisky?select=den,text,vdacnosti,hodnotenie,odpoved'), CLEN.db('ulohy?select=tyzden,odpovede,hotove'), CLEN.db('clenovia?select=prezyvka')]).then(function (x) {
       S.id = x[0].id;
       var z = x[1].split('-');
       ZACIATOK = new Date(+z[0], +z[1] - 1, +z[2]);
@@ -196,9 +276,13 @@
       x[2].forEach(function (e) { S.entries[e.den] = e; });
       x[3].forEach(function (u) { S.tasks[u.tyzden] = u; });
       $('#mEyebrow').textContent = 'Deň ' + curDay + ' z ' + POSLEDNY_DEN + ' · týždeň ' + curWeek + ' · začal si ' + fmt(ZACIATOK);
-      $('#mTitle').textContent = 'Ahoj, kapitán. Dnes je tvoj ' + curDay + '. deň.';
+      S.prez = x[4][0] && x[4][0].prezyvka;
+      nadpis();
+      if (!S.prez) prezyvkaForm();
       $('#soberN').textContent = curDay;
+      renderVeta();
       render();
+      renderGraf();
     });
   }).catch(function () {
     $('#mTitle').textContent = 'Výzvu sa nepodarilo načítať';
