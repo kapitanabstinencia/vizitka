@@ -20,10 +20,24 @@
     { t: "Triezvy prechod: Iniciačný rituál", task: "Absolvuj rituál pre novú identitu (1 – 2 hodiny)", daily: "Čo si nechávam za sebou a čo si beriem so sebou?" }
   ];
   var POSLEDNY_DEN = 91, DAY = 864e5, WD = ["ne", "po", "ut", "st", "št", "pi", "so"];
-  var ZACIATOK, curDay, curWeek, S = { viewWeek: 1, selDay: 1, tasks: {}, entries: {} };
+  var ZACIATOK, curDay, curWeek, S = { viewWeek: 1, selDay: 1, tasks: {}, entries: {}, otvor: {} };
 
   var fmt = function (d) { return d.getDate() + ". " + (d.getMonth() + 1) + "."; };
   var dateOfDay = function (n) { return new Date(ZACIATOK.getFullYear(), ZACIATOK.getMonth(), ZACIATOK.getDate() + n - 1); };
+
+  // Mobil: karta sa rozbalí tlačidlom a po uložení ostane otvorená
+  function zbalovanie(karta, kluc, text) {
+    var b = karta.querySelector('.m-toggle');
+    karta.classList.toggle('m-collapse', !!b);
+    if (!b) return;
+    function nastav() {
+      karta.classList.toggle('open', !!S.otvor[kluc]);
+      b.textContent = S.otvor[kluc] ? 'Zbaliť' : text;
+      b.setAttribute('aria-expanded', !!S.otvor[kluc]);
+    }
+    b.onclick = function () { S.otvor[kluc] = !S.otvor[kluc]; nastav(); };
+    nastav();
+  }
 
   function chyba() { toast('Nepodarilo sa to uložiť. Skontroluj pripojenie a skús to znova.'); }
 
@@ -56,7 +70,7 @@
     }
     var uloha = S.tasks[S.viewWeek], done = !!(uloha && uloha.hotove), zad = ULOHY[S.viewWeek - 1], odp = uloha && uloha.odpovede || {};
     $('#taskCard').innerHTML = '<p class="eyebrow">Týždenná úloha</p>' +
-      '<h3 style="margin:0">' + esc(zad.t) + '</h3><p class="muted" style="margin:0">' + esc(zad.p) + '</p>' +
+      '<h3 style="margin:0">' + esc(zad.t) + '</h3><p class="muted" style="margin:0">' + esc(zad.p) + '</p><div class="m-more">' +
       zad.f.map(function (p, i) {
         var hod = esc(odp[i] || ''), id = 'u' + i;
         return '<label class="field" for="' + id + '">' + esc(p[1]) + (p[0] === 'k'
@@ -64,12 +78,15 @@
           : '<textarea id="' + id + '" maxlength="5000" rows="3">' + hod + '</textarea>') + '</label>';
       }).join('') +
       '<p class="mono muted" style="margin:0">Počas testovania to vidíš ty a Kapitán.' + (done ? ' ✓ Hotové' : '') + '</p>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="uUloz">Uložiť rozpracované</button><button type="button" class="btn btn-primary" id="uHotovo">' + (done ? 'Uložiť zmeny' : 'Hotové') + '</button></div>';
+      '<div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn" id="uUloz">Uložiť rozpracované</button><button type="button" class="btn btn-primary" id="uHotovo">' + (done ? 'Uložiť zmeny' : 'Hotové') + '</button></div></div>' +
+      '<button type="button" class="btn small m-toggle' + (done ? '' : ' btn-primary') + '"></button>';
     $('#taskCard').classList.toggle('z-hotove', done);
     $('#taskCard').classList.toggle('z-caka', !done);
     $('#uUloz').onclick = function () { ulozUlohu(done); };
     $('#uHotovo').onclick = function () { ulozUlohu(true); };
-    renderJournal();
+    zbalovanie($('#taskCard'), 'uloha', done ? 'Pozrieť úlohu' : 'Klikni na úlohu');
+    // Denník nezávisí od zobrazeného týždňa, prekreslením by sa stratil rozpísaný text
+    if (!$('#journalCard').hasChildNodes()) renderJournal();
   }
 
   function ulozUlohu(hotove) {
@@ -116,7 +133,11 @@
         '<div id="crisisBox"></div>' +
         (locked ? replyHtml(e) : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary" id="jSave">' + (e ? 'Uložiť zmeny' : 'Uložiť zápis') + '</button></div>');
     }
-    $('#journalCard').innerHTML = '<p class="eyebrow">Môj denník · týždeň ' + curWeek + '</p><div class="days">' + daysHtml + '</div>' + body;
+    $('#journalCard').innerHTML = '<p class="eyebrow">Môj denník · týždeň ' + curWeek + '</p>' +
+      '<div class="m-uvod"><h3 style="margin:0">' + esc(w.daily) + '</h3><p class="muted" style="margin:0">Pár viet a 3 vďačnosti na večer.</p></div>' +
+      '<div class="m-more"><div class="days">' + daysHtml + '</div>' + body + '</div>' +
+      '<button type="button" class="btn small m-toggle' + (S.entries[curDay] ? '' : ' btn-primary') + '"></button>';
+    zbalovanie($('#journalCard'), 'dennik', S.entries[curDay] ? 'Pozrieť zápis' : 'Napísať zápis');
     $('#journalCard').classList.toggle('z-hotove', !!S.entries[curDay]);
     $('#journalCard').classList.toggle('z-caka', !S.entries[curDay]);
     $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; renderJournal(); }; });
@@ -144,10 +165,16 @@
 
   function renderHistory() {
     var ks = Object.keys(S.entries).map(Number).sort(function (a, b) { return b - a; }).slice(0, 4);
-    $('#historyCard').innerHTML = '<p class="eyebrow">Posledné zápisy</p>' + (ks.length ? ks.map(function (n) {
+    var zapis = function (n, trieda) {
       var e = S.entries[n];
-      return '<div class="entry"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
-    }).join('') : '<p class="muted" style="margin:0">Zatiaľ tu nič nie je. Prvý zápis je najťažší.</p>');
+      return '<div class="entry' + trieda + '"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
+    };
+    var dalsie = ks.slice(1);
+    $('#historyCard').innerHTML = '<p class="eyebrow">Posledné zápisy</p>' + (ks.length
+      ? zapis(ks[0], ' m-klip') + '<div class="m-more">' + dalsie.map(function (n) { return zapis(n, ''); }).join('') + '</div><button type="button" class="btn small m-toggle"></button>'
+      : '<p class="muted" style="margin:0">Zatiaľ tu nič nie je. Prvý zápis je najťažší.</p>');
+    // Odpoveď Kapitána v staršom zápise nesmie ostať skrytá bez povšimnutia
+    zbalovanie($('#historyCard'), 'historia', dalsie.some(function (n) { return S.entries[n].odpoved; }) ? 'Pozri odpoveď Kapitána' : 'Čítaj ďalej');
   }
 
   $('#odhlas').onclick = function (e) {

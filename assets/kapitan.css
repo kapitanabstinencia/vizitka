@@ -914,3 +914,13 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .wkb.caka small { color: var(--accent-text); }
 #taskCard h3 { font-size: clamp(20px, 1vw + 15px, 26px); }
 #taskCard .field { display: grid; gap: 8px; font-size: 15px; font-weight: 600; }
+
+/* ---------- Moja výzva: na mobile zbalené karty, video ostáva viditeľné ---------- */
+.m-uvod { display: none; }
+.mgrid .m-more { display: grid; gap: 16px; }
+.mgrid .m-more:empty { display: none; }
+@media (max-width: 700px) {
+  .mgrid .m-toggle { margin-top: 0; justify-self: start; }
+  .mgrid .m-collapse:not(.open) .m-uvod { display: grid; gap: 8px; }
+  .mgrid .m-collapse:not(.open) .m-klip > div:not(.meta):not(.reply) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
