@@ -154,6 +154,9 @@
       b.onclick = function () {
         S.hodn = +b.dataset.h;
         $$('.hb').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+        // Na mobile sa po výbere čísla denník rozbalí, aby sa dal zápis hneď uložiť
+        var k = $('#journalCard');
+        if (k.classList.contains('m-collapse') && !k.classList.contains('open')) k.querySelector('.m-toggle').click();
       };
     });
     var sv = $('#jSave');

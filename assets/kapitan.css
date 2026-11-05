@@ -922,6 +922,9 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 @media (max-width: 700px) {
   .mgrid .m-toggle { margin-top: 0; justify-self: start; }
   .mgrid .m-collapse:not(.open) .m-uvod { display: grid; gap: 8px; }
+  /* Hodnotenie dňa je na mobile vidno aj v zbalenom denníku */
+  #journalCard.m-collapse:not(.open) .m-more { display: grid; }
+  #journalCard.m-collapse:not(.open) .m-more > :not(.hodn) { display: none !important; }
   .mgrid .m-collapse:not(.open) .m-klip > div:not(.meta):not(.reply) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 }
 
