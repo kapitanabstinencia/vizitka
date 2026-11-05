@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="obrazky/apple-touch-icon.png">
 <meta name="theme-color" content="#0A0B0D">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="stylesheet" href="assets/kapitan.css?v=37">
+<link rel="stylesheet" href="assets/kapitan.css?v=38">
 </head>
 <body>
 
@@ -46,24 +46,13 @@
         <div>
           <p class="eyebrow reveal">Členská sekcia · uzavretá skupina</p>
           <h1 class="reveal" style="--i:1;font-size:clamp(36px,4.6vw,72px);max-width:14ch;margin-bottom:28px">Miesto, kde ťa <em>nikto nesúdi.</em></h1>
-          <p class="lead reveal" style="--i:2">Členská sekcia je uzavretá skupina pre ľudí, ktorí sa rozhodli prepnúť na abstinenciu. Nájdeš v nej lekcie, svoj denník a komunitu, v ktorej môžeš byť úplne úprimný. Práve ju dokončujeme, preto prihlásenie ešte nefunguje.</p>
+          <p class="lead reveal" style="--i:2">Členská sekcia je uzavretá skupina pre ľudí, ktorí sa rozhodli prepnúť na abstinenciu. Nájdeš v nej lekcie, svoj denník a komunitu, v ktorej môžeš byť úplne úprimný. Teraz ju skúša malá skupina testerov a ostatných pustíme dnu po spustení.</p>
           <div class="reveal" style="--i:3;display:flex;gap:12px;flex-wrap:wrap;margin-top:32px">
             <a class="btn btn-primary" href="./#zlava">Chcem zľavu 30% pri spustení</a>
             <a class="btn" href="./#baliky">Pozri si balíky</a>
           </div>
         </div>
-        <form class="card login-card reveal" style="--i:2" onsubmit="return false" aria-label="Prihlásenie do členskej sekcie">
-          <div class="lc-top">
-            <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Prihlásenie</h2>
-            <span class="chip warn">Čoskoro</span>
-          </div>
-          <label for="lgNick">Prezývka</label>
-          <input type="text" id="lgNick" placeholder="napr. Kapitán" disabled>
-          <label for="lgMail">E-mail</label>
-          <input type="email" id="lgMail" placeholder="tvoj@email.sk" disabled>
-          <button class="btn btn-primary" type="submit" disabled>Prihlásiť sa</button>
-          <p class="nt">Prístup do členskej sekcie dostaneš na e-mail, ktorý uvedieš pri platbe. S ním sa potom aj prihlásiš. Ak chceš úplnú anonymitu, založ si nový e-mail len na výzvu a vymysli si prezývku.</p>
-        </form>
+        <form class="card login-card reveal" style="--i:2" id="lgKarta" aria-label="Prihlásenie do členskej sekcie"><p class="nt" style="margin:0">Načítavam prihlásenie…</p></form>
       </div>
     </div>
   </section>
@@ -106,7 +95,7 @@
 </footer>
 
 <script data-goatcounter="https://kapitanabstinencia.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script src="assets/kapitan.js?v=37"></script>
+<script src="assets/kapitan.js?v=38"></script>
 <script>
 (function () {
   var esc = KA.esc;
@@ -121,5 +110,6 @@
   KA.observe();
 })();
 </script>
+<script src="assets/clen.js?v=1"></script>
 </body>
 </html>

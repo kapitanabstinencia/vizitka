@@ -898,3 +898,5 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .help-card:hover .art img { transform: scale(1.04); }
 .ilu-pozn { margin: 10px 0 0; text-align: right; font-size: 11px; color: var(--muted); }
 @media (min-width: 901px) { .help-card.side .art { min-height: 230px; } .help-card.big .art { min-height: 360px; } }
+
+.lg-chyba { margin: 0; padding: 10px 12px; border-radius: var(--radius); background: var(--accent-soft); color: var(--text); font-size: 14px; }
