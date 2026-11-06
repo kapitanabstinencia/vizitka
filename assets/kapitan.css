@@ -1002,3 +1002,16 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .materialy { display: grid; gap: 10px; }
 .materialy:empty { display: none; }
 .stiahni { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Nová odpoveď Kapitána */
+.odp-pruh { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; padding: 16px 20px; margin-bottom: 16px; border-radius: var(--radius); border: 1px solid var(--gold); background: var(--gold-soft); color: inherit; font: inherit; cursor: pointer; animation: odp-svit 2.2s ease-in-out infinite; }
+.odp-pruh b { display: block; font-size: 18px; color: var(--gold); }
+.odp-pruh small { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+.odp-ikona { font-size: 26px; line-height: 1; }
+.odp-sipka { margin-left: auto; font-size: 22px; color: var(--gold); }
+.odp-karta { padding: clamp(20px, 3vw, 28px); margin-bottom: 16px; display: grid; gap: 12px; }
+.odp-karta .eyebrow { margin: 0; }
+.reply.odp-svieti { animation: odp-blik 1.4s ease 3; border-radius: 6px; }
+@keyframes odp-svit { 0%, 100% { box-shadow: 0 0 0 0 rgba(216, 177, 60, 0); } 50% { box-shadow: 0 0 24px 2px rgba(216, 177, 60, .38); } }
+@keyframes odp-blik { 50% { background: var(--gold-soft); } }
+@media (prefers-reduced-motion: reduce) { .odp-pruh, .reply.odp-svieti { animation: none; } }

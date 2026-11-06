@@ -115,7 +115,7 @@
 
   function replyHtml(e) {
     if (!e.odpoved) return '';
-    return '<div class="reply"><div class="who">Kapitán <span class="chip">odpovedal človek</span></div>' + esc(e.odpoved) + '</div>';
+    return '<div class="reply"><div class="who">Odpovedal Kapitán</div>' + esc(e.odpoved) + '</div>';
   }
 
   function renderJournal() {
@@ -138,10 +138,11 @@
       body = '<div class="prompt">' + esc(w.daily) + '</div>' +
         '<label class="field" for="jText">' + (sel === curDay ? 'Dnešný zápis' : 'Včerajší zápis (dá sa ešte doplniť)') +
         '<textarea id="jText" maxlength="10000"' + (locked ? ' readonly' : '') + ' placeholder="Píš úprimne. Počas testovania to vidíš ty a Kapitán.">' + (e && e.text ? esc(e.text) : '') + '</textarea></label>' +
+        (locked ? replyHtml(e) : '') +
         '<div class="grat"><span class="eyebrow">3 vďačnosti na večer</span>' +
         [0, 1, 2].map(function (i) { return '<input type="text" id="g' + i + '" maxlength="300" aria-label="Vďačnosť ' + (i + 1) + '" placeholder="' + (i + 1) + '. za čo som dnes vďačný" value="' + esc(g[i] || '') + '"' + (locked ? ' readonly' : '') + '>'; }).join('') + '</div>' +
         '<div id="crisisBox"></div>' +
-        (locked ? replyHtml(e) : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e && e.text ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary" id="jSave">' + (e && e.text ? 'Uložiť zmeny' : 'Uložiť zápis') + '</button></div>');
+        (locked ? '' : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e && e.text ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary" id="jSave">' + (e && e.text ? 'Uložiť zmeny' : 'Uložiť zápis') + '</button></div>');
     }
     $('#journalCard').innerHTML = '<p class="eyebrow">Môj denník · týždeň ' + curWeek + '</p>' +
       '<div class="hodn-w" id="hWidget"></div>' +
@@ -294,6 +295,43 @@
     };
   }
 
+  // Nová odpoveď Kapitána: svietiaci pruh hore, klik presunie priamo na odpoveď
+  function videne() { try { return JSON.parse(localStorage.getItem('ka_videne_' + S.id)) || []; } catch (e) { return []; } }
+  function oznacVidene(den) {
+    var v = videne();
+    if (v.indexOf(den) < 0) v.push(den);
+    try { localStorage.setItem('ka_videne_' + S.id, JSON.stringify(v)); } catch (e) {}
+  }
+  function renderOdpovede() {
+    var box = $('#odpBox');
+    if (!box) return;
+    var v = videne(), nove = Object.keys(S.entries).map(Number).filter(function (d) { return S.entries[d].odpoved && v.indexOf(d) < 0; }).sort(function (a, b) { return b - a; });
+    if (!nove.length) { box.innerHTML = ''; return; }
+    box.innerHTML = '<button type="button" class="odp-pruh" id="odpBtn"><span class="odp-ikona" aria-hidden="true">✉</span>' +
+      '<span><b>Kapitán ti odpísal' + (nove.length > 1 ? ' (' + nove.length + ')' : '') + '</b><small>Klikni a prečítaj si odpoveď na tvoj zápis z ' + nove[0] + '. dňa</small></span>' +
+      '<span class="odp-sipka" aria-hidden="true">→</span></button>';
+    $('#odpBtn').onclick = function () { ukazOdpoved(nove[0]); };
+  }
+  function ukazOdpoved(den) {
+    oznacVidene(den);
+    var ciel = null;
+    if (Math.ceil(den / 7) === curWeek) {
+      S.selDay = den; S.otvor.dennik = true; S.grafZmena = false;
+      renderJournal();
+      ciel = $('#journalCard .reply');
+    }
+    if (ciel) renderOdpovede();
+    else {
+      var e = S.entries[den];
+      $('#odpBox').innerHTML = '<div class="card odp-karta"><p class="eyebrow">Tvoj zápis · deň ' + den + ' · ' + fmt(dateOfDay(den)) + '</p>' +
+        '<div style="white-space:pre-wrap">' + esc(e.text || '') + '</div>' + replyHtml(e) + '</div>';
+      ciel = $('#odpBox .reply');
+    }
+    ciel.classList.add('odp-svieti');
+    // Posun až po prekreslení, aby sa odpoveď ocitla v hornej tretine obrazovky
+    setTimeout(function () { window.scrollTo({ top: Math.max(0, ciel.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3), behavior: 'smooth' }); }, 60);
+  }
+
   function renderVeta() {
     var v = window.VETY && VETY[curDay - 1], box = $('#vetaBox');
     if (!box || !v) return;
@@ -336,6 +374,7 @@
       $('#soberN').textContent = curDay;
       renderVeta();
       render();
+      renderOdpovede();
     });
   }
 })();
