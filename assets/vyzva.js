@@ -149,7 +149,7 @@
     zbalovanie($('#journalCard'), 'dennik', zapisane(curDay) ? 'Pozrieť zápis' : 'Napísať zápis');
     $('#journalCard').classList.toggle('z-hotove', zapisane(curDay));
     $('#journalCard').classList.toggle('z-caka', !zapisane(curDay));
-    $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; renderJournal(); }; });
+    $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; S.grafZmena = false; renderJournal(); }; });
     renderHodn();
     var sv = $('#jSave');
     if (sv) sv.onclick = function () { ulozZapis(sel, e); };
@@ -221,17 +221,21 @@
   function renderHodn(animuj) {
     var box = $('#hWidget');
     if (!box) return;
-    var d = S.entries[curDay], h = d && d.hodnotenie != null ? d.hodnotenie : null;
-    var otvor = h != null && !S.grafZmena, pred = animuj ? false : otvor, tlac = '';
+    // Hodnotiť sa dá dnešok a včerajšok, podľa dňa zvoleného v denníku
+    var den = S.selDay === curDay || S.selDay === curDay - 1 ? S.selDay : null, dnes = den === curDay;
+    var d = den && S.entries[den], h = d && d.hodnotenie != null ? d.hodnotenie : null;
+    var nieco = Object.keys(S.entries).some(function (k) { return S.entries[k].hodnotenie != null; });
+    if (!den && !nieco) { box.innerHTML = ''; return; }
+    var otvor = !den || (h != null && !S.grafZmena), pred = animuj ? false : otvor, tlac = '';
     for (var i = 1; i <= 10; i++) tlac += '<button type="button" class="hb" data-h="' + i + '" style="--h:' + odtien(i) + '" aria-pressed="' + (h === i) + '">' + i + '</button>';
-    box.innerHTML = '<div class="zbal' + (pred ? ' zavrete' : '') + '" id="gStup"><div><span class="g-otazka">Ako sa dnes máš?</span>' +
-      '<div class="s10" role="group" aria-label="Ako sa dnes máš, od 1 do 10">' + tlac + '</div><span class="mono muted hodn-p"><span>1 najhorší</span><span>10 najlepší</span></span></div></div>' +
+    box.innerHTML = '<div class="zbal' + (pred ? ' zavrete' : '') + '" id="gStup"><div><span class="g-otazka">' + (dnes ? 'Ako sa dnes máš?' : 'Ako si sa mal včera?') + '</span>' +
+      '<div class="s10" role="group" aria-label="Hodnotenie dňa od 1 do 10">' + tlac + '</div><span class="mono muted hodn-p"><span>1 najhorší</span><span>10 najlepší</span></span></div></div>' +
       '<div class="zbal' + (pred ? '' : ' zavrete') + '" id="gObal"><div><div class="g-hlava"><span class="g-otazka">Môj vývoj</span>' +
-      (h != null ? '<button type="button" class="g-zmen" id="gZmen">zmeniť dnešné číslo</button>' : '') + '</div><div class="graf" id="graf"></div></div></div>';
-    $$('#hWidget .hb').forEach(function (b) { b.onclick = function () { nastavHodnotenie(curDay, +b.dataset.h); }; });
+      (den && h != null ? '<button type="button" class="g-zmen" id="gZmen">zmeniť ' + (dnes ? 'dnešné' : 'včerajšie') + ' číslo</button>' : '') + '</div><div class="graf" id="graf"></div></div></div>';
+    $$('#hWidget .hb').forEach(function (b) { b.onclick = function () { nastavHodnotenie(den, +b.dataset.h); }; });
     if ($('#gZmen')) $('#gZmen').onclick = function () { S.grafZmena = true; renderHodn(); };
     if (!otvor) return;
-    kresliGraf(animuj);
+    kresliGraf(animuj, den);
     if (animuj) setTimeout(function () {
       $('#gStup').classList.add('zavrete');
       $('#gObal').classList.remove('zavrete');
@@ -241,7 +245,7 @@
     }, 250);
   }
 
-  function kresliGraf(animuj) {
+  function kresliGraf(animuj, vybrany) {
     var W = $('#graf').clientWidth || 300, H = 116, L = 14, R = 14, T = 26, B = 20;
     var od = Math.max(1, curDay - 13), rozsah = Math.max(curDay - od, 6);
     var x = function (d) { return L + (d - od) / rozsah * (W - L - R); }, y = function (v) { return T + (10 - vyska(v)) / 9 * (H - T - B); };
@@ -250,18 +254,18 @@
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Hodnotenie posledných dní">';
     if (body.length > 1) s += '<polyline class="g-ciara" points="' + body.map(function (d) { return x(d) + ',' + y(S.entries[d].hodnotenie); }).join(' ') + '"/>';
     body.forEach(function (d, i) {
-      var h = S.entries[d].hodnotenie, je = d === curDay, st = '--h:' + odtien(h) + ';animation-delay:' + (i * 50) + 'ms';
+      var h = S.entries[d].hodnotenie, je = d === vybrany, st = '--h:' + odtien(h) + ';animation-delay:' + (i * 50) + 'ms';
       if (je) s += '<circle class="g-halo" cx="' + x(d) + '" cy="' + y(h) + '" r="8" style="--h:' + odtien(h) + '"/>';
       s += '<circle class="g-bod' + (je ? ' g-dnes' : '') + '" cx="' + x(d) + '" cy="' + y(h) + '" r="' + (je ? 7 : 5) + '" style="' + st + '"><title>Deň ' + d + ': ' + h + '/10</title></circle>';
       s += '<text class="g-cis' + (je ? ' g-cis-dnes' : '') + '" x="' + x(d) + '" y="' + (y(h) - (je ? 13 : 10)) + '" text-anchor="middle" style="' + st + '">' + h + '</text>';
-      if (je) s += '<text class="g-den" x="' + x(d) + '" y="' + (H - 4) + '" text-anchor="middle">dnes</text>';
+      if (je) s += '<text class="g-den" x="' + x(d) + '" y="' + (H - 4) + '" text-anchor="middle">' + (d === curDay ? 'dnes' : 'včera') + '</text>';
     });
     $('#graf').innerHTML = s + '</svg>';
     var c = $('#graf .g-ciara');
     if (c && animuj) { var dl = c.getTotalLength(); c.style.strokeDasharray = dl; c.style.strokeDashoffset = dl; c.style.transition = 'stroke-dashoffset ' + (body.length * 50 + 400) + 'ms ease-out'; }
   }
   var cakaj;
-  window.addEventListener('resize', function () { clearTimeout(cakaj); cakaj = setTimeout(function () { if ($('#graf') && !$('#gObal').classList.contains('zavrete')) kresliGraf(false); }, 200); });
+  window.addEventListener('resize', function () { clearTimeout(cakaj); cakaj = setTimeout(function () { if ($('#graf') && !$('#gObal').classList.contains('zavrete')) kresliGraf(false, S.selDay); }, 200); });
 
   function nadpis() {
     $('#mTitle').innerHTML = 'Ahoj, <span style="white-space:nowrap"><button type="button" class="prez" id="prezBtn" title="Zmeniť prezývku">' + esc(S.prez || 'kapitán') + '</button>.</span> Dnes je tvoj ' + curDay + '. deň.';
