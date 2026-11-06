@@ -12,7 +12,25 @@
 <link rel="stylesheet" href="assets/kapitan.css?v=48">
 <style>
   .p-mail { overflow-wrap: anywhere; }
-  #detail details summary { cursor: pointer; }
+  section[data-tab] { padding: 0; }
+  .nav-pocet { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; margin-left: 6px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; line-height: 1; vertical-align: 1px; }
+  .nav-pocet[hidden] { display: none; }
+  .cgrid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start; }
+  .cgrid > .card { padding: clamp(20px, 2.5vw, 28px); display: grid; gap: 12px; }
+  .cl-zoznam { display: grid; gap: 8px; }
+  .cl-polozka { display: grid; gap: 4px; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: inherit; font: inherit; cursor: pointer; }
+  .cl-polozka[aria-pressed="true"] { border-color: var(--accent-text); background: var(--accent-soft); }
+  .cl-polozka b { overflow-wrap: anywhere; }
+  .cl-polozka small { color: var(--muted); font-size: 13px; }
+  .tyz-blok { display: grid; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .tyz-blok h3 { margin: 0; font-size: 20px; }
+  .uloha-odp { display: grid; gap: 10px; }
+  .uloha-odp .muted { font-size: 13px; }
+  .smutny-box { border: 1px solid var(--gold); background: var(--gold-soft); border-radius: var(--radius); padding: 12px 16px; font-size: 15px; }
+  .inbox-meno { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 6px 0 -4px; flex-wrap: wrap; }
+  .inbox-meno button { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: 14px; }
+  .denniky-wrap { max-width: 760px; }
+  @media (max-width: 900px) { .cgrid { grid-template-columns: 1fr; } }
   @media (max-width: 700px) {
     .tablewrap table { min-width: 0; }
     .tablewrap thead, .p-sk { display: none; }
@@ -28,11 +46,13 @@
 <header class="topbar solid">
   <div class="wrap">
     <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><img src="obrazky/kapitan-odznak.webp" alt=""></span>Kapitán Abstinencia</a>
-    <nav class="nav" id="nav" aria-label="Menu">
-      <a href="prehlad.html" aria-current="page">Prehľad</a>
+    <nav class="nav" id="nav" aria-label="Kapitánov prehľad">
+      <a href="#prehlad" data-t="prehlad">Prehľad</a>
+      <a href="#denniky" data-t="denniky">Denníky<span class="nav-pocet" id="navPocet" hidden></span></a>
+      <a href="#clenovia" data-t="clenovia">Členovia</a>
       <a href="clenska.html" id="odhlas">Odhlásiť sa</a>
     </nav>
-    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <button class="btn small menu-toggle" aria-expanded="false" aria-controls="nav">Menu<span class="nav-pocet" id="menuPocet" hidden></span></button>
   </div>
 </header>
 
@@ -42,17 +62,24 @@
       <div><p class="eyebrow">Kapitánov prehľad</p><h1 id="aTitle">Kto potrebuje postrčiť</h1></div>
     </div>
     <div id="obsah" hidden>
-      <div class="kpis" id="kpis"></div>
-      <div class="tablewrap">
-        <table>
-          <thead><tr><th>Člen</th><th class="p-sk">Týždeň</th><th>Posledných 7 dní</th><th class="p-sk">Zápisy</th><th class="p-sk">Hotové úlohy</th><th>Stav</th></tr></thead>
-          <tbody id="mrows"></tbody>
-        </table>
-      </div>
-      <div class="agrid">
-        <div class="card" id="detail"></div>
-        <div class="card"><p class="eyebrow" style="margin:0">Čaká na tvoju odpoveď</p><div class="inbox" id="inbox"></div></div>
-      </div>
+      <section data-tab="prehlad">
+        <div class="kpis" id="kpis"></div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Člen</th><th class="p-sk">Týždeň</th><th>Posledných 7 dní</th><th class="p-sk">Zápisy</th><th class="p-sk">Hotové úlohy</th><th>Stav</th></tr></thead>
+            <tbody id="mrows"></tbody>
+          </table>
+        </div>
+      </section>
+      <section data-tab="denniky" hidden>
+        <div class="denniky-wrap"><div class="inbox" id="inbox"></div></div>
+      </section>
+      <section data-tab="clenovia" hidden>
+        <div class="cgrid">
+          <div class="card"><p class="eyebrow" style="margin:0">Členovia</p><div class="cl-zoznam" id="clZoznam"></div></div>
+          <div class="card" id="detail"></div>
+        </div>
+      </section>
     </div>
   </div>
 </main>
@@ -60,6 +87,6 @@
 <script src="assets/kapitan.js?v=48"></script>
 <script src="assets/clen.js?v=7"></script>
 <script src="assets/ulohy.js?v=1"></script>
-<script src="assets/prehlad.js?v=5"></script>
+<script src="assets/prehlad.js?v=7"></script>
 </body>
 </html>
