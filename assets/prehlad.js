@@ -108,7 +108,8 @@
   function hlaska(nadpis, text) {
     $('#aTitle').textContent = nadpis;
     $('#obsah').hidden = false;
-    $('#obsah').innerHTML = '<div class="card" style="padding:28px;display:grid;gap:14px;justify-items:start"><p style="margin:0">' + text + '</p><a class="btn" href="clenska.html">Na prihlásenie</a></div>';
+    $('#obsah').innerHTML = '<div class="card" style="padding:28px;display:grid;gap:14px;justify-items:start"><p style="margin:0">' + text + '</p><button class="btn btn-primary" type="button" id="hlVon">Odhlásiť sa a prihlásiť ako Kapitán</button></div>';
+    $('#hlVon').onclick = function () { CLEN.odhlas().then(function () { location.href = 'clenska.html'; }); };
   }
 
   $('#odhlas').onclick = function (e) { e.preventDefault(); CLEN.odhlas().then(function () { location.href = 'clenska.html'; }); };
@@ -118,7 +119,7 @@
       $('#obsah').hidden = false; priprav(data); render();
     });
   }).catch(function (x) {
-    if (/ 403$/.test(x.message)) hlaska('Sem nie', 'Tento účet nemá prístup. Prehľad je len pre Kapitána.');
+    if (/ 403$/.test(x.message)) hlaska('Sem nie', 'Si prihlásený ako člen. Prehľad otvorí len Kapitánov účet kapitanabstinencia@gmail.com.');
     else hlaska('Nepodarilo sa načítať', 'Obnov stránku. Ak to nepomôže, skús to o chvíľu.');
   });
 })();

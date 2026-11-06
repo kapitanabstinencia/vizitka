@@ -307,6 +307,16 @@
 
   CLEN.relacia().then(function (r) {
     if (!r) { location.replace('clenska.html'); return; }
+    return CLEN.jeAdmin().then(function (admin) {
+      if (admin) { location.replace('prehlad.html'); return; }
+      return nacitaj(r);
+    });
+  }).catch(function () {
+    $('#mTitle').textContent = 'Výzvu sa nepodarilo načítať';
+    $('#mEyebrow').textContent = 'Skontroluj pripojenie a obnov stránku.';
+  });
+
+  function nacitaj(r) {
     return Promise.all([CLEN.pouzivatel(r), CLEN.db('rpc/zacni_vyzvu', { method: 'POST', body: '{}' }), CLEN.db('zapisky?select=den,text,vdacnosti,hodnotenie,odpoved'), CLEN.db('ulohy?select=tyzden,odpovede,hotove'), CLEN.db('clenovia?select=prezyvka')]).then(function (x) {
       S.id = x[0].id;
       var z = x[1].split('-');
@@ -327,8 +337,5 @@
       renderVeta();
       render();
     });
-  }).catch(function () {
-    $('#mTitle').textContent = 'Výzvu sa nepodarilo načítať';
-    $('#mEyebrow').textContent = 'Skontroluj pripojenie a obnov stránku.';
-  });
+  }
 })();

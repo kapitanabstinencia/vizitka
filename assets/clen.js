@@ -18,7 +18,7 @@ var CLEN = (function () {
       var p = new URLSearchParams(location.hash.slice(1));
       if (!p.get('access_token') && !p.get('error')) return '';
       history.replaceState(null, '', location.pathname + location.search);
-      if (p.get('access_token')) { uloz(relaciaZo({ access_token: p.get('access_token'), refresh_token: p.get('refresh_token'), expires_in: p.get('expires_in') })); return ''; }
+      if (p.get('access_token')) { uloz(relaciaZo({ access_token: p.get('access_token'), refresh_token: p.get('refresh_token'), expires_in: p.get('expires_in') })); this.zEmailu = true; return ''; }
       return p.get('error_code') || p.get('error');
     },
     // Rovnaká odpoveď pre pozvaných aj nepozvaných, web neprezradí, kto je člen
@@ -90,6 +90,10 @@ var CLEN = (function () {
           });
       }).catch(function () {});
     },
+    // Kapitán (admin) má vlastný účet, ktorý chodí len do prehľadu
+    jeAdmin: function () {
+      return this.db('rpc/je_admin', { method: 'POST', body: '{}' }).then(function (d) { return d === true; }).catch(function () { return false; });
+    },
     pouzivatel: function (r) { return volaj('/auth/v1/user', {}, r.token).then(function (o) { if (!o.ok) throw new Error('user'); return o.json(); }); },
     odhlas: function () {
       var r = nacitaj(); uloz(null);
@@ -132,12 +136,12 @@ var CLEN = (function () {
     karta.querySelector('#lgAdresa').textContent = adresa;
     karta.querySelector('#lgIny').onclick = function () { formular(); };
   }
-  function prihlaseny(email) {
+  function prihlaseny(email, admin) {
     karta.onsubmit = function (e) { e.preventDefault(); };
-    karta.innerHTML = '<div class="lc-top"><h2>' + CLOVEK + 'Si dnu</h2><span class="chip ok">Prihlásený</span></div>' +
+    karta.innerHTML = '<div class="lc-top"><h2>' + CLOVEK + (admin ? 'Si dnu ako Kapitán' : 'Si dnu') + '</h2><span class="chip ' + (admin ? 'warn">Admin' : 'ok">Člen') + '</span></div>' +
       '<p style="margin:0">Prihlásený e-mail: <b id="lgAdresa"></b></p>' +
-      '<a class="btn btn-primary" href="moja-vyzva.html">Vstúpiť do výzvy</a>' +
-      '<button class="btn" type="button" id="lgVon">Odhlásiť sa</button>';
+      (admin ? '<a class="btn btn-primary" href="prehlad.html">Otvoriť Kapitánov prehľad</a>' : '<a class="btn btn-primary" href="moja-vyzva.html">Vstúpiť do výzvy</a>') +
+      '<button class="btn" type="button" id="lgVon">Odhlásiť sa (iný e-mail)</button>';
     karta.querySelector('#lgAdresa').textContent = email;
     karta.querySelector('#lgVon').onclick = function () { CLEN.odhlas().then(function () { formular(); }); };
   }
@@ -146,6 +150,10 @@ var CLEN = (function () {
   if (chyba) { formular(chyba === 'otp_expired' ? 'Tento odkaz už neplatí. Zadaj e-mail a príde ti nový.' : 'Prihlásenie sa nepodarilo. Zadaj e-mail a skús to znova.'); return; }
   CLEN.relacia().then(function (r) {
     if (!r) { formular(); return; }
-    return CLEN.pouzivatel(r).then(function (u) { prihlaseny(u.email); });
+    return Promise.all([CLEN.pouzivatel(r), CLEN.jeAdmin()]).then(function (x) {
+      // Hneď po kliknutí na odkaz v e-maile ide Kapitán rovno do prehľadu a člen do výzvy
+      if (CLEN.zEmailu) { location.replace(x[1] ? 'prehlad.html' : 'moja-vyzva.html'); return; }
+      prihlaseny(x[0].email, x[1]);
+    });
   }).catch(function () { formular('Prihlásenie sa teraz nepodarilo overiť. Skús to znova.'); });
 })();
