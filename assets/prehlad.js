@@ -29,7 +29,8 @@
   }
   function prepocitaj(c) {
     c.hotove = c.ulohy.filter(function (u) { return u.hotove; }).length;
-    c.caka = c.zapisky.filter(function (z) { return !z.odpoved; });
+    c.caka = c.zapisky.filter(function (z) { return z.text && !z.odpoved; });
+    c.pocet = c.zapisky.filter(function (z) { return z.text; }).length;
     if (!c.zaciatok) { c.stav = 'nezacal'; return; }
     c.den = dnesnyDen(c.zaciatok);
     c.tyzden = Math.min(13, Math.ceil(c.den / 7));
@@ -39,11 +40,11 @@
   function zapisHtml(c, z) {
     var vd = (z.vdacnosti || []).filter(Boolean);
     return '<div class="entry' + (!z.odpoved && POZOR.test(z.text) ? ' crit' : '') + '" data-clen="' + C.indexOf(c) + '" data-den="' + z.den + '">' +
-      '<div class="meta">' + 'Deň ' + z.den + ' · ' + datum(c, z.den) + (z.hodnotenie == null ? '' : ' · <span class="hchip" style="--h:' + Math.round(z.hodnotenie * 13) + '">' + z.hodnotenie + '/10</span>') + '</div>' +
-      '<div style="white-space:pre-wrap">' + esc(z.text) + '</div>' +
+      '<div class="meta">' + 'Deň ' + z.den + ' · ' + datum(c, z.den) + (z.hodnotenie == null ? '' : ' · <span class="hchip" style="--h:' + Math.round((Math.max(z.hodnotenie, 1) - 1) * 130 / 9) + '">' + z.hodnotenie + '/10</span>') + '</div>' +
+      (z.text ? '<div style="white-space:pre-wrap">' + esc(z.text) + '</div>' : '<div class="muted">Len hodnotenie dňa, bez zápisu.</div>') +
       (vd.length ? '<div class="muted" style="font-size:14px">Vďačnosti: ' + vd.map(esc).join(' · ') + '</div>' : '') +
-      '<textarea aria-label="Odpoveď na deň ' + z.den + '" maxlength="5000" placeholder="Tvoja odpoveď…">' + esc(z.odpoved || '') + '</textarea>' +
-      '<div style="display:flex;justify-content:flex-end"><button type="button" class="btn small" data-odpovedz>' + (z.odpoved ? 'Uložiť úpravu' : 'Odpovedať') + '</button></div></div>';
+      (!z.text ? '</div>' : '<textarea aria-label="Odpoveď na deň ' + z.den + '" maxlength="5000" placeholder="Tvoja odpoveď…">' + esc(z.odpoved || '') + '</textarea>' +
+      '<div style="display:flex;justify-content:flex-end"><button type="button" class="btn small" data-odpovedz>' + (z.odpoved ? 'Uložiť úpravu' : 'Odpovedať') + '</button></div></div>');
   }
   function ulohyHtml(c) {
     if (!c.ulohy.length) return '<p class="muted" style="margin:0">Zatiaľ žiadna vyplnená úloha.</p>';
@@ -75,7 +76,7 @@
       }
       return '<tr class="' + (c.id === vybrany ? 'selrow' : '') + '" data-i="' + C.indexOf(c) + '" tabindex="0"><td class="p-mail"><b>' + meno(c) + '</b></td>' +
         '<td class="num p-sk">' + (c.tyzden || '–') + ' / 13</td><td><div class="bar7">' + bar + '</div></td>' +
-        '<td class="num p-sk">' + c.zapisky.length + '</td><td class="num p-sk">' + c.hotove + '</td>' +
+        '<td class="num p-sk">' + c.pocet + '</td><td class="num p-sk">' + c.hotove + '</td>' +
         '<td><span class="chip ' + STAV[c.stav][1] + '">' + STAV[c.stav][0] + '</span></td></tr>';
     }).join('') || '<tr><td colspan="6" class="muted">Nikto taký tu nie je.</td></tr>';
     $$('#mrows tr[data-i]').forEach(function (r) {

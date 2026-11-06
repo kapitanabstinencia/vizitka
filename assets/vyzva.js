@@ -39,7 +39,9 @@
     nastav();
   }
 
-  var odtien = function (h) { return Math.round(h * 13); };
+  var odtien = function (h) { return Math.round((Math.max(h, 1) - 1) * 130 / 9); };
+  var zapisane = function (n) { return !!(S.entries[n] && S.entries[n].text); };
+  var vyska = function (h) { return Math.min(Math.max(h, 1), 10); };
   var cislo = function (x) { return x.toFixed(1).replace('.', ','); };
   function hodnChip(e) {
     return e.hodnotenie == null ? '' : ' <span class="hchip" style="--h:' + odtien(e.hodnotenie) + '">' + e.hodnotenie + '/10</span>';
@@ -119,46 +121,36 @@
     var sel = S.selDay, editable = sel === curDay || sel === curDay - 1, e = S.entries[sel];
     var daysHtml = '';
     for (var i = 0; i < 7; i++) {
-      var n = wkStart + i, d = dateOfDay(n), has = !!S.entries[n];
+      var n = wkStart + i, d = dateOfDay(n), has = zapisane(n);
       var cls = n > curDay ? 'future' : has ? 'written' : (n < curDay - 1 ? 'missed' : '');
       var can = n <= curDay && (has || n >= curDay - 1);
       daysHtml += '<button type="button" class="day ' + cls + (n === sel ? ' sel' : '') + '" data-day="' + n + '"' + (can ? '' : ' disabled') + ' aria-label="Deň ' + n + '"><small>' + WD[d.getDay()] + '</small><b>' + (has ? '✓' : d.getDate()) + '</b></button>';
     }
     var body;
-    if (e && !editable) {
+    if (zapisane(sel) && !editable) {
       body = '<div class="entry"><div class="meta">Deň ' + sel + ' · ' + fmt(dateOfDay(sel)) + hodnChip(e) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
     } else if (!editable) {
       body = '<div class="locknote">Tento deň už nejde dopísať. Zápis sa dá doplniť najviac 1 deň dozadu.</div>';
     } else {
-      var locked = e && e.odpoved, g = e && e.vdacnosti || [], tlacidla = '';
-      S.hodn = e && e.hodnotenie != null ? e.hodnotenie : null;
-      for (var h = 0; h <= 10; h++) tlacidla += '<button type="button" class="hb" data-h="' + h + '" style="--h:' + odtien(h) + '" aria-pressed="' + (S.hodn === h) + '"' + (locked ? ' disabled' : '') + '>' + h + '</button>';
+      var locked = e && e.odpoved, g = e && e.vdacnosti || [];
       body = '<div class="prompt">' + esc(w.daily) + '</div>' +
-        '<div class="hodn"><span class="eyebrow">' + (sel === curDay ? 'Ako hodnotíš dnešný deň?' : 'Ako hodnotíš včerajší deň?') + '</span><div class="hodn-r" role="group" aria-label="Hodnotenie dňa od 0 do 10">' + tlacidla + '</div><span class="mono muted hodn-p"><span>0 najhorší</span><span>10 najlepší</span></span></div>' +
         '<label class="field" for="jText">' + (sel === curDay ? 'Dnešný zápis' : 'Včerajší zápis (dá sa ešte doplniť)') +
-        '<textarea id="jText" maxlength="10000"' + (locked ? ' readonly' : '') + ' placeholder="Píš úprimne. Počas testovania to vidíš ty a Kapitán.">' + (e ? esc(e.text) : '') + '</textarea></label>' +
+        '<textarea id="jText" maxlength="10000"' + (locked ? ' readonly' : '') + ' placeholder="Píš úprimne. Počas testovania to vidíš ty a Kapitán.">' + (e && e.text ? esc(e.text) : '') + '</textarea></label>' +
         '<div class="grat"><span class="eyebrow">3 vďačnosti na večer</span>' +
         [0, 1, 2].map(function (i) { return '<input type="text" id="g' + i + '" maxlength="300" aria-label="Vďačnosť ' + (i + 1) + '" placeholder="' + (i + 1) + '. za čo som dnes vďačný" value="' + esc(g[i] || '') + '"' + (locked ? ' readonly' : '') + '>'; }).join('') + '</div>' +
         '<div id="crisisBox"></div>' +
-        (locked ? replyHtml(e) : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary" id="jSave">' + (e ? 'Uložiť zmeny' : 'Uložiť zápis') + '</button></div>');
+        (locked ? replyHtml(e) : '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="mono muted">' + (e && e.text ? 'Uložené · upraviť sa dá, kým nepríde odpoveď' : 'Uložením sa deň odškrtne') + '</span><button type="button" class="btn btn-primary" id="jSave">' + (e && e.text ? 'Uložiť zmeny' : 'Uložiť zápis') + '</button></div>');
     }
     $('#journalCard').innerHTML = '<p class="eyebrow">Môj denník · týždeň ' + curWeek + '</p>' +
+      '<div class="hodn-w" id="hWidget"></div>' +
       '<div class="m-uvod"><h3 style="margin:0">' + esc(w.daily) + '</h3><p class="muted" style="margin:0">Pár viet a 3 vďačnosti na večer.</p></div>' +
       '<div class="m-more"><div class="days">' + daysHtml + '</div>' + body + '</div>' +
-      '<button type="button" class="btn small m-toggle' + (S.entries[curDay] ? '' : ' btn-primary') + '"></button>';
-    zbalovanie($('#journalCard'), 'dennik', S.entries[curDay] ? 'Pozrieť zápis' : 'Napísať zápis');
-    $('#journalCard').classList.toggle('z-hotove', !!S.entries[curDay]);
-    $('#journalCard').classList.toggle('z-caka', !S.entries[curDay]);
+      '<button type="button" class="btn small m-toggle' + (zapisane(curDay) ? '' : ' btn-primary') + '"></button>';
+    zbalovanie($('#journalCard'), 'dennik', zapisane(curDay) ? 'Pozrieť zápis' : 'Napísať zápis');
+    $('#journalCard').classList.toggle('z-hotove', zapisane(curDay));
+    $('#journalCard').classList.toggle('z-caka', !zapisane(curDay));
     $$('.day').forEach(function (b) { b.onclick = function () { S.selDay = +b.dataset.day; renderJournal(); }; });
-    $$('.hb').forEach(function (b) {
-      b.onclick = function () {
-        S.hodn = +b.dataset.h;
-        $$('.hb').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-        // Na mobile sa po výbere čísla denník rozbalí, aby sa dal zápis hneď uložiť
-        var k = $('#journalCard');
-        if (k.classList.contains('m-collapse') && !k.classList.contains('open')) k.querySelector('.m-toggle').click();
-      };
-    });
+    renderHodn();
     var sv = $('#jSave');
     if (sv) sv.onclick = function () { ulozZapis(sel, e); };
     renderHistory();
@@ -168,12 +160,14 @@
     var t = $('#jText').value.trim(), v = [0, 1, 2].map(function (i) { return $('#g' + i).value.trim(); });
     if (!t) { toast('Napíš aspoň pár slov'); return; }
     $('#jSave').disabled = true;
-    var volanie = e
-      ? CLEN.db('zapisky?den=eq.' + sel, { method: 'PATCH', body: JSON.stringify({ text: t, vdacnosti: v, hodnotenie: S.hodn }) })
-      : CLEN.db('zapisky', { method: 'POST', body: JSON.stringify({ user_id: S.id, den: sel, text: t, vdacnosti: v, hodnotenie: S.hodn }) });
+    var volanie = vFronte(function () {
+      return S.vDb[sel]
+        ? CLEN.db('zapisky?den=eq.' + sel, { method: 'PATCH', body: JSON.stringify({ text: t, vdacnosti: v }) })
+        : CLEN.db('zapisky', { method: 'POST', body: JSON.stringify({ user_id: S.id, den: sel, text: t, vdacnosti: v }) }).then(function () { S.vDb[sel] = true; });
+    });
     volanie.then(function () {
-      S.entries[sel] = { den: sel, text: t, vdacnosti: v, hodnotenie: S.hodn, odpoved: e ? e.odpoved : null };
-      renderGraf();
+      var hod = S.entries[sel] ? S.entries[sel].hodnotenie : null;
+      S.entries[sel] = { den: sel, text: t, vdacnosti: v, hodnotenie: hod, odpoved: e ? e.odpoved : null };
       var krizovy = /nechcem žiť|nechcem zit|zabiť sa|zabit sa|samovra|ublížiť si|ublizit si|skonč(iť|ím) so životom|skoncit so zivotom|nemá zmysel žiť|nema zmysel zit/i.test(t);
       renderJournal();
       if (krizovy) {
@@ -183,7 +177,7 @@
   }
 
   function renderHistory() {
-    var ks = Object.keys(S.entries).map(Number).sort(function (a, b) { return b - a; }).slice(0, 4);
+    var ks = Object.keys(S.entries).map(Number).filter(zapisane).sort(function (a, b) { return b - a; }).slice(0, 4);
     var zapis = function (n, trieda) {
       var e = S.entries[n];
       return '<div class="entry' + trieda + '"><div class="meta">Deň ' + n + ' · ' + fmt(dateOfDay(n)) + hodnChip(e) + '</div><div>' + esc(e.text) + '</div>' + replyHtml(e) + '</div>';
@@ -202,32 +196,72 @@
     return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : null;
   }
 
-  function renderGraf() {
-    var karta = $('#grafCard');
-    if (!karta) return;
-    var body = Object.keys(S.entries).map(Number).filter(function (d) { return S.entries[d].hodnotenie != null; }).sort(function (a, b) { return a - b; });
-    var teraz = priemer(curWeek), minule = curWeek > 1 ? priemer(curWeek - 1) : null, zhrnutie;
-    if (body.length < 2) zhrnutie = 'Každý večer ohodnoť deň v denníku a tu uvidíš, ako sa tvoj stav mení.';
-    else if (teraz == null) zhrnutie = 'Tento týždeň ešte nemáš hodnotenie.';
-    else if (minule == null) zhrnutie = 'Priemer tento týždeň: <b>' + cislo(teraz) + '</b>';
-    else zhrnutie = 'Priemer tento týždeň <b>' + cislo(teraz) + '</b>, minulý ' + cislo(minule) + '. ' +
-      (teraz - minule >= .5 ? '<b class="ok-t">↑ Ide to hore.</b>' : teraz - minule <= -.5 ? '<b class="zle-t">↓ Ťažší týždeň.</b> Napíš to do denníka, Kapitán to číta.' : '→ Držíš sa.');
-    karta.innerHTML = '<p class="eyebrow">Môj vývoj</p><h3 style="margin:0">Ako hodnotíš svoje dni</h3><div class="graf" id="graf"></div><p class="muted" style="margin:0">' + zhrnutie + '</p>';
-    var W = $('#graf').clientWidth || 300, H = 190, L = 24, R = 8, T = 10, B = 24, N = Math.max(curDay, 7);
-    var x = function (d) { return L + (d - 1) / (N - 1) * (W - L - R); }, y = function (v) { return T + (10 - v) / 10 * (H - T - B); };
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Graf hodnotenia dní">';
-    [0, 5, 10].forEach(function (v) { s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" class="g-os"/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + '</text>'; });
-    for (var t = 1; (t - 1) * 7 + 1 <= N; t++) {
-      s += '<text x="' + x((t - 1) * 7 + 1) + '" y="' + (H - 6) + '" text-anchor="' + (t === 1 ? 'start' : 'middle') + '">T' + t + '</text>';
-      var p = priemer(t);
-      if (p != null) s += '<line x1="' + x((t - 1) * 7 + 1) + '" x2="' + x(Math.min(t * 7, N)) + '" y1="' + y(p) + '" y2="' + y(p) + '" class="g-pr"/>';
-    }
+  // Ukladanie po jednom, aby sa dve rýchle ťuknutia nepobili
+  function vFronte(f) {
+    S.fronta = (S.fronta || Promise.resolve()).catch(function () {}).then(f);
+    return S.fronta;
+  }
+
+  function nastavHodnotenie(den, h) {
+    var e = S.entries[den], stare = e ? e.hodnotenie : null;
+    if (e) e.hodnotenie = h; else S.entries[den] = { den: den, text: null, vdacnosti: [], hodnotenie: h, odpoved: null };
+    S.grafZmena = false;
+    renderHodn(true);
+    vFronte(function () {
+      return S.vDb[den]
+        ? CLEN.db('zapisky?den=eq.' + den, { method: 'PATCH', body: JSON.stringify({ hodnotenie: h }) })
+        : CLEN.db('zapisky', { method: 'POST', body: JSON.stringify({ user_id: S.id, den: den, hodnotenie: h }) }).then(function () { S.vDb[den] = true; });
+    }).catch(function () {
+      if (e) e.hodnotenie = stare; else delete S.entries[den];
+      renderHodn();
+      chyba();
+    });
+  }
+
+  function renderHodn(animuj) {
+    var box = $('#hWidget');
+    if (!box) return;
+    var d = S.entries[curDay], h = d && d.hodnotenie != null ? d.hodnotenie : null;
+    var otvor = h != null && !S.grafZmena, pred = animuj ? false : otvor, tlac = '';
+    for (var i = 1; i <= 10; i++) tlac += '<button type="button" class="hb" data-h="' + i + '" style="--h:' + odtien(i) + '" aria-pressed="' + (h === i) + '">' + i + '</button>';
+    box.innerHTML = '<div class="zbal' + (pred ? ' zavrete' : '') + '" id="gStup"><div><span class="g-otazka">Ako sa dnes máš?</span>' +
+      '<div class="s10" role="group" aria-label="Ako sa dnes máš, od 1 do 10">' + tlac + '</div><span class="mono muted hodn-p"><span>1 najhorší</span><span>10 najlepší</span></span></div></div>' +
+      '<div class="zbal' + (pred ? '' : ' zavrete') + '" id="gObal"><div><div class="g-hlava"><span class="g-otazka">Môj vývoj</span>' +
+      (h != null ? '<button type="button" class="g-zmen" id="gZmen">zmeniť dnešné číslo</button>' : '') + '</div><div class="graf" id="graf"></div></div></div>';
+    $$('#hWidget .hb').forEach(function (b) { b.onclick = function () { nastavHodnotenie(curDay, +b.dataset.h); }; });
+    if ($('#gZmen')) $('#gZmen').onclick = function () { S.grafZmena = true; renderHodn(); };
+    if (!otvor) return;
+    kresliGraf(animuj);
+    if (animuj) setTimeout(function () {
+      $('#gStup').classList.add('zavrete');
+      $('#gObal').classList.remove('zavrete');
+      var c = $('#graf .g-ciara');
+      if (c) { c.getBoundingClientRect(); c.style.strokeDashoffset = 0; }
+      $('#graf').classList.add('anim');
+    }, 250);
+  }
+
+  function kresliGraf(animuj) {
+    var W = $('#graf').clientWidth || 300, H = 116, L = 14, R = 14, T = 26, B = 20;
+    var od = Math.max(1, curDay - 13), rozsah = Math.max(curDay - od, 6);
+    var x = function (d) { return L + (d - od) / rozsah * (W - L - R); }, y = function (v) { return T + (10 - vyska(v)) / 9 * (H - T - B); };
+    var body = [];
+    for (var d = od; d <= curDay; d++) if (S.entries[d] && S.entries[d].hodnotenie != null) body.push(d);
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Hodnotenie posledných dní">';
     if (body.length > 1) s += '<polyline class="g-ciara" points="' + body.map(function (d) { return x(d) + ',' + y(S.entries[d].hodnotenie); }).join(' ') + '"/>';
-    body.forEach(function (d) { var h = S.entries[d].hodnotenie; s += '<circle cx="' + x(d) + '" cy="' + y(h) + '" r="5" style="--h:' + odtien(h) + '"><title>Deň ' + d + ': ' + h + '/10</title></circle>'; });
+    body.forEach(function (d, i) {
+      var h = S.entries[d].hodnotenie, je = d === curDay, st = '--h:' + odtien(h) + ';animation-delay:' + (i * 50) + 'ms';
+      if (je) s += '<circle class="g-halo" cx="' + x(d) + '" cy="' + y(h) + '" r="8" style="--h:' + odtien(h) + '"/>';
+      s += '<circle class="g-bod' + (je ? ' g-dnes' : '') + '" cx="' + x(d) + '" cy="' + y(h) + '" r="' + (je ? 7 : 5) + '" style="' + st + '"><title>Deň ' + d + ': ' + h + '/10</title></circle>';
+      s += '<text class="g-cis' + (je ? ' g-cis-dnes' : '') + '" x="' + x(d) + '" y="' + (y(h) - (je ? 13 : 10)) + '" text-anchor="middle" style="' + st + '">' + h + '</text>';
+      if (je) s += '<text class="g-den" x="' + x(d) + '" y="' + (H - 4) + '" text-anchor="middle">dnes</text>';
+    });
     $('#graf').innerHTML = s + '</svg>';
+    var c = $('#graf .g-ciara');
+    if (c && animuj) { var dl = c.getTotalLength(); c.style.strokeDasharray = dl; c.style.strokeDashoffset = dl; c.style.transition = 'stroke-dashoffset ' + (body.length * 50 + 400) + 'ms ease-out'; }
   }
   var cakaj;
-  window.addEventListener('resize', function () { clearTimeout(cakaj); cakaj = setTimeout(function () { if (curDay) renderGraf(); }, 200); });
+  window.addEventListener('resize', function () { clearTimeout(cakaj); cakaj = setTimeout(function () { if ($('#graf') && !$('#gObal').classList.contains('zavrete')) kresliGraf(false); }, 200); });
 
   function nadpis() {
     $('#mTitle').innerHTML = 'Ahoj, <span style="white-space:nowrap"><button type="button" class="prez" id="prezBtn" title="Zmeniť prezývku">' + esc(S.prez || 'kapitán') + '</button>.</span> Dnes je tvoj ' + curDay + '. deň.';
@@ -276,7 +310,8 @@
       curDay = Math.min(Math.max(curDay, 1), POSLEDNY_DEN);
       curWeek = Math.ceil(curDay / 7);
       S.viewWeek = curWeek; S.selDay = curDay;
-      x[2].forEach(function (e) { S.entries[e.den] = e; });
+      S.vDb = {};
+      x[2].forEach(function (e) { S.entries[e.den] = e; S.vDb[e.den] = true; });
       x[3].forEach(function (u) { S.tasks[u.tyzden] = u; });
       $('#mEyebrow').textContent = 'Deň ' + curDay + ' z ' + POSLEDNY_DEN + ' · týždeň ' + curWeek + ' · začal si ' + fmt(ZACIATOK);
       S.prez = x[4][0] && x[4][0].prezyvka;
@@ -285,7 +320,6 @@
       $('#soberN').textContent = curDay;
       renderVeta();
       render();
-      renderGraf();
     });
   }).catch(function () {
     $('#mTitle').textContent = 'Výzvu sa nepodarilo načítať';

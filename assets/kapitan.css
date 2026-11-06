@@ -922,15 +922,12 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 @media (max-width: 700px) {
   .mgrid .m-toggle { margin-top: 0; justify-self: start; }
   .mgrid .m-collapse:not(.open) .m-uvod { display: grid; gap: 8px; }
-  /* Hodnotenie dňa je na mobile vidno aj v zbalenom denníku */
-  #journalCard.m-collapse:not(.open) .m-more { display: grid; }
-  #journalCard.m-collapse:not(.open) .m-more > :not(.hodn) { display: none !important; }
   .mgrid .m-collapse:not(.open) .m-klip > div:not(.meta):not(.reply) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 }
 
 /* Hodnotenie dňa, graf vývoja a veta na dnes */
 .hodn { display: grid; gap: 8px; }
-.hodn-r { display: grid; grid-template-columns: repeat(11, 1fr); gap: 5px; }
+.hodn-r { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
 .hb { aspect-ratio: 1; min-height: 34px; padding: 0; border-radius: 9px; border: 1px solid hsl(var(--h) 60% 50% / .45); background: hsl(var(--h) 60% 45% / .12); color: hsl(var(--h) 70% 62%); font: 800 15px/1 inherit; font-family: inherit; cursor: pointer; transition: transform .15s, background .15s; }
 .hb:hover { background: hsl(var(--h) 60% 45% / .25); }
 .hb[aria-pressed="true"] { background: hsl(var(--h) 65% 48%); color: #0A0B0D; border-color: transparent; transform: scale(1.1); }
@@ -950,7 +947,7 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .veta .eyebrow { margin: 0; }
 .veta q { font-size: clamp(19px, 1vw + 15px, 24px); font-weight: 700; line-height: 1.4; quotes: "„" "“"; }
 @media (max-width: 520px) {
-  .hodn-r { grid-template-columns: repeat(6, 1fr); }
+  .hodn-r { grid-template-columns: repeat(5, 1fr); }
 }
 
 /* Prezývka člena */
@@ -961,3 +958,42 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .prez-otazka { display: block; font-size: clamp(20px, 1vw + 15px, 26px); font-weight: 800; margin-bottom: 6px; }
 .prez-riadok { display: flex; gap: 10px; flex-wrap: wrap; }
 .prez-riadok input { flex: 1 1 220px; }
+
+/* Môj vývoj: čísla, po ťuknutí graf */
+.s10 { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.s10 .hb { min-height: 40px; font-size: 16px; }
+.zbal { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s ease, opacity .3s; }
+.zbal > div { overflow: hidden; display: grid; gap: 10px; min-height: 0; }
+.zbal.zavrete { grid-template-rows: 0fr; opacity: 0; }
+.g-dnes-riadok { display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
+.g-dnes-riadok.vidno { display: flex; animation: g-zjav .4s ease both; }
+.g-dnes-riadok .hchip { font-size: 15px; padding: 4px 12px; }
+.g-zmen { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: 14px; }
+.graf svg { overflow: visible; }
+.graf .g-dnes { stroke: #fff; stroke-width: 2.5; }
+.graf .g-halo { fill: hsl(var(--h) 65% 50%); stroke: none; opacity: 0; }
+.graf .g-popis { fill: var(--text, #fff); font-weight: 700; }
+.graf.anim .g-bod { transform-box: fill-box; transform-origin: center; animation: g-pop .35s cubic-bezier(.3, 1.6, .5, 1) both; }
+.graf.anim .g-halo, .graf .g-halo { transform-box: fill-box; transform-origin: center; animation: g-pulz 1.8s ease-out infinite; }
+.graf.anim + .zhrn { animation: g-zjav .5s ease .6s both; }
+@keyframes g-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes g-pulz { from { transform: scale(1); opacity: .45; } to { transform: scale(2.6); opacity: 0; } }
+@keyframes g-zjav { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .zbal { transition: none; }
+  .graf .g-halo, .graf.anim .g-bod, .g-dnes-riadok.vidno, .graf.anim + .zhrn { animation: none; }
+}
+@media (max-width: 700px) {
+  .s10 { grid-template-columns: repeat(5, 1fr); }
+  .s10 .hb { min-height: 48px; font-size: 18px; }
+}
+
+/* Hodnotenie v denníku: čísla, po ťuknutí malý graf */
+.hodn-w { display: grid; }
+.hodn-w .zbal > div { gap: 12px; }
+.g-otazka { font-weight: 800; font-size: 18px; }
+.g-hlava { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.graf .g-cis { font: 700 12px "IBM Plex Mono", monospace; fill: hsl(var(--h) 70% 64%); }
+.graf .g-cis-dnes { font-size: 14px; fill: #fff; }
+.graf .g-den { font: 500 10px "IBM Plex Mono", monospace; fill: var(--muted); letter-spacing: .08em; }
+.graf.anim .g-cis { animation: g-zjav .4s ease both; }
