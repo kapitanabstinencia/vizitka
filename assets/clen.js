@@ -67,7 +67,7 @@ var CLEN = (function () {
       this.relacia().then(function (r) {
         if (!r) return;
         var h = { apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + r.token };
-        return fetch(API + '/storage/v1/object/list/materialy', { method: 'POST', headers: h, body: JSON.stringify({ prefix: tyzden + '/', limit: 20, sortBy: { column: 'name', order: 'desc' } }) })
+        return fetch(API + '/storage/v1/object/list/materialy', { method: 'POST', headers: h, body: JSON.stringify({ prefix: String(tyzden), limit: 20, sortBy: { column: 'name', order: 'desc' } }) })
           .then(function (o) { return o.ok ? o.json() : []; })
           .then(function (zoz) {
             zoz = zoz.filter(function (f) { return /\.pdf$/i.test(f.name); });
