@@ -61,6 +61,35 @@ var CLEN = (function () {
         box.innerHTML = ''; box.appendChild(f);
       }).catch(function () { box.innerHTML = '<span class="cap">Video sa nepodarilo načítať. Obnov stránku.</span>'; });
     },
+    // PDF k lekcii: Supabase pustí len otvorené týždne, odkaz na stiahnutie platí 10 minút
+    materialy: function (tyzden, box) {
+      var NAZVY = { Pribeh: 'Príbeh týždňa', Ulohy: 'Úlohy na týždeň' };
+      this.relacia().then(function (r) {
+        if (!r) return;
+        var h = { apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + r.token };
+        return fetch(API + '/storage/v1/object/list/materialy', { method: 'POST', headers: h, body: JSON.stringify({ prefix: tyzden + '/', limit: 20, sortBy: { column: 'name', order: 'desc' } }) })
+          .then(function (o) { return o.ok ? o.json() : []; })
+          .then(function (zoz) {
+            zoz = zoz.filter(function (f) { return /\.pdf$/i.test(f.name); });
+            if (!zoz.length) { box.innerHTML = ''; return; }
+            box.innerHTML = '<p class="eyebrow" style="margin:0">Na stiahnutie</p><div class="stiahni"></div>';
+            zoz.forEach(function (f) {
+              var meno = f.name.replace(/\.pdf$/i, ''), b = document.createElement('button');
+              b.type = 'button'; b.className = 'btn small';
+              b.textContent = '↓ ' + (NAZVY[meno] || meno.replace(/[_-]+/g, ' ')) + ' (PDF)';
+              b.onclick = function () {
+                b.disabled = true;
+                fetch(API + '/storage/v1/object/sign/materialy/' + tyzden + '/' + encodeURIComponent(f.name), { method: 'POST', headers: h, body: JSON.stringify({ expiresIn: 600 }) })
+                  .then(function (o) { if (!o.ok) throw new Error('pdf'); return o.json(); })
+                  .then(function (d) { location.href = API + '/storage/v1' + d.signedURL + '&download=' + encodeURIComponent('Kapitan-Abstinencia-tyzden-' + tyzden + '-' + f.name); })
+                  .catch(function () { if (window.KA) KA.toast('Súbor sa nepodarilo stiahnuť. Skús to znova.'); })
+                  .then(function () { b.disabled = false; });
+              };
+              box.querySelector('.stiahni').appendChild(b);
+            });
+          });
+      }).catch(function () {});
+    },
     pouzivatel: function (r) { return volaj('/auth/v1/user', {}, r.token).then(function (o) { if (!o.ok) throw new Error('user'); return o.json(); }); },
     odhlas: function () {
       var r = nacitaj(); uloz(null);

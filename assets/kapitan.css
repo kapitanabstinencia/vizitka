@@ -997,3 +997,8 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .graf .g-cis-dnes { font-size: 14px; fill: #fff; }
 .graf .g-den { font: 500 10px "IBM Plex Mono", monospace; fill: var(--muted); letter-spacing: .08em; }
 .graf.anim .g-cis { animation: g-zjav .4s ease both; }
+
+/* PDF k lekcii */
+.materialy { display: grid; gap: 10px; }
+.materialy:empty { display: none; }
+.stiahni { display: flex; flex-wrap: wrap; gap: 8px; }
