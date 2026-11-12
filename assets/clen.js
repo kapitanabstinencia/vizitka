@@ -63,7 +63,7 @@ var CLEN = (function () {
     },
     // PDF k lekcii: Supabase pustí len otvorené týždne, odkaz na stiahnutie platí 10 minút
     materialy: function (tyzden, box) {
-      var NAZVY = { Pribeh: 'Príbeh týždňa', Ulohy: 'Úlohy na týždeň' };
+      var NAZVY = { Pribeh: 'Príbeh týždňa', Ulohy: 'Úlohy na týždeň', Odmietanie: '13 spôsobov odmietania', Ritual: 'Iniciačný rituál' };
       this.relacia().then(function (r) {
         if (!r) return;
         var h = { apikey: KEY, 'Content-Type': 'application/json', Authorization: 'Bearer ' + r.token };
