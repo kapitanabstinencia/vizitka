@@ -1015,3 +1015,6 @@ td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 @keyframes odp-svit { 0%, 100% { box-shadow: 0 0 0 0 rgba(216, 177, 60, 0); } 50% { box-shadow: 0 0 24px 2px rgba(216, 177, 60, .38); } }
 @keyframes odp-blik { 50% { background: var(--gold-soft); } }
 @media (prefers-reduced-motion: reduce) { .odp-pruh, .reply.odp-svieti { animation: none; } }
+
+/* Zlatý pruh nad testom (odkaz kapitanabstinencia.sk/#test) */
+.darcek-pruh { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; margin: 0 0 18px; border: 1px solid var(--gold); background: var(--gold-soft); border-radius: 999px; color: var(--gold); font-weight: 700; font-size: clamp(15px, .4vw + 13px, 17px); scroll-margin-top: 90px; }
