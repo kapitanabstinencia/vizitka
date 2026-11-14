@@ -128,6 +128,7 @@
       <label class="test-row"><input type="checkbox"><span>Potrebuješ čoraz viac, aby si to cítil, alebo ťa naopak zloží oveľa menej ako kedysi?</span></label>
       <label class="test-row"><input type="checkbox"><span>Keď si nedáš, trasú sa ti ruky, potíš sa alebo si nervózny?</span></label>
     </div>
+    <p class="test-sipka" id="testSipka" style="text-align:center;margin:18px 0 0;color:var(--muted);font-size:15px">↓ Výsledok a darček sa ukážu hneď tu pod otázkami</p>
     <div class="test-result" id="testResult" aria-live="polite"></div>
   </div>
   <script>
@@ -527,6 +528,29 @@
   var upd = function () { b.classList.toggle('show', !vHero && !vBal); };
   new IntersectionObserver(function (e) { vHero = e[0].isIntersecting; upd(); }).observe(hero);
   new IntersectionObserver(function (e) { vBal = e[0].isIntersecting; upd(); }).observe(bal);
+})();
+// pri teste sa „Chcem začať“ zmení na „Chcem darček“ a vedie k výsledku a formuláru, nie k balíkom
+(function () {
+  var test = document.getElementById('poznas'), out = document.getElementById('testResult'), sipka = document.getElementById('testSipka');
+  var tl = [document.getElementById('mSticky'), document.querySelector('.topbar .cta-top')].filter(Boolean);
+  if (!test || !out || !('IntersectionObserver' in window)) return;
+  tl.forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      if (!b.classList.contains('darcek')) return;
+      e.preventDefault();
+      var ciel = out.classList.contains('on') ? out.querySelector('.gift') : document.getElementById('test');
+      if (ciel) ciel.scrollIntoView({ behavior: 'smooth', block: out.classList.contains('on') ? 'center' : 'start' });
+    });
+  });
+  new IntersectionObserver(function (e) {
+    var pri = e[0].isIntersecting;
+    tl.forEach(function (b) {
+      b.classList.toggle('darcek', pri);
+      b.textContent = pri ? '🎁 Chcem darček' : 'Chcem začať';
+      b.setAttribute('href', pri ? '#test' : '#baliky');
+    });
+  }, { rootMargin: '-30% 0px -30% 0px' }).observe(test);
+  new MutationObserver(function () { if (sipka) sipka.style.display = out.classList.contains('on') ? 'none' : ''; }).observe(out, { attributes: true, attributeFilter: ['class'] });
 })();
 </script>
 <script>
